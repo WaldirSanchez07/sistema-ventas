@@ -1,10 +1,9 @@
-
 -- phpMyAdmin SQL Dump
 -- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 07-08-2021 a las 03:01:11
+-- Tiempo de generación: 08-08-2021 a las 19:58:48
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.7
 
@@ -109,6 +108,30 @@ INSERT INTO `producto` (`id_producto`, `producto`, `stock`, `stock_minimo`, `pre
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `proveedor`
+--
+
+CREATE TABLE `proveedor` (
+  `id_proveedor` int(11) NOT NULL,
+  `raz_social` varchar(40) NOT NULL,
+  `documento` int(11) NOT NULL,
+  `nrodocumento` char(15) NOT NULL,
+  `direccion` varchar(100) NOT NULL,
+  `contacto` varchar(80) NOT NULL,
+  `telefono` char(15) NOT NULL,
+  `email` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `proveedor`
+--
+
+INSERT INTO `proveedor` (`id_proveedor`, `raz_social`, `documento`, `nrodocumento`, `direccion`, `contacto`, `telefono`, `email`) VALUES
+(1, 'Proveedor XYZ', 2, '123456789', 'Calle San Juan #273', 'Jorge Lopez', '988666777', 'jlopez@gmail.com');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `rol`
 --
 
@@ -146,7 +169,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('sXrEWZGLeQ8Azdp0Q58rUvIe3Jmhg5oAyyKMbdpZ', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.67', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiM0Z1cXlFVGo4SFVpeUNpaGtYckw5UHhpUVEyVVlvcUpJVEc0RXczTiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG0tcHJvZHVjdG9zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MztzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJERDMXRlSnllZUxJYnlRb3FEa2NZY09wZGtuTnNwd1lsLnMxdkZ0U0IwT3VrZWtNdElLOXNXIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCREQzF0ZUp5ZWVMSWJ5UW9xRGtjWWNPcGRrbk5zcHdZbC5zMXZGdFNCME91a2VrTXRJSzlzVyI7fQ==', 1628304571);
+('RL5XXPS3EiXGSEZcOpVbU9x73WomEUL5rzL0Y1n7', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.67', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidk9lTk04b1B6NmhYT3JiUGRmNGtueHUyVUd0Z3IzNXNFR0N3ZkFYSyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdWItY2F0ZWdvcmlhcyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCREQzF0ZUp5ZWVMSWJ5UW9xRGtjWWNPcGRrbk5zcHdZbC5zMXZGdFNCME91a2VrTXRJSzlzVyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkREMxdGVKeWVlTElieVFvcURrY1ljT3Bka25Oc3B3WWwuczF2RnRTQjBPdWtla010SUs5c1ciO30=', 1628450134);
 
 -- --------------------------------------------------------
 
@@ -271,6 +294,13 @@ ALTER TABLE `producto`
   ADD KEY `subcategoria_id` (`subcategoria_id`);
 
 --
+-- Indices de la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+  ADD PRIMARY KEY (`id_proveedor`),
+  ADD KEY `documento` (`documento`);
+
+--
 -- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
@@ -331,6 +361,12 @@ ALTER TABLE `producto`
   MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1002;
 
 --
+-- AUTO_INCREMENT de la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
@@ -377,6 +413,12 @@ ALTER TABLE `producto`
   ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`medida_id`) REFERENCES `unidad_medida` (`id`),
   ADD CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id_categoria`),
   ADD CONSTRAINT `producto_ibfk_3` FOREIGN KEY (`subcategoria_id`) REFERENCES `subcategoria` (`id_subcategoria`);
+
+--
+-- Filtros para la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+  ADD CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`documento`) REFERENCES `tipo_documento` (`id`);
 
 --
 -- Filtros para la tabla `subcategoria`

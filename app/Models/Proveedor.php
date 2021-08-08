@@ -13,7 +13,7 @@ class Proveedor extends Model
     protected $primaryKey = "id_proveedor";
 
     protected $fillable = [
-        'nombre',
+        'raz_social',
         'documento',
         'nrodocumento',
         'contacto',
@@ -24,7 +24,7 @@ class Proveedor extends Model
     ];
 
     public function tipos(){
-        return $this->hasOne(TipoDocumento::class, 'id', 'tipo_id');   
+        return $this->hasOne(TipoDocumento::class, 'id', 'documento');   
     }
 
     public $timestamps = false;

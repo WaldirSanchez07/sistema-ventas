@@ -45,7 +45,7 @@ class Categorias extends Component
 
     public function edit(Categoria $model)
     {
-        $this->idCategoria = $model->id;
+        $this->idCategoria = $model->id_categoria;
         $this->categoria = $model->categoria;
         $this->estado = $model->estado;
 
@@ -56,7 +56,7 @@ class Categorias extends Component
     {
         $model = Categoria::where('categoria', '=', $this->categoria)->first();
 
-        if ($model->id == $id) {
+        if ($model->id_categoria == $id) {
             $this->rules = array_replace($this->rules, ['categoria' => 'required']);
         }
 

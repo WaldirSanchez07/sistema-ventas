@@ -12,7 +12,7 @@
 <script src="{{ asset('rs/js/core/app.js') }}"></script>
 <!-- END: Theme JS-->
 
-@stack('select2')
+@stack('scripts')
 
 <script>
     $(window).on('load', function() {

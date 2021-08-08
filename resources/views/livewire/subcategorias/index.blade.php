@@ -1,4 +1,4 @@
-<div>
+<main class="content-body">
     <div class="d-flex justify-content-between mb-2">
         <h2 class="content-header-title float-start mb-0 text-dark">Subcategorias</h2>
         <button type="button" class="btn btn-primary" wire:click="$set('_create', true)">

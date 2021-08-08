@@ -15,7 +15,8 @@ class AdmProductos extends Component
 {
     use WithPagination;
     use WithFileUploads;
-
+    protected $paginationTheme = 'simple-bootstrap';
+    
     public $idProducto, $producto, $stock, $stock_minimo, $precio_compra, $precio_venta, $foto, $vence, $fecha_vence;
     public $medida_id, $categoria_id, $subcategoria_id;
     public $estado = 'Disponible';
@@ -60,14 +61,17 @@ class AdmProductos extends Component
             ->where('producto.producto', 'Like', '%' . $this->search . '%')
             ->paginate($this->paginate);
 
-        $subcats = Producto::select('producto.subcategoria_id')->groupBy('producto.subcategoria_id')->get();
-        $cats = Producto::select('producto.categoria_id')->groupBy('producto.categoria_id')->get();
         $medidas = UnidadMedida::all();
         $categorias = Categoria::all();
-        $subcategorias = SubCategoria::where('categoria_id', '=', $this->categoria_id)->get();
+        $subcategorias = SubCategoria::where('categoria_id', '=', $this->categoria_id ?  $this->categoria_id : $this->categoria )->get();
         $nItems = $productos->count();
 
-        return view('livewire.adm-productos.index', compact('productos', 'medidas', 'categorias', 'subcategorias', 'subcats', 'cats'));
+        return view('livewire.adm-productos.index', compact('productos', 'medidas', 'categorias', 'subcategorias'));
+    }
+
+    public function updatedCategoria()
+    {
+        $this->reset('subcategoria');
     }
 
     public function save()

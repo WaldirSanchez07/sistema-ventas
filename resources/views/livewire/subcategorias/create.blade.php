@@ -1,7 +1,7 @@
 <x-modal>
     <div class="modal-header">
         <h6 class="modal-title m-title" id="myModalLabel33">
-            <b class="text-wprimary">Crear</b> - Categoria
+            <b class="text-wprimary">Agregar</b> - Categoria
         </h6>
     </div>
     <form wire:submit.prevent="save" class="needs-validation" novalidate>
@@ -44,7 +44,7 @@
         </div>
         <div class="modal-footer">
             <button wire:click="limpiarCampos" type="button" class="btn btn-outline-secondary">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
     </form>
 </x-modal>

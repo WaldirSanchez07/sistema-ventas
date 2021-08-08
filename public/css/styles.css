@@ -163,3 +163,24 @@ tbody tr:last-child td button.title-delete:hover::after{
 .was-validated .form-select:invalid:focus, .form-select.is-invalid:focus {
     box-shadow: none;
 }
+
+.img-fluid {
+    max-width: 190px;
+    max-height: 190px;
+}
+.item-wrapper > div > div{
+    margin: .2rem 0;
+}
+
+.label,._label{
+    color: #1c1d1f;
+    position: relative;
+}
+.label::after{
+    content: '*';
+    color: var(--bs-danger);
+    position: absolute;
+    right: -8px;
+    top: 0;
+    font-weight: 500;
+}

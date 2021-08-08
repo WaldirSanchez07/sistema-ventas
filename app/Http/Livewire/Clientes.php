@@ -14,6 +14,7 @@ class Clientes extends Component
     public $idCliente, $nombre, $documento, $nrodocumento, $direccion, $telefono, $email;
     public $paginate = 5;
     public $nItems = 0;
+    public $search;
     public $_create = false; //Modal create
     public $_edit = false; //Modal edit
 
@@ -36,7 +37,8 @@ class Clientes extends Component
     public function render()
     {
         $tipoDoc = TipoDocumento::all();
-        $clientes = Cliente::paginate($this->paginate);
+        $clientes = Cliente::where('nombre', 'like', '%' . $this->search . '%')
+            ->orWhere('nrodocumento', 'like', '%' . $this->search . '%')->paginate($this->paginate);
         $this->nItems = $clientes->count();
 
         return view('livewire.clientes.index', compact('tipoDoc', 'clientes'));
@@ -47,12 +49,12 @@ class Clientes extends Component
         $validatedData = $this->validate();
 
         if ($this->email) {
-            $this->validate([ 'email' => 'email' ]);
+            $this->validate(['email' => 'email']);
         }
 
         Cliente::create($validatedData);
 
-        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente creado",'text' => "Se ha creado correctamente!"]);
+        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente creado", 'text' => "Se ha creado correctamente!"]);
         $this->limpiarCampos();
     }
 
@@ -73,7 +75,7 @@ class Clientes extends Component
     {
         $validatedData = $this->validate();
 
-        if($this->email){
+        if ($this->email) {
             $this->validate([
                 'email' => 'email'
             ]);
@@ -81,7 +83,7 @@ class Clientes extends Component
 
         Cliente::findOrFail($id)->update($validatedData);
 
-        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente actualizado",'text' => "Se ha actualizado correctamente!"]);
+        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente actualizado", 'text' => "Se ha actualizado correctamente!"]);
         $this->limpiarCampos();
     }
 
@@ -93,7 +95,7 @@ class Clientes extends Component
             $this->previousPage();
         }
 
-        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente eliminado",'text' => "Se ha eliminado correctamente!"]);
+        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente eliminado", 'text' => "Se ha eliminado correctamente!"]);
         $this->limpiarCampos();
     }
 

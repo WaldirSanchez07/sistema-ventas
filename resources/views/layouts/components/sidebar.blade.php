@@ -84,6 +84,18 @@
                     <span class="menu-title text-truncate" data-i18n="Clientes">Clientes</span>
                 </a>
             </li>
+            <li class="nav-item {{setActive('proveedores')}}">
+                <a class="d-flex align-items-center" href="{{route('proveedores')}}">
+                    <i data-feather='truck'></i>
+                    <span class="menu-title text-truncate">Proveedores</span>
+                </a>
+            </li>
+            <li class="nav-item {{setActive('productos')}}">
+                <a class="d-flex align-items-center" href="{{route('productos')}}">
+                    <i data-feather="package"></i>
+                    <span class="menu-title text-truncate">Productos</span>
+                </a>
+            </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='trending-up'></i>
@@ -130,10 +142,10 @@
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Ventas</span>
                 </a>
                 <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="#">
+                    <li class="{{setActive('nueva-venta')}}">
+                        <a class="d-flex align-items-center" href="{{route('nueva-venta')}}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Analytics">Reporte #1</span>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">Nueva venta</span>
                         </a>
                     </li>
                     <li>
@@ -146,7 +158,7 @@
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
-                    <i data-feather='truck'></i>
+                    <i data-feather='grid'></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Almacen</span>
                 </a>
                 <ul class="menu-content">
@@ -163,12 +175,6 @@
                         </a>
                     </li>
                 </ul>
-            </li>
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="app-kanban.html">
-                    <i data-feather='briefcase'></i>
-                    <span class="menu-title text-truncate" data-i18n="Proveedores">Proveedores</span>
-                </a>
             </li>
             <li class=" navigation-header">
                 <span data-i18n="Apps &amp; Pages">Operaciones</span>

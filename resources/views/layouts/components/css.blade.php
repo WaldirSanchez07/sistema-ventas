@@ -12,9 +12,9 @@
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/pages/dashboard-ecommerce.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/plugins/extensions/ext-component-toastr.css') }}">
     <!-- END: Page CSS-->
+    @stack('styles')
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
 

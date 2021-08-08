@@ -1,4 +1,4 @@
-<div>
+<main class="content-body">
     <div class="d-flex justify-content-between mb-2">
         <h2 class="content-header-title float-start mb-0 text-dark">Productos</h2>
         <button type="button" class="btn btn-primary" wire:click="$set('_create', true)">
@@ -23,16 +23,16 @@
                         <div class="col-lg-3">
                             <select wire:model="categoria" class="form-select">
                                 <option value="">--- Categorias ---</option>
-                                @foreach ($cats as $c)
-                                    <option value="{{ $c->id_categoria }}">{{ $c->categorias->categoria }}</option>
+                                @foreach ($categorias as $c)
+                                    <option value="{{ $c->id_categoria }}">{{ $c->categoria }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-lg-3">
                             <select wire:model="subcategoria" class="form-select">
                                 <option value="">--- Subcategorias ---</option>
-                                @foreach ($subcats as $s)
-                                    <option value="{{ $s->subcategoria_id }}">{{ $s->subcategorias->subcategoria }}</option>
+                                @foreach ($subcategorias as $s)
+                                    <option value="{{ $s->id_subcategoria }}">{{ $s->subcategoria }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -202,4 +202,4 @@
             }
         </script>
     @endpush
-</div>
+</main>
