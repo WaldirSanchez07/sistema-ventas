@@ -3,7 +3,7 @@
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="/dashboard">
                 <span class="brand-logo">
                         <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                             <defs>
@@ -172,6 +172,20 @@
                         <a class="d-flex align-items-center" href="#">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="eCommerce">Reporte #2</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather='credit-card'></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">Movimientos</span>
+                </a>
+                <ul class="menu-content">
+                    <li class="{{setActive('caja')}}">
+                        <a class="d-flex align-items-center" href="{{route('caja')}}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">Caja</span>
                         </a>
                     </li>
                 </ul>

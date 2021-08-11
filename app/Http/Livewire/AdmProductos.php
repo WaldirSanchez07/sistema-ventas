@@ -16,7 +16,8 @@ class AdmProductos extends Component
     use WithPagination;
     use WithFileUploads;
     protected $paginationTheme = 'simple-bootstrap';
-    
+    protected $listeners = ['update', 'delete'];
+
     public $idProducto, $producto, $stock, $stock_minimo, $precio_compra, $precio_venta, $foto, $vence, $fecha_vence;
     public $medida_id, $categoria_id, $subcategoria_id;
     public $estado = 'Disponible';
@@ -128,6 +129,12 @@ class AdmProductos extends Component
         }
 
         $this->rules = array_replace($this->rules, ['foto' => 'nullable']);
+
+         $model = Producto::where('producto', '=', $this->producto)->first();
+
+        if ($model->id_producto == $id) {
+            $this->rules = array_replace($this->rules, ['producto' => 'required']);
+        }
 
         $validatedData = $this->validate();
 

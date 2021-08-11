@@ -4,7 +4,7 @@
             <b class="text-wprimary">Agregar</b> - Contacto
         </h6>
     </div>
-    <form wire:submit.prevent="save" class="needs-validation" novalidate>
+    <form class="needs-validation" novalidate>
         <div class="modal-body">
             <h6>Información del proveedor</h6>
             <div class="mb-1">
@@ -85,7 +85,7 @@
         <div class="modal-footer">
             <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark"
                 data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+            <button wire:click="$emit('confirmUpdate',{{ $idProveedor }})" type="button" class="btn btn-primary" data-bs-dismiss="modal">Actualizar</button>
         </div>
     </form>
 </x-modal>

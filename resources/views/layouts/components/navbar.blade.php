@@ -30,7 +30,7 @@
             </ul>
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            
+
             <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link" href="#" data-bs-toggle="dropdown">
                     <i class="ficon" data-feather="bell"></i>
@@ -41,7 +41,8 @@
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
-                        <span class="user-name fw-bolder">{{ substr(Auth::user()->nombre, 0, 8) }}</span>
+                        {{-- <span class="user-name fw-bolder">{{ substr(Auth::user()->nombre, 0, 6) }}</span> --}}
+                        <span class="user-name fw-bolder">{{ Auth::user()->nombre }}</span>
                         <span class="user-status">{{ Auth::user()->roles->rol }}</span>
                     </div><span class="avatar">
                         <img class="round" src="{{ asset('images/default.jpg') }}" alt="avatar"

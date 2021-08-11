@@ -8,6 +8,7 @@ use App\Http\Livewire\NuevaVenta;
 use App\Http\Livewire\Productos;
 use App\Http\Livewire\Proveedores;
 use App\Http\Livewire\SubCategorias;
+use App\Http\Livewire\Cajas;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ Route::post('/signin', [AuthController::class, 'login'])->name('signin');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -35,3 +36,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/adm-productos', AdmProduc
 Route::middleware(['auth:sanctum', 'verified'])->get('/proveedores', Proveedores::class )->name('proveedores');
 Route::middleware(['auth:sanctum', 'verified'])->get('/productos', Productos::class )->name('productos');
 Route::middleware(['auth:sanctum', 'verified'])->get('/nueva-venta', NuevaVenta::class )->name('nueva-venta');
+Route::middleware(['auth:sanctum', 'verified'])->get('/caja', Cajas::class )->name('caja');
