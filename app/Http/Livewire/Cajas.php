@@ -22,35 +22,49 @@ class Cajas extends Component
 
     public $_edit = false;
 
-    public $paginate = 5;
+    public $cantdatos;
+
+    public $paginate = 10;
     public $nItems = 0;
 
     public $search;
 
     protected $rules = [
         'descripcion' => 'required',
-        'monto' => 'required|numeric|min:0.10',
+        'monto' => 'required|numeric',
     ];
 
     public function render()
     {
         $movimientos = Caja::orderBy('id_caja','DESC')->where('caja.descripcion', 'Like', '%' . $this->search . '%')->paginate($this->paginate);
-        $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->get();
-        $nItems = $movimientos->count();
-        
+        //$codigo = $movimientos->id_caja;
+
+        $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+        $this->cantdatos = $movimientos->count();
+
         return view('livewire.cajas.movimiento',compact('movimientos','lastregister'));
     }
 
     public function save($opc)
     {
-         $validatedData = $this->validate();
+        if ($opc == 2) {
+            $tipoMovimiento = 1;
+            $estado = 1;
+            $saldoTotal = Caja::sum('monto');
+            $saldoactual = $saldoTotal + $this->monto;
+            $this->descripcion = "Apertura de Caja";
+        }
+
+        $validatedData = $this->validate();
 
         if ($opc == 1) {
             $tipoMovimiento = 1;
             $estado = 1;
             $saldoTotal = Caja::sum('monto');
             $saldoactual = $saldoTotal + $this->monto;
-        }else{
+        }
+
+        if ($opc == 0){
             $tipoMovimiento = 0;
             $estado = 1;
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
@@ -59,14 +73,20 @@ class Cajas extends Component
         }
 
         $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
-
         //$validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
-
         $datos = array_Merge($validatedData, $validatedData2);
 
         Caja::create($datos);
 
-        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Movimiento agregado", 'text' => "Se agregó correctamente!"]);
+        if ($opc == 2) {
+            $this->dispatchBrowserEvent('alertOpen', ['title' => "Caja Aperturada", 'text' => "Se aperturo correctamente!"]);
+        }
+        if ($opc == 1) {
+             $this->dispatchBrowserEvent('alertSuccess', ['title' => "Dinero ingresado", 'text' => "Se ingreso correctamente!"]);
+        }
+        if ($opc == 0) {
+             $this->dispatchBrowserEvent('alertSuccess', ['title' => "Dinero retirado", 'text' => "Se retiró correctamente!"]);
+        }
 
         $this->limpiarCampos();
     }
@@ -114,21 +134,40 @@ class Cajas extends Component
         /* dd($datos); */
         Caja::findOrFail($id)->update($datos);
 
-        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Movimiento actualizado", 'text' => "Se actualizó correctamente!"]);
+        if ($model->tipoMovimiento == 1) {
+             $this->dispatchBrowserEvent('alertUpdate', ['title' => "Ingreso actualizado", 'text' => "Se actualizó correctamente!"]);
+        }else{
+             $this->dispatchBrowserEvent('alertUpdate', ['title' => "Egreso actualizado", 'text' => "Se actualizó correctamente!"]);
+        }
 
         $this->limpiarCampos();
     }
 
     public function delete(Caja $model)
     {
-        dd($this->nItems);
-        Caja::findOrFail($model->id_caja)->delete();
+       Caja::findOrFail($model->id_caja)->delete();
 
-        if ($this->nItems === 1) {
+       /*  if ($this->nItems === 1) {
             $this->previousPage();
-        }
+        } */
 
         $this->dispatchBrowserEvent('alertSuccess', ['title' => "Movimiento eliminado", 'text' => "Se eliminó correctamente!"]);
+
+        $this->limpiarCampos();
+    }
+
+    public function close($id)
+    {
+        $tipoMovimiento = 1;
+        $estado = 0;
+        $model = Caja::where('id_caja', '=', $id)->first();
+        $model->estado = $estado;
+        $saldoTotal = Caja::sum('monto');
+            $saldoactual = $saldoTotal + $this->monto;
+        //Caja::truncate();
+        Caja::findOrFail($id)->update($model);
+
+        $this->dispatchBrowserEvent('alertOpen', ['title' => "Caja Cerrada", 'text' => "Se cerro correctamente!"]);
 
         $this->limpiarCampos();
     }

@@ -182,24 +182,6 @@
                 });
             })
 
-            Livewire.on('alertWarning', msj => {
-                toastr['warning'](`${msj}`, 'Progress Bar', {
-                    closeButton: true,
-                    tapToDismiss: false,
-                    progressBar: true,
-                    rtl: isRtl
-                });
-            })
-
-            window.addEventListener('alertWarning', event => {
-                toastr['warning'](`${event.detail.text}`, `${event.detail.title}`, {
-                    closeButton: true,
-                    tapToDismiss: false,
-                    progressBar: true,
-                    rtl: isRtl
-                });
-            })
-
             /****** End events for Tipo *****/
 
             function alertBody(texto, button) {

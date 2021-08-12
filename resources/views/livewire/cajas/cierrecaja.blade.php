@@ -1,16 +1,30 @@
-<x-modal class="modal-lg">
+<x-modal class="modal-md">
     <div class="modal-header">
         <h6 class="modal-title m-title" id="myModalLabel33">
             <b class="text-wsecondary">Cerrar</b> - Caja
         </h6>
     </div>
-    <form wire:submit.prevent="save" class="needs-validation" novalidate>
+    <form wire:submit.prevent="close({{$lastregister->id_caja}})" class="needs-validation" novalidate>
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg">
                     <h6>
-                        <i class="fas fa-lock"></i>&nbsp;&nbsp;Información del cierre de caja
+                        <i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Información del cierre de caja
                     </h6>
+                    <div class="row">
+                        <div class="col-lg col-md mb-1">
+                            {{-- <input wire:model.defer="descripcion" name="abrir" type="hidden" class="form-control @error('descripcion') is-invalid @enderror" disabled/> --}}
+                            <p>Luego de realizar las diversar operaciones de ingresos y egresos de dinero, la caja se cerrara con un saldo actual de: <b>{{$lastregister->saldo}} soles</b></p>
+                        </div>
+                    </div>
+                    {{-- <div class="row">
+                        <div class="col-lg-6 col-md-6 mb-1">
+                            <label class="form-label">Monto</label>
+                            <input wire:model.defer="monto" type="number"
+                                class="form-control @error('monto') is-invalid @enderror" placeholder="00.00"
+                                required />
+                        </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

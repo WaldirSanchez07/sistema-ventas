@@ -84,7 +84,21 @@ html {
 
 div#uno span {
     width: 35%;
+    display: block;
+    border-radius: 20px;
+    padding: 1%;
+    text-align: center;
+    font-size: 13.5px;
+    background-color: #239B90;
+    color: #fff;
 }
 div#dos span {
     width: 35%;
+    display: block;
+    border-radius: 20px;
+    padding: 1%;
+    text-align: center;
+    font-size: 13.5px;
+    background-color: #EA5455;
+    color: #fff;
 }

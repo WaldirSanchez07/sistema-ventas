@@ -4,7 +4,7 @@
             <b class="text-wprimary">Editar</b> <b class="text-wsecondary">- Movimiento</b>
         </h6>
     </div>
-    <form {{-- wire:submit.prevent="update({{ $id_caja }})"  --}}class="needs-validation" novalidate>
+    <form class="needs-validation" novalidate>
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg">
