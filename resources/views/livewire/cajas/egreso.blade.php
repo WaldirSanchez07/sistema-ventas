@@ -5,7 +5,7 @@
             <b class="text-wsecondary">Egreso</b> - Dinero
         </h6>
     </div>
-    <form wire:submit.prevent="save" class="needs-validation" novalidate>
+    <form wire:submit.prevent="save(0)" class="needs-validation" novalidate>
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg">
@@ -13,7 +13,6 @@
                         <i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Información del egreso
                     </h6>
                     <div class="row">
-                        <input type="hidden" wire:model="egreso" name="egreso" value="0">
                         <div class="col-lg col-md mb-1">
                             <label class="form-label">Descripción</label>
                             <input wire:model.defer="descripcion" type="text"

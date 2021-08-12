@@ -81,3 +81,10 @@ html {
 .tile:hover .tile-icon > p {
     color: var(--color-three);
 }
+
+div#uno span {
+    width: 35%;
+}
+div#dos span {
+    width: 35%;
+}

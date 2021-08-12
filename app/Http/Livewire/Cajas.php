@@ -11,18 +11,20 @@ class Cajas extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $idcaja, $descripcion, $monto, $saldo, $tipoMovimiento,$estado,$fecha,$hora;
+    protected $paginationTheme = 'simple-bootstrap';
+    protected $listeners = ['update', 'delete'];
+    public $id_caja, $descripcion, $monto, $saldo, $tipoMovimiento,$estado,$fecha,$hora;
 
     public $_ingreso = false;
     public $_egreso = false;
     public $_aperturacaja = false;
     public $_cierrecaja = false;
 
-    public $ingreso;
-    public $egreso;
+    public $_edit = false;
 
-    public $valor=0;
     public $paginate = 5;
+    public $nItems = 0;
+
     public $search;
 
     protected $rules = [
@@ -32,63 +34,35 @@ class Cajas extends Component
 
     public function render()
     {
-        $movimientos = Caja::where('caja.descripcion', 'Like', '%' . $this->search . '%')->paginate($this->paginate);
+        $movimientos = Caja::orderBy('id_caja','DESC')->where('caja.descripcion', 'Like', '%' . $this->search . '%')->paginate($this->paginate);
         $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->get();
-        /* dd($lastregister); */
-
+        $nItems = $movimientos->count();
+        
         return view('livewire.cajas.movimiento',compact('movimientos','lastregister'));
     }
 
-    public function mount()
+    public function save($opc)
     {
-         $this->ingreso = true;
-        $valor = $this->ingreso;
-        $this->egreso = false;
-        $valor2 = $this->egreso;
-          return $valor2;
-    }
+         $validatedData = $this->validate();
 
-    public function save()
-    {
-        dd($this->mount());
-
-
-        if ($this->mount() == true) {
-            /* $tipoMovimiento = 1;
-            $validatedData = $this->validate();
-            $m=$validatedData["monto"];
-            $saldoTotal = Caja::sum('monto');
-            $saldo = $saldoTotal + $m; */
-            dd("Hola");
-        }
-        if ($this->egreso == true) {
-            /* $tipoMovimiento = 0;
-            $validatedData = $this->validate();
-            $m=$validatedData["monto"];
-            $m=-$m;
-            $saldoTotal = Caja::sum('monto');
-            $saldo = $saldoTotal + $m; */
-            dd("Hola2");
-        }
-
-        dd($tipoMovimiento,$saldo);
-        /* $tipoMovimiento = 1; */
-
-        /* if ($this->ingreso == 1) {
+        if ($opc == 1) {
             $tipoMovimiento = 1;
-        }
-        if ($this->egreso == 0) {
+            $estado = 1;
+            $saldoTotal = Caja::sum('monto');
+            $saldoactual = $saldoTotal + $this->monto;
+        }else{
             $tipoMovimiento = 0;
-        } */
+            $estado = 1;
+            $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
+            $saldoTotal = Caja::sum('monto');
+            $saldoactual = $saldoTotal + ($this->monto * -1);
+        }
 
-        /* dd($tipoMovimiento); */
-         $estado = 1;
+        $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
 
-        $validatedData2 = array("saldo"=>$saldo, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
+        //$validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
 
         $datos = array_Merge($validatedData, $validatedData2);
-
-        dd($datos);
 
         Caja::create($datos);
 
@@ -97,12 +71,77 @@ class Cajas extends Component
         $this->limpiarCampos();
     }
 
+     public function edit(Caja $model)
+    {
+        $this->id_caja = $model->id_caja;
+        $this->descripcion = $model->descripcion;
+        $this->tipoMovimiento = $model->tipoMovimiento;
+        $monto = $model->monto;
+        if ($monto <= 0) {
+            $monto = $monto * (-1);
+            $this->monto = $monto;
+        }else{
+            $this->monto = $monto;
+        }
+        $this->saldo = $model->saldo;
+        $this->fecha = $model->fecha;
+        $this->estado = $model->estado;
+
+        $this->_edit = true; //show form to edit
+    }
+
+    public function update($id)
+    {
+        $model = Caja::where('id_caja', '=', $id)->first();
+
+        $validatedData = $this->validate();
+
+        if ($model->tipoMovimiento == 1) {
+            $tipoMovimiento = 1;
+            $estado = 1;
+            $saldoactual = ($model->saldo - $model->monto) + $this->monto;
+        }else{
+            $tipoMovimiento = 0;
+            $estado = 1;
+            /* $validatedData = $this->validate(); */
+            $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
+            $saldoactual = ($model->saldo - $model->monto) - $this->monto;
+        }
+
+        $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
+
+        $datos = array_Merge($validatedData, $validatedData2);
+        /* dd($datos); */
+        Caja::findOrFail($id)->update($datos);
+
+        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Movimiento actualizado", 'text' => "Se actualizó correctamente!"]);
+
+        $this->limpiarCampos();
+    }
+
+    public function delete(Caja $model)
+    {
+        dd($this->nItems);
+        Caja::findOrFail($model->id_caja)->delete();
+
+        if ($this->nItems === 1) {
+            $this->previousPage();
+        }
+
+        $this->dispatchBrowserEvent('alertSuccess', ['title' => "Movimiento eliminado", 'text' => "Se eliminó correctamente!"]);
+
+        $this->limpiarCampos();
+    }
+
     public function limpiarCampos()
     {
         $this->reset(['descripcion', 'monto']);
 
-        $this->_create = false;
-        $this->_edit = false;
+        $this->_ingreso = false;
+        $this->_egreso = false;
+        $this ->_aperturacaja = false;
+        $this ->_cierrecaja = false;
+        $this ->_edit = false;
         $this->limpiarValidation();
     }
 
@@ -110,6 +149,5 @@ class Cajas extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
-        $this->previousPage();
     }
 }

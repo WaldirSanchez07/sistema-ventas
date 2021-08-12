@@ -1,15 +1,15 @@
-<x-modal class="modal-md" >
+<x-modal class="modal-md">
     <div class="modal-header">
         <h6 class="modal-title m-title" id="myModalLabel33">
-            <b class="text-wprimary">Ingresar</b> - Dinero
+            <b class="text-wprimary">Editar</b> <b class="text-wsecondary">- Movimiento</b>
         </h6>
     </div>
-    <form wire:submit.prevent="save(1)" class="needs-validation" novalidate>
+    <form {{-- wire:submit.prevent="update({{ $id_caja }})"  --}}class="needs-validation" novalidate>
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg">
                     <h6>
-                        <i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Información del ingreso
+                        <i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Información del Movimiento
                     </h6>
                     <div class="row">
                         <div class="col-lg col-md mb-1">
@@ -37,7 +37,7 @@
         </div>
         <div class="modal-footer">
             <button wire:click="limpiarCampos" type="button" class="btn btn-outline-secondary">Cancelar</button>
-            <button type="submit" class="btn btn-primary" >Ingresar</button>
+            <button wire:click="$emit('confirmUpdate',{{ $id_caja }})" type="button" class="btn btn-primary">Actualizar</button>
         </div>
     </form>
 </x-modal>

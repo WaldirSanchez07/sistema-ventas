@@ -3,7 +3,7 @@
         <h2 class="content-header-title float-start mb-0 text-dark">Historial de Movimientos</h2>
     </div>
     <div class="d-flex justify-content-between mb-2">
-        <button {{-- wire:model="ingreso" --}} type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)">
+        <button type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)">
             <i class="fal fa-plus-circle"></i>&nbsp;&nbsp;Ingreso&nbsp;&nbsp;
         </button>
         @foreach($lastregister as $l)
@@ -17,7 +17,7 @@
                 </button>
             @endif
         @endforeach
-        <button {{-- wire:model.defer="egreso"  --}}type="button" class="btn btn-danger" wire:click="$set('_egreso', true)">
+        <button type="button" class="btn btn-danger" wire:click="$set('_egreso', true)">
             <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Egreso&nbsp;&nbsp;
         </button>
     </div>
@@ -56,7 +56,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach ($movimientos as $m)
                             <tr>
                                 <td>{{ $m->id_caja }}</td>
@@ -69,7 +68,21 @@
                                     </div>
                                 </td>
                                 <td>{{ $m->descripcion }}</td>
-                                <td>{{ number_format($m->monto, 2) }}</td>
+                                <td>
+                                    @if($m->tipoMovimiento == '1')
+                                        <div id="uno">
+                                            <span class="badge rounded-pill bg-primary">
+                                                {{ number_format($m->monto, 2) }}
+                                            </span>
+                                        </div>
+                                    @else
+                                        <div id="dos">
+                                            <span class="badge rounded-pill bg-danger ">
+                                                {{ number_format($m->monto, 2) }}
+                                            </span>
+                                        </div>
+                                    @endif
+                                </td>
                                 <td>{{ number_format($m->saldo, 2) }}</td>
                                 <td>
                                     <button type="button"
@@ -119,4 +132,76 @@
     @if ($_egreso)
         @include('livewire.cajas.egreso')
     @endif
+    {{-- Opciones --}}
+    @if ($_edit)
+        @include('livewire.cajas.editarcaja')
+    @endif
+
+    @push('js')
+        <script>
+            var isRtl = $('html').attr('data-textdirection') === 'rtl'
+            const url = 'cajas';
+
+            /****** Start events for Categoria *****/
+
+            Livewire.on('confirmUpdate', id => {
+                Swal.fire(
+                    alertBody("El movimiento será actualizado.", 'btn-primary')
+                ).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.emitTo(url, 'update', id);
+                    }
+                })
+            });
+
+            Livewire.on('confirmDelete', id => {
+                Swal.fire(
+                    alertBody("El movimiento será eliminado.", 'btn-danger')
+                ).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.emitTo(url, 'delete', id);
+                    }
+                })
+            });
+
+            Livewire.on('alertSuccess', msj => {
+                toastr['success'](`${msj}`, 'Progress Bar', {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            })
+
+            window.addEventListener('alertSuccess', event => {
+                toastr['success'](`${event.detail.text}`, `${event.detail.title}`, {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            })
+
+            /****** End events for Tipo *****/
+
+            function alertBody(texto, button) {
+                let body = {
+                    title: '¿Estás seguro?',
+                    text: texto,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: 'btn round ' + button + '',
+                        cancelButton: 'btn round btn-flat-dark',
+                    }
+                }
+                return body;
+            }
+        </script>
+    @endpush
 </main>
+
+
