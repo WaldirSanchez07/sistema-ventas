@@ -23,7 +23,7 @@ class SubCategoria extends Model
     }
 
     public function productos(){
-        return $this->belongsToMany(Producto::class, 'productos_categorias', 'producto_id', 'categoria_id');
+        return $this->hasOne(Producto::class, 'categoria_id', 'id_categoria');
     }
 
     public $timestamps = false;

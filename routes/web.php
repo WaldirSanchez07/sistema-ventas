@@ -21,7 +21,7 @@ Route::post('/signin', [AuthController::class, 'login'])->name('signin');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->to('login');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

@@ -59,8 +59,8 @@
                         <div class="card-body">
                             <h6 class="item-name">
                                 <a class="text-body" href="javascript:void(0);">{{ $p->producto }}</a>
-                                <span class="card-text item-company">By <a href="#"
-                                        class="company-name">Apple</a></span>
+                                {{--<span class="card-text item-company">By <a href="#"
+                                        class="company-name">Apple</a></span>--}}
                             </h6>
                             <div class="item-wrapper">
                                 <div class="row">

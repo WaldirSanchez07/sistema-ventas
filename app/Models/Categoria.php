@@ -21,5 +21,9 @@ class Categoria extends Model
         return $this->belongsTo(SubCategoria::class, 'categoria_id', 'id_categoria');  
     }
 
+    public function productos(){
+        return $this->belongsTo(Producto::class, 'categoria_id', 'id_categoria');
+    }
+
     public $timestamps = false;
 }

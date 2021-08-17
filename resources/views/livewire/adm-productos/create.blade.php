@@ -22,7 +22,10 @@
                             <div class="no-image"></div>
                         @endif
                         <button class="btn btn-primary round btn-file" type="button">
-                            <span><i class="far fa-arrow-alt-from-bottom"></i>&nbsp;&nbsp;Subir</span>
+                            <span wire:target="foto" wire:loading.class="d-none">
+                                <i class="far fa-arrow-alt-from-bottom"></i>&nbsp;&nbsp;Subir
+                            </span>
+                            <span wire:target="foto" wire:loading.class.remove="d-none" class="d-none spinner-border spinner-border-sm"></span>
                             <input type="file" id="formFile" wire:model="foto">
                         </button>
                         @error('foto') <span class="text-danger" style="font-size: 0.857rem;">{{ $message }}</span> @enderror
@@ -125,8 +128,8 @@
                         <div class="col-lg-2 col-md mb-1">
                             <label class="form-label">Vence</label>
                             <div class="form-check form-check-primary">
-                                <input wire:model.defer="vto" type="checkbox" class="form-check-input" id="colorCheck1">
-                                <label class="form-check-label" for="colorCheck1">Si</label>
+                                <input wire:model.defer="vto" type="checkbox" class="form-check-input" id="vence" name="vence">
+                                <label class="form-check-label" for="vence">Si</label>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md mb-1">
@@ -155,7 +158,10 @@
         </div>
         <div class="modal-footer">
             <button wire:click="limpiarCampos" type="button" class="btn btn-outline-secondary">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button wire:target="foto" type="submit" class="btn btn-primary">
+                <span wire:target="save" wire:loading.class="d-none">Guardar</span>
+                <span wire:target="save" wire:loading.class.remove="d-none" class="d-none spinner-border spinner-border-sm"></span>
+            </button>
         </div>
     </form>
 </x-modal>

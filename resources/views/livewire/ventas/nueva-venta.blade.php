@@ -14,55 +14,29 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between mb-1 align-items-center">
-                                <h6 class="m-0">
-                                    <i class="fas fa-user-tie"></i>&nbsp;&nbsp;Información del cliente
-                                </h6>
-                                <button class="btn btn-sm btn-info" wire:click="$set('_clientes', true)">
-                                    <i class="far fa-search-plus"></i>&nbsp;&nbsp;Buscar
-                                </button>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 mb-1">
-                                    <div class="form-group input">
-                                        <label class="form-label label">Nombre</label>
-                                        <input value="{{ $cliente }}" class="form-control" type="text" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-lg mb-1">
-                                    <div class="form-group input">
-                                        <label class="form-label label">Tipo de documento</label>
-                                        <input value="{{ $documento }}" class="form-control" type="text" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-lg mb-1">
-                                    <div class="form-group input">
-                                        <label class="form-label label">N° de documento</label>
-                                        <input value="{{ $nDoc }}" class="form-control" type="text" disabled>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="d-flex justify-content-between mb-1">
                                 <h6 class="m-0">
                                     <i class="fas fa-box"></i>&nbsp;&nbsp;Información del producto
                                 </h6>
                             </div>
                             <div class="row">
-                                <div class="col-lg mb-1">
+                                <div class="col-lg-4 mb-1">
                                     <div class="form-group input">
                                         <label class="form-label label">SKU</label>
                                         <div class="input-group">
                                             <input wire:model.defer="sku" type="number" class="form-control">
-                                            <button class="btn btn-info" id="button-addon2" type="button">
+                                            <button wire:click="buscarProducto" class="btn btn-info" id="button-addon2"
+                                                type="button">
                                                 <i class="far fa-search-plus"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 mb-1">
+                                <div class="col-lg mb-1">
                                     <div class="form-group input">
                                         <label class="form-label label">Nombre</label>
-                                        <input value="{{ $producto }}" class="form-control" type="text" disabled>
+                                        <input value="{{ $producto }}" title="{{ $producto }}"
+                                            class="form-control" type="text" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -90,17 +64,28 @@
                                 </div>
                                 <div class="col-lg-3 mb-1">
                                     <div class="form-group input">
+                                        <label class="form-label">Descuento</label>
+                                        <input wire:model="descuento" class="form-control box" type="number"
+                                            placeholder="0.00">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 mb-1">
+                                    <div class="form-group input">
                                         <label class="form-label label">Subtotal</label>
                                         <input value="{{ Nformat($_subtotal) }}" class="form-control" type="number"
                                             placeholder="0.00" disabled>
                                     </div>
                                 </div>
+                                <form class="col-lg mb-1 text-end" wire:submit.prevent="addDetalle">
+                                    <button type="submit" wire:loading.attr="disabled"
+                                        class="btn btn-outline-primary mt-1" @if (!$add) disabled @endif>
+                                        <i class="far fa-plus"></i>
+                                        <span>Agregar</span>
+                                    </button>
+                                </form>
                             </div>
-                            <form class="text-end" wire:submit.prevent="addDetalle">
-                                <button type="submit" wire:loading.attr="disabled" class="btn btn-success">
-                                    Agregar
-                                </button>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -114,6 +99,7 @@
                                     <th>Producto</th>
                                     <th>Cantidad</th>
                                     <th>Precio</th>
+                                    <th>Descuento</th>
                                     <th>Subtotal</th>
                                     <th>Quitar</th>
                                 </tr>
@@ -128,10 +114,11 @@
                                             <td>{{ $i += 1 }}</td>
                                             <td>{{ $t['sku'] }}</td>
                                             <td title="{{ $t['producto'] }}">
-                                                {{ substr($t['producto'], 0, 40) }}{{ strlen($t['producto']) > 40 ? '...' : '' }}
+                                                {{ substr($t['producto'], 0, 30) }}{{ strlen($t['producto']) > 30 ? '...' : '' }}
                                             </td>
                                             <td>{{ $t['cantidad'] }}</td>
                                             <td>{{ Nformat($t['precio']) }}</td>
+                                            <td>{{ Nformat($t['descuento']) }}</td>
                                             <td>{{ Nformat($t['subtotal']) }}</td>
                                             <td>
                                                 <button title="Quitar" wire:click="removeDetalle({{ $t['sku'] }})"
@@ -142,14 +129,14 @@
                                         </tr>
                                     @endforeach
                                     <tr class="font-weight-bold">
-                                        <td colspan="4"></td>
+                                        <td colspan="5"></td>
                                         <td>Total:</td>
-                                        <td>{{ Nformat($subtotal) }}</td>
+                                        <td>{{ Nformat($total) }}</td>
                                         <td></td>
                                     </tr>
                                 @else
                                     <tr>
-                                        <td colspan="7" class="text-center">
+                                        <td colspan="8" class="text-center">
                                             No hay registros
                                         </td>
                                     </tr>
@@ -167,20 +154,20 @@
             <div class="card">
                 <div class="card-body">
                     <h6>
-                        Datos de la venta
+                        <i class="fas fa-clipboard-list"></i>&nbsp;&nbsp;Datos de la venta
                     </h6>
                     <div class="form-group mb-1">
                         <label class="form-label label">Fecha</label>
                         <input type="date" value="{{ date('Y-m-d') }}" class="form-control" type="text" disabled>
                     </div>
-                    <div class="form-group mb-1">
-                        <label class="form-label label">Descuento</label>
+                    <div class="form-group mb-1 input">
+                        <label class="form-label label">Cliente</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">%</span>
-                            </div>
-                            <input type="number" class="form-control" placeholder="0.00"
-                                value="{{ Nformat($porcent) > 0 ?? '' }}">
+                            <input value="{{ $cliente }}" type="text" class="form-control" disabled>
+                            <button wire:click="$set('_cliente', true)" class="btn btn-info" id="button-addon2"
+                                type="button">
+                                <i class="far fa-user-plus"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="form-group mb-1">
@@ -213,7 +200,7 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <label class="form-label">Descuento:</label>
-                            <span class="_label text-danger">{{ Nformat($descuento) }}</span>
+                            <span class="_label text-danger">{{ Nformat($_descuento) }}</span>
                         </div>
                         <hr class="border-secondary">
                         <div class="d-flex justify-content-between">
@@ -222,12 +209,38 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button wire:click="save" class="btn btn-outline-primary" @if (!$active) disabled @endif>
-                            Procesar venta
+                        <button wire:click="save" type="button" wire:loading.attr="disabled" class="btn btn-primary mt-1">
+                            <i class="fas fa-save"></i>
+                            <span>Guardar venta</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<main
+    @if ($_cliente)
+        @include('livewire.ventas.clientes')
+    @endif
+    @push('js')
+        <script>
+            var isRtl = $('html').attr('data-textdirection') === 'rtl'
+            const url = 'nueva-venta';
+            window.addEventListener('alertSuccess', event => {
+                toastr['success'](`${event.detail.text}`, `${event.detail.title}`, {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            });
+            window.addEventListener('alertWarning', event => {
+                toastr['warning'](`${event.detail.text}`, `${event.detail.title}`, {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            })
+        </script>
+    @endpush
+</main>

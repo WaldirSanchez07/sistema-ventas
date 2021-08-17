@@ -1,10 +1,10 @@
 <x-modal>
     <div class="modal-header">
         <h6 class="modal-title m-title" id="myModalLabel33">
-            <b class="text-wprimary">Agregar</b> - Contacto
+            <b class="text-wprimary">Editar</b> - Contacto
         </h6>
     </div>
-    <form wire:submit.prevent="save" class="needs-validation" novalidate>
+    <form class="needs-validation" novalidate>
         <div class="modal-body">
             <h6>Información del proveedor</h6>
             <div class="mb-1">
@@ -83,9 +83,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark"
-                data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+            <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark">Cancelar</button>
+            <button wire:click="$emit('confirmUpdate',{{ $idProveedor }})" type="button" class="btn btn-primary">Actualizar</button>
         </div>
     </form>
 </x-modal>

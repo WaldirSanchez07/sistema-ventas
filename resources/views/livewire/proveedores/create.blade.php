@@ -85,7 +85,7 @@
         <div class="modal-footer">
             <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark"
                 data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" wire:loading.attr="disabled">Agregar</button>
         </div>
     </form>
 </x-modal>
