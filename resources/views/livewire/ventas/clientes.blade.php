@@ -6,7 +6,13 @@
         <button type="button" class="btn-close" wire:click="$set('_cliente',false)"></button>
     </div>
     <div class="modal-body">
-        <div class="table-responsive bg-white table-shadow">
+        <div class="input-group input-group-merge mb-1">
+            <span class="input-group-text" id="basic-addon-search2">
+                <i class="far fa-search"></i>
+            </span>
+            <input wire:model="search" type="text" class="form-control" placeholder="Buscar cliente..."/>
+        </div>
+        <div class="table-responsive bg-white table-shadow position-relative">
             <table class="table table-hover">
                 <thead class="table-light">
                     <tr>
@@ -32,6 +38,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="rotate" wire:loading wire:target="search">
+                <i class="far fa-spinner-third fa-2x"></i>
+            </div>
         </div>
     </div>
 </x-modal>

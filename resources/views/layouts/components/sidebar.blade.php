@@ -139,19 +139,19 @@
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='shopping-cart'></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Ventas</span>
+                    <span class="menu-title text-truncate">Ventas</span>
                 </a>
                 <ul class="menu-content">
                     <li class="{{setActive('nueva-venta')}}">
                         <a class="d-flex align-items-center" href="{{route('nueva-venta')}}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Analytics">Nueva venta</span>
+                            <span class="menu-item text-truncate">Nueva venta</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="#">
+                    <li class="{{setActive('ventas-realizadas')}}">
+                        <a class="d-flex align-items-center" href="{{route('ventas-realizadas')}}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="eCommerce">Reporte #2</span>
+                            <span class="menu-item text-truncate">Ventas realizadas</span>
                         </a>
                     </li>
                 </ul>

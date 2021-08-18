@@ -25,5 +25,9 @@ class Cliente extends Model
         return $this->hasOne(TipoDocumento::class, 'id', 'documento');   
     }
 
+    public function ventas(){
+        return $this->belongsTo(Venta::class, 'cliente_id', 'id_cliente');
+    }
+
     public $timestamps = false;
 }

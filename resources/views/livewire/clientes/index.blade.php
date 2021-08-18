@@ -58,6 +58,7 @@
                                         wire:loading.attr="disabled">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

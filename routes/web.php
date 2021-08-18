@@ -8,6 +8,7 @@ use App\Http\Livewire\NuevaVenta;
 use App\Http\Livewire\Productos;
 use App\Http\Livewire\Proveedores;
 use App\Http\Livewire\SubCategorias;
+use App\Http\Livewire\VentasRealizadas;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/adm-productos', AdmProduc
 Route::middleware(['auth:sanctum', 'verified'])->get('/proveedores', Proveedores::class )->name('proveedores');
 Route::middleware(['auth:sanctum', 'verified'])->get('/productos', Productos::class )->name('productos');
 Route::middleware(['auth:sanctum', 'verified'])->get('/nueva-venta', NuevaVenta::class )->name('nueva-venta');
+Route::middleware(['auth:sanctum', 'verified'])->get('/ventas-realizadas', VentasRealizadas::class )->name('ventas-realizadas');

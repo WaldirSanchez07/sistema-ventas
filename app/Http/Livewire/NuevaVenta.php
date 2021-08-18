@@ -10,7 +10,7 @@ use Livewire\Component;
 class NuevaVenta extends Component
 {
     public $subtotal = 0, $igv = 0, $total = 0; //venta
-    public $idCliente, $cliente, $buscarCliente; //cliente
+    public $idCliente, $cliente, $search; //cliente
     public $sku, $producto, $stock = 0, $precio = 0; //producto
     public $cantidad, $_subtotal = 0, $__subtotal = 0;
     public $pagado, $vuelto, $descuento, $_descuento = 0;
@@ -22,8 +22,8 @@ class NuevaVenta extends Component
 
     public function render()
     {
-        $clientes = Cliente::where('nombre', 'like', '%' . $this->buscarCliente . '%')
-            ->orWhere('nrodocumento', 'like', '%' . $this->buscarCliente . '%')->paginate(7);
+        $clientes = Cliente::where('nombre', 'like', '%' . $this->search . '%')
+            ->orWhere('nrodocumento', 'like', '%' . $this->search . '%')->paginate(7);
 
         return view('livewire.ventas.nueva-venta', compact('clientes'));
     }

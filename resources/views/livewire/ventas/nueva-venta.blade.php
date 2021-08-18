@@ -144,9 +144,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="rotate" wire:loading wire:target="search">
-                        <i class="far fa-spinner-third fa-2x"></i>
-                    </div>
                 </div>
             </div>
         </div>
