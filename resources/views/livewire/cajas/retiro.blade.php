@@ -2,7 +2,7 @@
 <x-modal class="modal-md">
     <div class="modal-header">
         <h6 class="modal-title m-title" id="myModalLabel33">
-            <b class="text-wsecondary">Egreso</b> - Dinero
+            <b class="text-wsecondary">Retirar</b> - Dinero
         </h6>
     </div>
     <form wire:submit.prevent="save(0)" class="needs-validation" novalidate>
@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-lg">
                     <h6>
-                        <i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Información del egreso
+                        <i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Información del retiro
                     </h6>
                     <div class="row">
                         <div class="col-lg col-md mb-1">
@@ -26,9 +26,8 @@
                         <div class="col-lg-6 col-md-6 mb-1">
                             <label class="form-label">Monto</label>
                             <input wire:model.defer="monto" type="number"
-                                class="form-control @error('monto') is-invalid @enderror" placeholder="00.00"
-                                required />
-                            {{-- @error('stock')
+                            class="form-control @error('monto') is-invalid @enderror" placeholder="00.00"  required/>
+                            {{-- @error('monto')
                                 <small class="invalid-feedback">{{ $message }}</small>
                             @enderror --}}
                         </div>

@@ -6,6 +6,7 @@ use App\Models\Caja;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class Cajas extends Component
 {
@@ -16,7 +17,7 @@ class Cajas extends Component
     public $id_caja, $descripcion, $monto, $saldo, $tipoMovimiento,$estado,$fecha,$hora;
 
     public $_ingreso = false;
-    public $_egreso = false;
+    public $_retiro = false;
     public $_aperturacaja = false;
     public $_cierrecaja = false;
 
@@ -36,7 +37,9 @@ class Cajas extends Component
 
     public function render()
     {
-        $movimientos = Caja::orderBy('id_caja','DESC')->where('caja.descripcion', 'Like', '%' . $this->search . '%')->paginate($this->paginate);
+        $movimientos = Caja::orderBy('id_caja','DESC')
+            ->where('caja.descripcion', 'Like', '%' . $this->search . '%')
+            ->paginate($this->paginate);
         //$codigo = $movimientos->id_caja;
 
         $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
@@ -70,6 +73,14 @@ class Cajas extends Component
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
             $saldoTotal = Caja::sum('monto');
             $saldoactual = $saldoTotal + ($this->monto * -1);
+            /* if($this->monto<=$saldoTotal)
+            {
+                $saldoactual = $saldoTotal + ($this->monto * -1);
+            }
+            else
+            {
+                $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Saldo insuficiente!"]);
+            } */
         }
 
         $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
@@ -119,13 +130,19 @@ class Cajas extends Component
         if ($model->tipoMovimiento == 1) {
             $tipoMovimiento = 1;
             $estado = 1;
-            $saldoactual = ($model->saldo - $model->monto) + $this->monto;
+            //$saldoTotal = Caja::sum('monto');
+            $saldoTotal = $model->saldo;
+            $saldoactual = ($saldoTotal - $model->monto) + $this->monto;
+            //Falta hacer
         }else{
+            //revisar
             $tipoMovimiento = 0;
             $estado = 1;
             /* $validatedData = $this->validate(); */
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
-            $saldoactual = ($model->saldo - $model->monto) - $this->monto;
+            //$saldoTotal = Caja::sum('monto');
+            $saldoTotal = $model->saldo;
+            $saldoactual = ($saldoTotal - $model->monto) - $this->monto;
         }
 
         $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
@@ -134,10 +151,12 @@ class Cajas extends Component
         /* dd($datos); */
         Caja::findOrFail($id)->update($datos);
 
+        DB::select('call Actualizar()');
+
         if ($model->tipoMovimiento == 1) {
              $this->dispatchBrowserEvent('alertUpdate', ['title' => "Ingreso actualizado", 'text' => "Se actualizó correctamente!"]);
         }else{
-             $this->dispatchBrowserEvent('alertUpdate', ['title' => "Egreso actualizado", 'text' => "Se actualizó correctamente!"]);
+             $this->dispatchBrowserEvent('alertUpdate', ['title' => "Retiro actualizado", 'text' => "Se actualizó correctamente!"]);
         }
 
         $this->limpiarCampos();
@@ -158,12 +177,13 @@ class Cajas extends Component
 
     public function close($id)
     {
+        dd($id);
         $tipoMovimiento = 1;
         $estado = 0;
         $model = Caja::where('id_caja', '=', $id)->first();
         $model->estado = $estado;
         $saldoTotal = Caja::sum('monto');
-            $saldoactual = $saldoTotal + $this->monto;
+        $saldoactual = $saldoTotal + $this->monto;
         //Caja::truncate();
         Caja::findOrFail($id)->update($model);
 
@@ -177,7 +197,7 @@ class Cajas extends Component
         $this->reset(['descripcion', 'monto']);
 
         $this->_ingreso = false;
-        $this->_egreso = false;
+        $this->_retiro = false;
         $this ->_aperturacaja = false;
         $this ->_cierrecaja = false;
         $this ->_edit = false;

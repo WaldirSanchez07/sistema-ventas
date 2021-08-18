@@ -19,11 +19,11 @@ class Productos extends Component
     public function render()
     {
         $productos = Producto::join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
-            ->join('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
-            ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')
-            ->where('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
-            ->where('producto.producto', 'Like', '%' . $this->search . '%')
-            ->paginate($this->paginate);
+        ->leftJoin('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
+        ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')
+        ->orWhereNull('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
+        ->where('producto.producto', 'Like', '%' . $this->search . '%')
+        ->paginate($this->paginate);
         $total = Producto::all()->count();
         $categorias = Producto::select('producto.categoria_id')->groupBy('producto.categoria_id')->get();
         $subcategorias = SubCategoria::where('categoria_id', 'like', '%' . $this->categoria . '%')->get();

@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-lg col-md mb-1">
                             {{-- <input wire:model.defer="descripcion" name="abrir" type="hidden" class="form-control @error('descripcion') is-invalid @enderror" disabled/> --}}
-                            <p>Luego de realizar las diversar operaciones de ingresos y egresos de dinero, la caja se cerrara con un saldo actual de: <b>{{$lastregister->saldo}} soles</b></p>
+                            <p>Luego de realizar las diversar operaciones de ingresos y retiros de dinero en el transcurso del día, se procede a cerrar caja con un saldo actual de: <b>{{$lastregister->saldo}} soles.</b></p>
                         </div>
                     </div>
                     {{-- <div class="row">

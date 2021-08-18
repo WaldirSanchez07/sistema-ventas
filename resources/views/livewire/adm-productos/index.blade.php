@@ -52,8 +52,8 @@
                             <th>Producto</th>
                             <th>Medida</th>
                             <th>Stock</th>
-                            <th>P. venta</th>
                             <th>P. compra</th>
+                            <th>P. venta</th>
                             <th>F. vence</th>
                             <th>Categoria</th>
                             <th>Estado</th>
@@ -70,10 +70,11 @@
                                 <td width="25%">{{ $p->producto }}</td>
                                 <td>{{ $p->medidas->medida }}</td>
                                 <td>{{ $p->stock }}</td>
-                                <td>{{ number_format($p->precio_venta, 2) }}</td>
                                 <td>{{ number_format($p->precio_compra, 2) }}</td>
+                                <td>{{ number_format($p->precio_venta, 2) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($p->fecha_vence)) }}</td>
-                                <td width="15%">{{ $p->categorias->categoria }}{{ $p->subcategorias ? ', ' . $p->subcategorias->subcategoria : '' }}
+                                <td width="15%">
+                                    {{ $p->categoria }}{{ $p->subcategoria ? ', ' . $p->subcategoria : '' }}
                                 </td>
                                 <td width="5%">
                                     @switch($p->estado)

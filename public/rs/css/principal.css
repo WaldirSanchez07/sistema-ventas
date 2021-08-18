@@ -56,7 +56,7 @@ html {
     text-transform: uppercase;
     border-bottom: 1px solid var(--border-color);
     transition: all 0.2s ease-in-out;
-    font-family: "roboto_medium_regular";
+    /* font-family: "roboto_medium_regular"; */
 }
 .tile:hover .tile-tittle {
     color: #fff;
@@ -73,7 +73,7 @@ html {
     font-size: 60px;
 }
 .tile-icon > p {
-    font-family: "roboto_medium_regular";
+    /* font-family: "roboto_medium_regular"; */
     height: 35px;
     line-height: 35px;
 }
@@ -82,23 +82,4 @@ html {
     color: var(--color-three);
 }
 
-div#uno span {
-    width: 35%;
-    display: block;
-    border-radius: 20px;
-    padding: 1%;
-    text-align: center;
-    font-size: 13.5px;
-    background-color: #239B90;
-    color: #fff;
-}
-div#dos span {
-    width: 35%;
-    display: block;
-    border-radius: 20px;
-    padding: 1%;
-    text-align: center;
-    font-size: 13.5px;
-    background-color: #EA5455;
-    color: #fff;
-}
+

@@ -152,4 +152,4 @@
             }
         </script>
     @endpush
-</div>
+</main>

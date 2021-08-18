@@ -3,11 +3,16 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2021 at 04:58 PM
+-- Generation Time: Aug 12, 2021 at 07:27 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
+drop database if exists sistemaVentas;
+create database sistemaVentas;
+use sistemaVentas;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +23,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sistemav1`
+-- Database: `sistemaVentas`
 --
 
 -- --------------------------------------------------------
@@ -30,23 +35,12 @@ SET time_zone = "+00:00";
 CREATE TABLE `caja` (
   `id_caja` int(11) NOT NULL,
   `descripcion` varchar(100) NOT NULL,
-  `tipoMovimiento` tinyint(1) NOT NULL,
+  `tipoMovimiento` int(1) NOT NULL,
   `monto` decimal(10,0) NOT NULL,
   `saldo` decimal(10,0) NOT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `caja`
---
-
-INSERT INTO `caja` (`id_caja`, `descripcion`, `tipoMovimiento`, `monto`, `saldo`, `fecha`, `estado`) VALUES
-(1, 'Primera inversión para compra de materiales.', 1, '8000', '8000', '2021-08-10 16:48:45', 1),
-(2, 'Juan pago su deuda.', 1, '2000', '10000', '2021-08-10 17:55:09', 1),
-(3, 'Juan ', 1, '500', '10500', '2021-08-10 19:32:37', 1),
-(4, 'Pagar luz', 0, '-200', '10300', '2021-08-10 19:42:37', 1),
-(5, 'Pagar agua', 0, '-100', '10200', '2021-08-10 19:46:16', 1);
 
 -- --------------------------------------------------------
 
@@ -69,7 +63,6 @@ INSERT INTO `categoria` (`id_categoria`, `categoria`, `estado`) VALUES
 (2, 'Tuberías y accesorios', 'Habilitado'),
 (3, 'Ferretería general', 'Habilitado'),
 (4, 'Galvanizados', 'Habilitado'),
-(5, 'Grifería', 'Habilitado'),
 (6, 'Herramientas eléctricas', 'Habilitado'),
 (7, 'Limpieza y aseo', 'Habilitado'),
 (8, 'Pinturas y solvente', 'Habilitado');
@@ -193,8 +186,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('CBDHOj0983ubfKEKq4bkNf4ag6SX2cx2zWZrWjPB', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiMmhXTTVyZmVBdlpiM2RnM1NTOUVzSXZReGg3NUVDdThKd09ncnlRUiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYWphIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJDkySVhVTnBrak8wck9RNWJ5TWkuWWU0b0tvRWEzUm85bGxDLy5vZy9hdDIudWhlV0cvaWdpIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCQ5MklYVU5wa2pPMHJPUTVieU1pLlllNG9Lb0VhM1JvOWxsQy8ub2cvYXQyLnVoZVdHL2lnaSI7fQ==', 1628693899),
-('lIxbLDfYbqII9pB1XKDmr9VBvDre5ef5EjNAaRFj', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiTDhOeHB3N1hZQUxVYlgxSEdVS1BUQU9GOVh6Y0Nnc2c3RWtvYUd5UiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYWphIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJDkySVhVTnBrak8wck9RNWJ5TWkuWWU0b0tvRWEzUm85bGxDLy5vZy9hdDIudWhlV0cvaWdpIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCQ5MklYVU5wa2pPMHJPUTVieU1pLlllNG9Lb0VhM1JvOWxsQy8ub2cvYXQyLnVoZVdHL2lnaSI7fQ==', 1628660446);
+('LmG4ZbkYzf2bXqsmwFfskAASHqlX7fHczbjZbSSH', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZ0RuNWtwMWtCc1l0cldNV1o2S1NNOTZEQjk4amZmM0JxeTIwN1A2eiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYWphIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJDkySVhVTnBrak8wck9RNWJ5TWkuWWU0b0tvRWEzUm85bGxDLy5vZy9hdDIudWhlV0cvaWdpIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCQ5MklYVU5wa2pPMHJPUTVieU1pLlllNG9Lb0VhM1JvOWxsQy8ub2cvYXQyLnVoZVdHL2lnaSI7fQ==', 1628789202);
 
 -- --------------------------------------------------------
 
@@ -378,7 +370,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `id_caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_caja` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categoria`

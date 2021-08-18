@@ -56,15 +56,15 @@ class AdmProductos extends Component
     public function render()
     {
         $productos = Producto::join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
-            ->join('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
+            ->leftJoin('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
+            ->select( 'c.*', 's.*','producto.*','c.estado AS state','s.estado AS xstate',)
             ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')
-            ->where('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
+            ->orWhereNull('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
             ->where('producto.producto', 'Like', '%' . $this->search . '%')
             ->paginate($this->paginate);
-
         $medidas = UnidadMedida::all();
         $categorias = Categoria::all();
-        $subcategorias = SubCategoria::where('categoria_id', '=', $this->categoria_id ?  $this->categoria_id : $this->categoria )->get();
+        $subcategorias = SubCategoria::where('categoria_id', '=', $this->categoria_id ?  $this->categoria_id : $this->categoria)->get();
         $nItems = $productos->count();
 
         return view('livewire.adm-productos.index', compact('productos', 'medidas', 'categorias', 'subcategorias'));
@@ -130,7 +130,7 @@ class AdmProductos extends Component
 
         $this->rules = array_replace($this->rules, ['foto' => 'nullable']);
 
-         $model = Producto::where('producto', '=', $this->producto)->first();
+        $model = Producto::where('producto', '=', $this->producto)->first();
 
         if ($model->id_producto == $id) {
             $this->rules = array_replace($this->rules, ['producto' => 'required']);

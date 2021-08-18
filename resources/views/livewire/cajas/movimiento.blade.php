@@ -14,8 +14,8 @@
                 <button type="button" class="btn btn-primary" wire:click="$set('_aperturacaja', true)">
                     &nbsp;&nbsp;Abrir Caja&nbsp;&nbsp;<i class="fal fa-lock-open-alt"></i>
                 </button>
-                <button id="egresar" type="button"  class="btn btn-danger" wire:click="$set('_egreso', true)" >
-                    <i class="fal fa-minus-circle" disabled></i>&nbsp;&nbsp;Egreso&nbsp;&nbsp;
+                <button id="egresar" type="button"  class="btn btn-danger" wire:click="$set('_egreso', true)" disabled>
+                    <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Retiro&nbsp;&nbsp;
                 </button>
             </div>
             <div class="row" >
@@ -46,8 +46,8 @@
                 <button id="cerrar" type="button" class="btn btn-danger" wire:click="$set('_cierrecaja', true)">
                     &nbsp;&nbsp;Cerrar Caja&nbsp;&nbsp;<i class="fal fa-lock-open-alt"></i>
                 </button>
-                <button id="egresar" type="button"  class="btn btn-danger" wire:click="$set('_egreso', true)" >
-                    <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Egreso&nbsp;&nbsp;
+                <button id="egresar" type="button"  class="btn btn-danger" wire:click="$set('_retiro', true)" >
+                    <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Retiro&nbsp;&nbsp;
                 </button>
             </div>
             <div class="row" >
@@ -129,21 +129,16 @@
                                     </div>
                                 </td>
                                 <td>{{ $m->descripcion }}</td>
-                                <td>
-                                    @if($m->tipoMovimiento == 1)
-                                        <div id="uno">
-                                            <span>
-                                                {{ number_format($m->monto, 2) }}
-                                            </span>
-                                        </div>
-                                    @else
-                                        <div id="dos">
-                                            <span>
-                                                {{ number_format($m->monto, 2) }}
-                                            </span>
-                                        </div>
-                                    @endif
-                                </td>
+                                 @if($m->tipoMovimiento == 1)
+                                    <td style="color:#239B90;">
+                                        Se ingreso: {{ number_format($m->monto, 2) }}
+                                    </td>
+                                @else
+                                    <td style="color:#EA5455;">
+                                        Se retiró: {{ number_format($m->monto*-1, 2) }}
+                                    </td>
+                                @endif
+
                                 <td>{{ number_format($m->saldo, 2) }}</td>
                                 <td>
                                     <button type="button"
@@ -190,8 +185,8 @@
     @if ($_cierrecaja)
         @include('livewire.cajas.cierrecaja')
     @endif
-    @if ($_egreso)
-        @include('livewire.cajas.egreso')
+    @if ($_retiro)
+        @include('livewire.cajas.retiro')
     @endif
     {{-- Opciones --}}
     @if ($_edit)
@@ -246,6 +241,24 @@
 
             window.addEventListener('alertSuccess', event => {
                 toastr['success'](`${event.detail.text}`, `${event.detail.title}`, {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            })
+
+             Livewire.on('alertWarning', msj => {
+                toastr['warning'](`${msj}`, 'Progress Bar', {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            })
+
+            window.addEventListener('alertWarning', event => {
+                toastr['warning'](`${event.detail.text}`, `${event.detail.title}`, {
                     closeButton: true,
                     tapToDismiss: false,
                     progressBar: true,

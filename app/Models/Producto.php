@@ -39,5 +39,9 @@ class Producto extends Model
         return $this->hasOne(SubCategoria::class, 'id_subcategoria', 'subcategoria_id');
     }
 
+    public function detalles(){
+        return $this->belongsTo(DetalleVenta::class, 'producto_id', 'id_producto');
+    }
+
     public $timestamps = false;
 }
