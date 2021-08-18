@@ -8,7 +8,7 @@
             return number_format($money, 2, '.', ',');
         }
     @endphp
-    <div class="row">
+    <div class="row" >
         <div class="col-lg-8">
             <div class="row">
                 <div class="col-lg-12">
@@ -237,7 +237,7 @@
                     progressBar: true,
                     rtl: isRtl
                 });
-            })
+            });
         </script>
     @endpush
 </main>

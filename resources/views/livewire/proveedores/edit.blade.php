@@ -83,14 +83,9 @@
             </div>
         </div>
         <div class="modal-footer">
-<<<<<<< HEAD
             <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark"
                 data-bs-dismiss="modal">Cancelar</button>
             <button wire:click="$emit('confirmUpdate',{{ $idProveedor }})" type="button" class="btn btn-primary" data-bs-dismiss="modal">Actualizar</button>
-=======
-            <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark">Cancelar</button>
-            <button wire:click="$emit('confirmUpdate',{{ $idProveedor }})" type="button" class="btn btn-primary">Actualizar</button>
->>>>>>> 1ac17f30f5fc0a947ff2ccf84ba09acbe0ba0251
         </div>
     </form>
 </x-modal>

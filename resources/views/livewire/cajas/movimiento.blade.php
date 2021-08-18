@@ -105,7 +105,7 @@
     <div class="row">
         <div class="col-sm-12 mb-4">
             <div class="table-responsive bg-white box-shadow">
-                <table class="table table-hover">
+                <table class="table table-hover"  style="text-align:center">
                     <thead class="table-secondary">
                         <tr>
                             <th>ID</th>
@@ -113,13 +113,16 @@
                             <th>Descripción</th>
                             <th>Monto</th>
                             <th>Saldo Actual</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($movimientos as $m)
                             <tr>
-                                <td>{{ $m->id_caja }}</td>
+                                <td>
+                                    {{ $m->id_caja }}
+                                </td>
                                 <td>
                                     <div>
                                         {{ date('d/m/Y', strtotime($m->fecha)) }}
@@ -128,31 +131,92 @@
                                         {{\Carbon\Carbon::parse($m->fecha)->subMinute()->diffForHumans()}}
                                     </div>
                                 </td>
-                                <td>{{ $m->descripcion }}</td>
+                                <td>
+                                    {{ $m->descripcion }}
+                                </td>
+
                                  @if($m->tipoMovimiento == 1)
                                     <td style="color:#239B90;">
-                                        Se ingreso: {{ number_format($m->monto, 2) }}
+                                        S/. {{ number_format($m->monto, 2) }}
                                     </td>
                                 @else
                                     <td style="color:#EA5455;">
-                                        Se retiró: {{ number_format($m->monto*-1, 2) }}
+                                        S/. {{ number_format($m->monto*-1, 2) }}
                                     </td>
                                 @endif
 
-                                <td>{{ number_format($m->saldo, 2) }}</td>
                                 <td>
-                                    <button type="button"
-                                        class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
-                                        wire:click="edit({{ $m->id_caja}})" wire:loading.attr="disabled">
-                                        <i class="far fa-pen"></i>
-                                    </button>
-                                    <button type="button"
-                                        class="btn btn-icon btn-icon rounded-circle btn-flat-danger title-delete"
-                                        wire:click="$emit('confirmDelete',{{ $m->id_caja }})"
-                                        wire:loading.attr="disabled">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>
+                                    S/. {{ number_format($m->saldo, 2) }}
                                 </td>
+
+                                @if($m->estadoMovimiento == 1)
+                                    <td style="color:#239B90;">
+                                        Procesado
+                                    </td>
+                                @else
+                                    <td style="color:#EA5455;">
+                                        Cancelado
+                                    </td>
+                                @endif
+
+                                @if($m->descripcion == "Venta")
+                                    @foreach($venta as $v)
+                                        @if($v->fecha == $m->fecha)
+                                            <td>
+                                                <button type="button"
+                                                class="btn btn-icon btn-icon rounded-circle btn-flat-success title-detalle " wire:click="verDetalle({{ $v->id_venta }})" wire:loading.attr="disabled">
+                                                    <i class="fas fa-clipboard-list"></i>
+                                                </button>
+                                            </td>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @if($m->estadoMovimiento == 1)
+                                        @if($m->descripcion == "Apertura de Caja")
+                                            <td>
+                                                <button type="button"
+                                                    class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
+                                                    wire:click="edit({{ $m->id_caja}})" wire:loading.attr="disabled" >
+                                                    <i class="far fa-pen"></i>
+                                                </button>
+                                                <button type="button"
+                                                    class="btn btn-icon btn-icon rounded-circle btn-flat-danger title-delete"
+                                                    wire:click="$emit('confirmDelete',{{ $m->id_caja }})"
+                                                    wire:loading.attr="disabled" disabled>
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <button type="button"
+                                                    class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
+                                                    wire:click="edit({{ $m->id_caja}})" wire:loading.attr="disabled" >
+                                                    <i class="far fa-pen"></i>
+                                                </button>
+                                                <button type="button"
+                                                    class="btn btn-icon btn-icon rounded-circle btn-flat-danger title-delete"
+                                                    wire:click="$emit('confirmDelete',{{ $m->id_caja }})"
+                                                    wire:loading.attr="disabled">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        @endif
+                                    @else
+                                        <td>
+                                            <button type="button"
+                                                class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
+                                                wire:click="edit({{ $m->id_caja}})" wire:loading.attr="disabled" disabled>
+                                                <i class="far fa-pen"></i>
+                                            </button>
+                                            <button type="button"
+                                                class="btn btn-icon btn-icon rounded-circle btn-flat-danger title-delete"
+                                                wire:click="$emit('confirmDelete',{{ $m->id_caja }})"
+                                                wire:loading.attr="disabled" disabled>
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    @endif
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -188,9 +252,11 @@
     @if ($_retiro)
         @include('livewire.cajas.retiro')
     @endif
-    {{-- Opciones --}}
     @if ($_edit)
         @include('livewire.cajas.editarcaja')
+    @endif
+    @if ($_detalle)
+        @include('livewire.cajas.detalle')
     @endif
 
     @push('js')

@@ -19,6 +19,7 @@ class Caja extends Model
         'saldo',
         'fecha',
         'estado',
+        'estadoMovimiento',
     ];
 
     public $timestamps = false;

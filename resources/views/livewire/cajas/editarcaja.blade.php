@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button wire:click="limpiarCampos" type="button" class="btn btn-outline-secondary">Cancelar</button>
+            <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark">Cancelar</button>
             <button wire:click="$emit('confirmUpdate',{{ $id_caja }})" type="button" class="btn btn-primary">Actualizar</button>
         </div>
     </form>

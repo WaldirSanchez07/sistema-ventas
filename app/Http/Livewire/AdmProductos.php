@@ -182,6 +182,7 @@ class AdmProductos extends Component
     {
         $this->reset(['idProducto', 'producto', 'stock', 'stock_minimo', 'precio_compra', 'precio_venta', 'foto', 'vence', 'fecha_vence']);
         $this->reset(['estado']);
+        $this->reset(['categoria_id', 'subcategoria_id','medida_id']);
 
         $this->_create = false;
         $this->_edit = false;

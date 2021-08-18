@@ -21,16 +21,25 @@ class NuevaVenta extends Component
     public $table = array();
     public $add = true, $venta = false;
 
+    public $cantdatos;
+
     public function render()
     {
         $clientes = Cliente::where('nombre', 'like', '%' . $this->search . '%')
-            ->orWhere('nrodocumento', 'like', '%' . $this->search . '%')->paginate(7);
+        ->orWhere('nrodocumento', 'like', '%' . $this->search . '%')->paginate(7);
 
         return view('livewire.ventas.nueva-venta', compact('clientes'));
     }
 
     public function buscarProducto()
     {
+        $movimientos = Caja::all();
+        $cantdatos = $movimientos->count();
+        if ($cantdatos == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
+            return;
+        }
+
         $producto = Producto::where('id_producto', '=', $this->sku)->first();
         if (!$producto) return;
         $this->producto = $producto->producto;
@@ -131,6 +140,13 @@ class NuevaVenta extends Component
 
     public function addCliente(Cliente $model)
     {
+        $movimientos = Caja::all();
+        $cantdatos = $movimientos->count();
+        if ($cantdatos == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
+            return;
+        }
+
         $this->idCliente = $model->id_cliente;
         $this->cliente = $model->nombre;
         $this->_cliente = false;
@@ -138,6 +154,13 @@ class NuevaVenta extends Component
 
     public function save()
     {
+         $movimientos = Caja::all();
+        $cantdatos = $movimientos->count();
+        if ($cantdatos == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
+            return;
+        }
+        
         if (!$this->idCliente) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "Debé agregar un cliente!"]);
             return;

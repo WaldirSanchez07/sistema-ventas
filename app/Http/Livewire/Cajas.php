@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Caja;
+use App\Models\Venta;
+use App\Models\DetalleVenta;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -20,6 +22,9 @@ class Cajas extends Component
     public $_retiro = false;
     public $_aperturacaja = false;
     public $_cierrecaja = false;
+
+    public $idVenta;
+    public $_detalle = false;
 
     public $_edit = false;
 
@@ -39,13 +44,18 @@ class Cajas extends Component
     {
         $movimientos = Caja::orderBy('id_caja','DESC')
             ->where('caja.descripcion', 'Like', '%' . $this->search . '%')
+            ->where('caja.estadoMovimiento', '=',1)
             ->paginate($this->paginate);
         //$codigo = $movimientos->id_caja;
-
+        /* dd($movimientos); */
         $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
         $this->cantdatos = $movimientos->count();
 
-        return view('livewire.cajas.movimiento',compact('movimientos','lastregister'));
+        $venta = Venta::all();
+        $detalle = DetalleVenta::where('venta_id', '=', $this->idVenta)->get();
+        $venta2 = Venta::where('id_venta', '=', $this->idVenta)->get();
+        /* dd($venta2); */
+        return view('livewire.cajas.movimiento',compact('movimientos','lastregister','venta','detalle','venta2'));
     }
 
     public function save($opc)
@@ -73,14 +83,16 @@ class Cajas extends Component
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
             $saldoTotal = Caja::sum('monto');
             $saldoactual = $saldoTotal + ($this->monto * -1);
-            /* if($this->monto<=$saldoTotal)
+
+            if($this->monto<=$saldoTotal)
             {
                 $saldoactual = $saldoTotal + ($this->monto * -1);
             }
             else
             {
                 $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Saldo insuficiente!"]);
-            } */
+                return;
+            }
         }
 
         $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
@@ -141,8 +153,17 @@ class Cajas extends Component
             /* $validatedData = $this->validate(); */
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
             //$saldoTotal = Caja::sum('monto');
-            $saldoTotal = $model->saldo;
-            $saldoactual = ($saldoTotal - $model->monto) - $this->monto;
+            $ultimosaldo = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+            $saldoTotal = ($model->monto*-1)+$ultimosaldo->saldo;
+            if($this->monto<=$saldoTotal)
+            {
+                $saldoactual = ($saldoTotal - $model->monto) - $this->monto;
+            }
+            else
+            {
+                $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Saldo insuficiente!"]);
+                return;
+            }
         }
 
         $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
@@ -162,13 +183,14 @@ class Cajas extends Component
         $this->limpiarCampos();
     }
 
-    public function delete(Caja $model)
+    public function delete($id)
     {
-       Caja::findOrFail($model->id_caja)->delete();
+        $movimiento=Caja::findOrFail($id);
+        $movimiento->monto=0;
+        $movimiento->estadoMovimiento=0;
+        $movimiento->save();
 
-       /*  if ($this->nItems === 1) {
-            $this->previousPage();
-        } */
+        DB::select('call Actualizar()');
 
         $this->dispatchBrowserEvent('alertSuccess', ['title' => "Movimiento eliminado", 'text' => "Se eliminó correctamente!"]);
 
@@ -190,6 +212,13 @@ class Cajas extends Component
         $this->dispatchBrowserEvent('alertOpen', ['title' => "Caja Cerrada", 'text' => "Se cerro correctamente!"]);
 
         $this->limpiarCampos();
+    }
+
+    public function verDetalle($id)
+    {
+        /* dd($id); */
+        $this->idVenta = $id;
+        $this->_detalle = true;
     }
 
     public function limpiarCampos()

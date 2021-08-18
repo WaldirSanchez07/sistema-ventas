@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button wire:click="limpiarCampos" type="button" class="btn btn-outline-secondary">Cancelar</button>
+            <button wire:click="limpiarCampos" type="button" class="btn btn-outline-dark">Cancelar</button>
             <button type="submit" class="btn btn-danger">Close</button>
         </div>
     </form>

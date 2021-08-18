@@ -35,4 +35,5 @@ class Productos extends Component
     {
         $this->reset(['categoria', 'subcategoria']);
     }
+    
 }
