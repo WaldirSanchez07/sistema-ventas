@@ -1,56 +1,68 @@
 .title-edit,
-.title-delete {
+.title-delete,
+.title-detalle{
     position: relative;
 }
 
 .title-edit:hover::before,
-.title-delete:hover::before {
-    content: "";
+.title-delete:hover::before,
+.title-detalle:hover::before{
+    content: '';
     background-color: #202124f3;
     color: #fff;
     position: absolute;
     bottom: -2.3rem;
     border-radius: 3px;
-    padding: 0.5rem 0.6rem;
-    left: -0.8rem;
-    font-size: 0.88rem;
+    padding: .5rem .6rem;
+    left: -.8rem;
+    font-size: .88rem;
     font-weight: 400;
-    letter-spacing: 0.5px;
+    letter-spacing: .5px;
     z-index: 9;
     width: 4rem;
     pointer-events: none;
 }
 tbody tr:last-child td button.title-edit:hover::before,
-tbody tr:last-child td button.title-delete:hover::before {
+tbody tr:last-child td button.title-delete:hover::before,
+tbody tr:last-child td button.title-detalle:hover::before{
     bottom: 2.9rem;
 }
 
-.title-edit:hover::before {
-    content: "Editar";
+.title-edit:hover::before{
+    content: 'Editar';
 }
-.title-delete:hover::before {
-    content: "Eliminar";
+
+.title-detalle:hover::before{
+    content: 'Ver detalle';
+    width: 7rem;
+    left: -2.3rem;
+}
+
+.title-delete:hover::before{
+    content: 'Eliminar';
     width: 5rem;
     left: -1.3rem;
 }
 
 .title-edit:hover::after,
-.title-delete:hover::after {
-    content: "";
+.title-delete:hover::after,
+.title-detalle:hover::after{
+    content: '';
     position: absolute;
-    left: calc(50% - 0.5rem);
+    left: calc(50% - .5rem);
     right: 50%;
-    bottom: -0.5rem;
+    bottom: -.5rem;
     width: 0;
     height: 0;
-    border-right: 0.5rem solid transparent;
-    border-top: 0.5rem solid transparent;
-    border-left: 0.5rem solid transparent;
-    border-bottom: 0.5rem solid #202124;
+    border-right: .5rem solid transparent;
+    border-top: .5rem solid transparent;
+    border-left: .5rem solid transparent;
+    border-bottom: .5rem solid #202124;
 }
 
 tbody tr:last-child td button.title-edit:hover::after,
-tbody tr:last-child td button.title-delete:hover::after {
+tbody tr:last-child td button.title-delete:hover::after,
+tbody tr:last-child td button.title-detalle:hover::after{
     transform: rotate(180deg);
     bottom: 1.9rem;
 }

@@ -2,26 +2,33 @@
     <div class="d-flex justify-content-between mb-2">
         <h2 class="content-header-title float-start mb-0 text-dark">Historial de Movimientos</h2>
     </div>
-{{--     <div class="d-flex justify-content-between mb-2"> --}}
-        {{-- <button id="ingresar" type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)">
-            <i class="fal fa-plus-circle"></i>&nbsp;&nbsp;Ingreso&nbsp;&nbsp;
-        </button> --}}
         @if($cantdatos == 0 || $lastregister->estado == 0)
             <div class="d-flex justify-content-between mb-2">
-                <button id="ingresar" type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)" disabled>
+                <div>
+                    <button id="ingresar" type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)" disabled>
                     <i class="fal fa-plus-circle"></i>&nbsp;&nbsp;Ingreso&nbsp;&nbsp;
-                </button>
-                <button type="button" class="btn btn-primary" wire:click="$set('_aperturacaja', true)">
+                    </button>
+                </div>
+                <div class="text-center d-flex align-items-center">
+                    <button type="button" class="btn btn-primary {{$cantidadApertura != 0 ? 'd-none' : "" }}" wire:click="$set('_aperturacaja', true)">
                     &nbsp;&nbsp;Abrir Caja&nbsp;&nbsp;<i class="fal fa-lock-open-alt"></i>
-                </button>
-                <button id="egresar" type="button"  class="btn btn-danger" wire:click="$set('_egreso', true)" disabled>
-                    <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Retiro&nbsp;&nbsp;
-                </button>
+                    </button>
+                    @if($cantidadApertura != 0)
+                        <span class="text-success">
+                            La caja ya fue apertura y cerrada.
+                        </span>
+                    @endif
+                </div>
+                <div>
+                    <button id="egresar" type="button"  class="btn btn-danger" wire:click="$set('_egreso', true)" disabled>
+                        <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Retiro&nbsp;&nbsp;
+                    </button>
+                </div>
             </div>
             <div class="row" >
                 <div class="col-sm-12">
                     <div class="card box-shadow">
-                        <div class="card-body" disabled>
+                        <div class="card-body">
                             <h6 class="mb-1">Filtros</h6>
                             <div class="row">
                                 <div class="col-lg">
@@ -53,7 +60,7 @@
             <div class="row" >
                 <div class="col-sm-12">
                     <div class="card box-shadow">
-                        <div class="card-body" disabled>
+                        <div class="card-body">
                             <h6 class="mb-1">Filtros</h6>
                             <div class="row">
                                 <div class="col-lg">
@@ -62,7 +69,7 @@
                                             <i class="far fa-search"></i>
                                         </span >
                                         <input wire:model="search" type="text" class="form-control" placeholder="Buscar movimiento..."
-                                        aria-label="Buscar movimiento..." aria-describedby="basic-addon-search2" disabled/>
+                                        aria-label="Buscar movimiento..." aria-describedby="basic-addon-search2"/>
                                     </div>
                                 </div>
                             </div>
@@ -71,37 +78,6 @@
                 </div>
             </div>
         @endif
-            {{-- @foreach($lastregister as $l)
-                @if($l->estado == false)
-                    <button type="button" class="btn btn-primary" wire:click="$set('_aperturacaja', true)">
-                        &nbsp;&nbsp;Abrir Caja&nbsp;&nbsp;<i class="fal fa-lock-open-alt"></i>
-                    </button>
-                @else
-                    <button type="button" class="btn btn-danger" wire:click="$set('_cierrecaja', true)">
-                        &nbsp;&nbsp;Cerrar Caja&nbsp;&nbsp;<i class="fal fa-lock-open-alt"></i>
-                    </button>
-                @endif
-            @endforeach --}}
-            {{-- <div class="row">
-                <div class="col-sm-12">
-                    <div class="card box-shadow">
-                        <div class="card-body">
-                            <h6 class="mb-1">Filtros</h6>
-                            <div class="row">
-                                <div class="col-lg">
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text" id="basic-addon-search2">
-                                            <i class="far fa-search"></i>
-                                        </span>
-                                        <input wire:model="search" type="text" class="form-control" placeholder="Buscar movimiento..."
-                                            aria-label="Buscar movimiento..." aria-describedby="basic-addon-search2" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
     <div class="row">
         <div class="col-sm-12 mb-4">
             <div class="table-responsive bg-white box-shadow">
@@ -134,30 +110,37 @@
                                 <td>
                                     {{ $m->descripcion }}
                                 </td>
-
-                                @if($m->tipoMovimiento == 1)
-                                    <td style="color:#239B90;">
-                                        S/. {{ number_format($m->monto, 2) }}
-                                    </td>
-                                @else
-                                    <td style="color:#EA5455;">
-                                        S/. {{ number_format($m->monto*-1, 2) }}
-                                    </td>
-                                @endif
-
+                                <td class="text-center" >
+                                    @if($m->tipoMovimiento == 1)
+                                        <span class="badge rounded-pill badge-light-info">
+                                            S/. {{ number_format($m->monto, 2) }}
+                                        </span>
+                                        {{-- <td style="color:#239B90;">
+                                            S/. {{ number_format($m->monto, 2) }}
+                                        </td> --}}
+                                    @else
+                                        <span class="badge rounded-pill badge-light-danger">
+                                            S/. {{ number_format($m->monto, 2) }}
+                                        </span>
+                                        {{-- <td style="color:#EA5455;">
+                                            S/. {{ number_format($m->monto*-1, 2) }}
+                                        </td> --}}
+                                    @endif
+                                </td>
                                 <td>
                                     S/. {{ number_format($m->saldo, 2) }}
                                 </td>
-
-                                @if($m->estadoMovimiento == 1)
-                                    <td style="color:#239B90;">
-                                        Procesado
-                                    </td>
-                                @else
-                                    <td style="color:#EA5455;">
-                                        Cancelado
-                                    </td>
-                                @endif
+                                <td class="text-center">
+                                    @if($m->estadoMovimiento === 1)
+                                        <span class="badge rounded-pill badge-light-info">
+                                            Procesado
+                                        </span>
+                                    @else
+                                        <span class="badge rounded-pill badge-light-danger">
+                                            Cancelado
+                                        </span>
+                                    @endif
+                                </td>
 
                                 @if($m->descripcion == "Venta")
                                     @foreach($venta as $v)
@@ -217,6 +200,7 @@
                                         </td>
                                     @endif
                                 @endif
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -244,7 +228,9 @@
         @include('livewire.cajas.ingreso')
     @endif
     @if ($_aperturacaja)
-        @include('livewire.cajas.aperturacaja')
+        @if($cantidadApertura == 0)
+            @include('livewire.cajas.aperturacaja')
+        @endif
     @endif
     @if ($_cierrecaja)
         @include('livewire.cajas.cierrecaja')

@@ -24,17 +24,12 @@
                 </div>
                 <div class="col-lg">
                     <div class="mb-1">
-                        <label class="form-label" for="basic-addon-name">Nro Documento</label>
-                        <div class="row">
-                            <div class="col">
-                                <input wire:model.defer="nrodocumento" type="text"
-                                class="form-control @error('nrodocumento') is-invalid @enderror" aria-label="Name" aria-describedby="basic-addon-name" required />
-                            </div>
-                            <div class="col-4">
-                                <a wire:click="buscandoDatos()" class="btn btn-primary">
-                                        <i class="fas fa-search"></i>
-                                </a>
-                            </div>
+                        <label class="form-label label">Nro Documento</label>
+                        <div class="input-group">
+                            <input wire:model.defer="nrodocumento" type="number" class="form-control">
+                            <a wire:click="buscandoDatos()" class="btn btn-primary" id="button-addon2" type="button">
+                                <i class="fas fa-search-plus"></i>
+                            </a>
                         </div>
                         @error('nrodocumento')
                             <small class="invalid-feedback">{{ $message }}</small>

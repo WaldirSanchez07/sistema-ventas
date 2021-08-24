@@ -31,7 +31,7 @@ class Cajas extends Component
 
     public $cantdatos;
 
-    public $paginate = 10;
+    public $paginate = 5;
     public $nItems = 0;
 
     public $search;
@@ -48,18 +48,21 @@ class Cajas extends Component
             ->where('caja.estadoMovimiento', '=',1)
             ->whereDate('caja.fecha','=',Carbon::today())
             ->paginate($this->paginate);
-        //$codigo = $movimientos->id_caja;
-        /* dd($movimientos); */
+
         $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
-        //dd($lastregister->estado);
+
         $this->cantdatos = $movimientos->count();
+
+        $cantidadApertura = Caja::where('caja.descripcion', '=','Apertura de Caja')
+            ->whereDate('caja.fecha','=',Carbon::today())
+            ->get();
+        $cantidadApertura = $cantidadApertura->count();
 
         $venta = Venta::all();
         $detalle = DetalleVenta::where('venta_id', '=', $this->idVenta)->get();
         $venta2 = Venta::where('id_venta', '=', $this->idVenta)->get();
-        /* dd($venta2); */
 
-        return view('livewire.cajas.movimiento',compact('movimientos','lastregister','venta','detalle','venta2'));
+        return view('livewire.cajas.movimiento',compact('movimientos','lastregister','venta','detalle','venta2','cantidadApertura'));
     }
 
     public function save($opc)
@@ -81,6 +84,10 @@ class Cajas extends Component
             $saldoactual = $saldoTotal + $this->monto;
             $this->descripcion = "Apertura de Caja";
             $validatedData = $this->validate();
+            /* } else{
+                $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Solo puede aperturar una vez al día la caja"]);
+                return;
+            } */
         }
         //Ingreso
         if ($opc == 1) {
@@ -217,23 +224,6 @@ class Cajas extends Component
         DB::select('call Actualizar()');
 
         $this->dispatchBrowserEvent('alertSuccess', ['title' => "Movimiento eliminado", 'text' => "Se eliminó correctamente!"]);
-
-        $this->limpiarCampos();
-    }
-
-    public function close($id)
-    {
-        dd($id);
-        $tipoMovimiento = 1;
-        $estado = 0;
-        $model = Caja::where('id_caja', '=', $id)->first();
-        $model->estado = $estado;
-        $saldoTotal = Caja::sum('monto');
-        $saldoactual = $saldoTotal + $this->monto;
-        //Caja::truncate();
-        Caja::findOrFail($id)->update($model);
-
-        $this->dispatchBrowserEvent('alertOpen', ['title' => "Caja Cerrada", 'text' => "Se cerro correctamente!"]);
 
         $this->limpiarCampos();
     }

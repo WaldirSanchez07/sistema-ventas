@@ -38,8 +38,9 @@ class Clientes extends Component
     public function render()
     {
         $tipoDoc = TipoDocumento::all();
-        $clientes = Cliente::where('nombre', 'like', '%' . $this->search . '%')
-            ->orWhere('nrodocumento', 'like', '%' . $this->search . '%')->paginate($this->paginate);
+        $clientes = Cliente::orderBy('id_cliente','DESC')
+        ->where('nombre', 'like', '%' . $this->search . '%')
+        ->orWhere('nrodocumento', 'like', '%' . $this->search . '%')->paginate($this->paginate);
         $this->nItems = $clientes->count();
 
         return view('livewire.clientes.index', compact('tipoDoc', 'clientes'));

@@ -15,6 +15,10 @@
                         <div class="col-lg col-md mb-1">
                             {{-- <input wire:model.defer="descripcion" name="abrir" type="hidden" class="form-control @error('descripcion') is-invalid @enderror" disabled/> --}}
                             <p>Luego de realizar las diversar operaciones de ingresos y retiros de dinero en el transcurso del día, se procede a cerrar caja con un saldo actual de: <b>{{$lastregister->saldo}} soles.</b></p>
+                            <span class="text-danger mt-2 d-block">
+                                <b>Nota:</b> Una vez realizado esto, ya no se podra volver a aperturar la caja en el transcurso del dia.
+                            </span>
+
                         </div>
                     </div>
                     {{-- <div class="row">
