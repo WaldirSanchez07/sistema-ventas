@@ -4,7 +4,7 @@
             <b class="text-wsecondary">Cerrar</b> - Caja
         </h6>
     </div>
-    <form wire:submit.prevent="close({{$lastregister->id_caja}})" class="needs-validation" novalidate>
+    <form wire:submit.prevent="save(3)" class="needs-validation" novalidate>
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg">

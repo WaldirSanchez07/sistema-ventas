@@ -6,7 +6,7 @@
         {{-- <button id="ingresar" type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)">
             <i class="fal fa-plus-circle"></i>&nbsp;&nbsp;Ingreso&nbsp;&nbsp;
         </button> --}}
-        @if($cantdatos == 0)
+        @if($cantdatos == 0 || $lastregister->estado == 0)
             <div class="d-flex justify-content-between mb-2">
                 <button id="ingresar" type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)" disabled>
                     <i class="fal fa-plus-circle"></i>&nbsp;&nbsp;Ingreso&nbsp;&nbsp;
@@ -53,16 +53,16 @@
             <div class="row" >
                 <div class="col-sm-12">
                     <div class="card box-shadow">
-                        <div class="card-body">
+                        <div class="card-body" disabled>
                             <h6 class="mb-1">Filtros</h6>
                             <div class="row">
                                 <div class="col-lg">
                                     <div class="input-group input-group-merge">
                                         <span class="input-group-text" id="basic-addon-search2">
                                             <i class="far fa-search"></i>
-                                        </span>
+                                        </span >
                                         <input wire:model="search" type="text" class="form-control" placeholder="Buscar movimiento..."
-                                            aria-label="Buscar movimiento..." aria-describedby="basic-addon-search2"/>
+                                        aria-label="Buscar movimiento..." aria-describedby="basic-addon-search2" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                                     {{ $m->descripcion }}
                                 </td>
 
-                                 @if($m->tipoMovimiento == 1)
+                                @if($m->tipoMovimiento == 1)
                                     <td style="color:#239B90;">
                                         S/. {{ number_format($m->monto, 2) }}
                                     </td>
@@ -350,7 +350,7 @@
                 });
             })
 
-            Livewire.on('alertOpen', msj => {
+            /* Livewire.on('alertOpen', msj => {
                 toastr['success'](`${msj}`, 'Progress Bar', {
                     closeButton: true,
                     tapToDismiss: false,
@@ -366,7 +366,7 @@
                     progressBar: true,
                     rtl: isRtl
                 });
-            })
+            }) */
 
             /****** End events for Tipo *****/
 

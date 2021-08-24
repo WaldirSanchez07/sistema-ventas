@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Cliente;
 use App\Models\TipoDocumento;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -24,8 +25,8 @@ class Clientes extends Component
         'nombre' => 'required',
         'documento' => 'required|numeric',
         'nrodocumento' => 'required|numeric',
-        'direccion' => 'required',
-        'telefono' => 'required|numeric',
+        /* 'direccion' => 'required', */
+        /* 'telefono' => 'numeric', */
         'email' => 'nullable'
     ];
 
@@ -44,15 +45,39 @@ class Clientes extends Component
         return view('livewire.clientes.index', compact('tipoDoc', 'clientes'));
     }
 
+    public function buscandoDatos(){
+        $nrodoc = $this->nrodocumento;
+        if (strlen($nrodoc)== 8) {
+            $url = Http::get('https://dniruc.apisperu.com/api/v1/dni/'.$nrodoc.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhbXllc2h1YTcyN0BnbWFpbC5jb20ifQ.0z14bKT2JWPsbs2y9j40RWrW_RvG9XaXtwUh2MRGOyQ');
+            $this->nombre = $url->json('nombres').' '.$url->json('apellidoPaterno').' '.$url->json('apellidoMaterno');
+        } else if (strlen($nrodoc)== 11) {
+            $url = Http::get('https://dniruc.apisperu.com/api/v1/ruc/'.$nrodoc.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhbXllc2h1YTcyN0BnbWFpbC5jb20ifQ.0z14bKT2JWPsbs2y9j40RWrW_RvG9XaXtwUh2MRGOyQ');
+           /*  dd($url->json()); */
+            $this->nombre = $url->json('razonSocial');
+            $this->direccion = $url->json('direccion');
+        } else{
+             $this->dispatchBrowserEvent('alertWarning', ['title' => "Datos no encontrados", 'text' => "Error inesperado!"]);
+             return 0;
+        }
+        /* dd($url->json('nombres')); */
+
+        /* $this->nombre = $url->json('nombres').' '.$url->json('apellidoPaterno').' '.$url->json('apellidoMaterno'); */
+        /* dd($datos); */
+    }
+
     public function save()
     {
+        /* dd($this->validate()); */
         $validatedData = $this->validate();
+        $validatedData2 = array("direccion"=>$this->direccion,"telefono"=>$this->telefono);
+        $datos =  array_Merge($validatedData, $validatedData2);
+        /* dd($datos); */
 
         if ($this->email) {
             $this->validate(['email' => 'email']);
         }
 
-        Cliente::create($validatedData);
+        Cliente::create($datos);
 
         $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente creado", 'text' => "Se ha creado correctamente!"]);
         $this->limpiarCampos();
@@ -74,14 +99,15 @@ class Clientes extends Component
     public function update($id)
     {
         $validatedData = $this->validate();
-
+         $validatedData2 = array("direccion"=>$this->direccion,"telefono"=>$this->telefono);
+        $datos =  array_Merge($validatedData, $validatedData2);
         if ($this->email) {
             $this->validate([
                 'email' => 'email'
             ]);
         }
 
-        Cliente::findOrFail($id)->update($validatedData);
+        Cliente::findOrFail($id)->update($datos);
 
         $this->dispatchBrowserEvent('alertSuccess', ['title' => "Cliente actualizado", 'text' => "Se ha actualizado correctamente!"]);
         $this->limpiarCampos();

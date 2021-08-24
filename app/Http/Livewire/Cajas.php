@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Caja;
 use App\Models\Venta;
 use App\Models\DetalleVenta;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -16,7 +17,7 @@ class Cajas extends Component
     use WithFileUploads;
     protected $paginationTheme = 'simple-bootstrap';
     protected $listeners = ['update', 'delete'];
-    public $id_caja, $descripcion, $monto, $saldo, $tipoMovimiento,$estado,$fecha,$hora;
+    public $id_caja, $descripcion, $monto, $saldo, $tipoMovimiento,$estado,$fecha,$hora,$saldoactual;
 
     public $_ingreso = false;
     public $_retiro = false;
@@ -45,39 +46,53 @@ class Cajas extends Component
         $movimientos = Caja::orderBy('id_caja','DESC')
             ->where('caja.descripcion', 'Like', '%' . $this->search . '%')
             ->where('caja.estadoMovimiento', '=',1)
+            ->whereDate('caja.fecha','=',Carbon::today())
             ->paginate($this->paginate);
         //$codigo = $movimientos->id_caja;
         /* dd($movimientos); */
         $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+        //dd($lastregister->estado);
         $this->cantdatos = $movimientos->count();
 
         $venta = Venta::all();
         $detalle = DetalleVenta::where('venta_id', '=', $this->idVenta)->get();
         $venta2 = Venta::where('id_venta', '=', $this->idVenta)->get();
         /* dd($venta2); */
+
         return view('livewire.cajas.movimiento',compact('movimientos','lastregister','venta','detalle','venta2'));
     }
 
     public function save($opc)
     {
+        //Cierre
+        if ($opc == 3) {
+            $tipoMovimiento = 0;
+            $estado = 0;
+            $saldoTotal = Caja::sum('monto');
+            $monto = $saldoTotal*-1;
+            $saldoactual = 0;
+            $descripcion = "Cierre de Caja";
+        }
+        //Apertura
         if ($opc == 2) {
             $tipoMovimiento = 1;
             $estado = 1;
             $saldoTotal = Caja::sum('monto');
             $saldoactual = $saldoTotal + $this->monto;
             $this->descripcion = "Apertura de Caja";
+            $validatedData = $this->validate();
         }
-
-        $validatedData = $this->validate();
-
+        //Ingreso
         if ($opc == 1) {
             $tipoMovimiento = 1;
             $estado = 1;
             $saldoTotal = Caja::sum('monto');
             $saldoactual = $saldoTotal + $this->monto;
+            $validatedData = $this->validate();
         }
-
+        //Egreso
         if ($opc == 0){
+            $validatedData = $this->validate();
             $tipoMovimiento = 0;
             $estado = 1;
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
@@ -95,14 +110,23 @@ class Cajas extends Component
             }
         }
 
-        $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
+        if ($opc == 3) {
+            $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado, "monto"=>$monto, "descripcion" =>$descripcion);
+            $datos = $validatedData2;
+        }else{
+            $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
+            $datos = array_Merge($validatedData, $validatedData2);
+        }
         //$validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
-        $datos = array_Merge($validatedData, $validatedData2);
+        /* $datos = array_Merge($validatedData, $validatedData2); */
 
         Caja::create($datos);
 
+        if ($opc == 3) {
+            $this->dispatchBrowserEvent('alertSuccess', ['title' => "Caja Cerrada", 'text' => "Se cerró correctamente!"]);
+        }
         if ($opc == 2) {
-            $this->dispatchBrowserEvent('alertOpen', ['title' => "Caja Aperturada", 'text' => "Se aperturo correctamente!"]);
+            $this->dispatchBrowserEvent('alertSuccess', ['title' => "Caja Aperturada", 'text' => "Se aperturo correctamente!"]);
         }
         if ($opc == 1) {
              $this->dispatchBrowserEvent('alertSuccess', ['title' => "Dinero ingresado", 'text' => "Se ingreso correctamente!"]);

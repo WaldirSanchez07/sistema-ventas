@@ -6,14 +6,6 @@
     </div>
     <form wire:submit.prevent="save" class="needs-validation" novalidate>
         <div class="modal-body">
-            <div class="mb-1">
-                <label class="form-label" for="basic-addon-name">Nombre</label>
-                <input wire:model.defer="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"
-                    aria-label="Name" aria-describedby="basic-addon-name" required />
-                @error('nombre')
-                    <small class="invalid-feedback">{{ $message }}</small>
-                @enderror
-            </div>
             <div class="row">
                 <div class="col-lg">
                     <div class="mb-1">
@@ -33,9 +25,17 @@
                 <div class="col-lg">
                     <div class="mb-1">
                         <label class="form-label" for="basic-addon-name">Nro Documento</label>
-                        <input wire:model.defer="nrodocumento" type="text"
-                            class="form-control @error('nrodocumento') is-invalid @enderror" aria-label="Name"
-                            aria-describedby="basic-addon-name" required />
+                        <div class="row">
+                            <div class="col">
+                                <input wire:model.defer="nrodocumento" type="text"
+                                class="form-control @error('nrodocumento') is-invalid @enderror" aria-label="Name" aria-describedby="basic-addon-name" required />
+                            </div>
+                            <div class="col-4">
+                                <a wire:click="buscandoDatos()" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
                         @error('nrodocumento')
                             <small class="invalid-feedback">{{ $message }}</small>
                         @enderror
@@ -43,17 +43,23 @@
                 </div>
             </div>
             <div class="mb-1">
+                <label class="form-label" for="basic-addon-name">Nombre</label>
+                <input wire:model.defer="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"
+                    aria-label="Name" aria-describedby="basic-addon-name" required />
+                @error('nombre')
+                    <small class="invalid-feedback">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="mb-1">
                 <label class="form-label" for="basic-addon-name">Dirección</label>
-                <input wire:model.defer="direccion" type="text"
-                    class="form-control @error('direccion') is-invalid @enderror" aria-label="Name"
-                    aria-describedby="basic-addon-name" required />
+                <input wire:model.defer="direccion" type="text" class="form-control @error('direccion') is-invalid @enderror" aria-label="Name" aria-describedby="basic-addon-name" required />
                 @error('direccion')
                     <small class="invalid-feedback">{{ $message }}</small>
                 @enderror
             </div>
             <div class="mb-1">
                 <label class="form-label" for="basic-addon-name">Telefono</label>
-                <input wire:model.defer="telefono" type="text"
+                <input wire:model.defer="telefono" type="number"
                     class="form-control @error('telefono') is-invalid @enderror" aria-label="Name"
                     aria-describedby="basic-addon-name" required />
                 @error('telefono')
