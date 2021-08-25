@@ -7,9 +7,9 @@
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 8.0.8
 
-DROP DATABASE IF EXISTS sistemaVentas;
-CREATE DATABASE sistemaVentas;
-USE sistemaVentas;
+DROP DATABASE IF EXISTS SVOlanoSAC;
+CREATE DATABASE SVOlanoSAC;
+USE SVOlanoSAC;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
