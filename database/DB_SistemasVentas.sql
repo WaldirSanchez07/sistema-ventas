@@ -2,14 +2,14 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 12, 2021 at 07:27 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.8
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 26-08-2021 a las 00:09:46
+-- Versión del servidor: 10.4.20-MariaDB
+-- Versión de PHP: 8.0.8
 
-drop database if exists sistemaVentas;
-create database sistemaVentas;
-use sistemaVentas;
+DROP DATABASE IF EXISTS sistemaVentas;
+CREATE DATABASE sistemaVentas;
+USE sistemaVentas;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -23,13 +23,23 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sistemaVentas`
+-- Base de datos: `sistemaventas`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Actualizar` ()  begin
+	UPDATE caja set saldo = (SELECT  sum(c.monto) FROM caja c WHERE c.id_caja <= caja.id_caja);
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `caja`
+-- Estructura de tabla para la tabla `caja`
 --
 
 CREATE TABLE `caja` (
@@ -39,13 +49,31 @@ CREATE TABLE `caja` (
   `monto` decimal(10,0) NOT NULL,
   `saldo` decimal(10,0) NOT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
-  `estado` tinyint(1) NOT NULL
+  `estado` tinyint(1) NOT NULL,
+  `estadoMovimiento` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `caja`
+--
+
+INSERT INTO `caja` (`id_caja`, `descripcion`, `tipoMovimiento`, `monto`, `saldo`, `fecha`, `estado`, `estadoMovimiento`) VALUES
+(1, 'Apertura de Caja', 1, '100', '100', '2021-08-24 16:34:07', 1, 1),
+(2, 'Venta', 1, '110', '210', '2021-08-24 16:38:25', 1, 1),
+(3, 'GO', 1, '40', '250', '2021-08-24 17:02:50', 1, 1),
+(4, 'Internet', 0, '-50', '200', '2021-08-24 17:02:56', 1, 1),
+(5, 'Inversion Trading', 1, '500', '700', '2021-08-24 17:03:11', 1, 1),
+(6, 'Agua', 0, '-40', '660', '2021-08-24 17:03:25', 1, 1),
+(7, 'Luz', 0, '-50', '610', '2021-08-24 17:03:38', 1, 1),
+(8, 'Inversion', 1, '400', '1010', '2021-08-24 17:06:12', 1, 1),
+(9, 'Cita waldir con nadie', 0, '0', '1010', '2021-08-24 17:06:20', 1, 0),
+(10, 'Venta', 1, '71', '1081', '2021-08-24 17:21:35', 1, 1),
+(11, 'Isac', 1, '500', '1581', '2021-08-24 17:31:47', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categoria`
+-- Estructura de tabla para la tabla `categoria`
 --
 
 CREATE TABLE `categoria` (
@@ -55,7 +83,7 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `categoria`
+-- Volcado de datos para la tabla `categoria`
 --
 
 INSERT INTO `categoria` (`id_categoria`, `categoria`, `estado`) VALUES
@@ -70,7 +98,7 @@ INSERT INTO `categoria` (`id_categoria`, `categoria`, `estado`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cliente`
+-- Estructura de tabla para la tabla `cliente`
 --
 
 CREATE TABLE `cliente` (
@@ -84,17 +112,47 @@ CREATE TABLE `cliente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `cliente`
+-- Volcado de datos para la tabla `cliente`
 --
 
 INSERT INTO `cliente` (`id_cliente`, `nombre`, `documento`, `nrodocumento`, `direccion`, `telefono`, `email`) VALUES
-(1, 'Jhon Cruzado', 1, '567890', 'Calle Junín #021', '999888778', 'jcruzado@gmail.com'),
-(2, 'Isac Miñano', 1, '12345678', 'Trujillo', '123456789', 'isac@gmail.com');
+(1, 'Waldir Sanchez', 1, '12345678', 'Universidad Cesar Vallejo ', '987654321', 'waldir@gmail.com'),
+(2, 'Betsi Mendoza', 1, '99999999', 'Trujillo', '21212121', 'betsi@gmail.com'),
+(3, 'Isac Miñano', 1, '89868575', 'Guadalupe', '65656565', 'isac@gmail.com'),
+(4, 'Jhon Cruzado', 1, '45654568', 'Chepén', '45654654', 'jhon@gmail.com'),
+(6, 'BANCO BBVA PERU', 2, '20100130204', 'AV. REP DE PANAMA NRO. 3055 URB. EL PALOMAR LIMA LIMA SAN ISIDRO', '4562145', 'bbva@peru.com'),
+(7, 'BANCO DE COMERCIO', 2, '20509507199', 'AV. CANAVAL Y MOREYRA NRO. 452 LIMA LIMA SAN ISIDRO', '85658214', 'bcomercio@gmail.com');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `producto`
+-- Estructura de tabla para la tabla `detalle_venta`
+--
+
+CREATE TABLE `detalle_venta` (
+  `id_detalle` bigint(20) NOT NULL,
+  `venta_id` bigint(20) NOT NULL,
+  `producto_id` int(11) NOT NULL,
+  `cantidad` float(5,2) NOT NULL,
+  `precio` float(5,2) NOT NULL,
+  `descuento` float(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `detalle_venta`
+--
+
+INSERT INTO `detalle_venta` (`id_detalle`, `venta_id`, `producto_id`, `cantidad`, `precio`, `descuento`) VALUES
+(2, 8, 1003, 10.00, 40.00, 5.00),
+(3, 8, 1001, 5.00, 11.00, 4.00),
+(4, 9, 1000, 5.00, 15.00, 4.00),
+(5, 9, 1001, 4.00, 11.00, 5.00),
+(6, 10, 1000, 5.00, 15.00, 4.00);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `producto`
 --
 
 CREATE TABLE `producto` (
@@ -114,17 +172,20 @@ CREATE TABLE `producto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `producto`
+-- Volcado de datos para la tabla `producto`
 --
 
 INSERT INTO `producto` (`id_producto`, `producto`, `stock`, `stock_minimo`, `precio_compra`, `precio_venta`, `foto`, `vence`, `fecha_vence`, `medida_id`, `estado`, `categoria_id`, `subcategoria_id`) VALUES
 (1000, 'PORCELANATO 60X60 PORC RF CEMENTO CONCRETO MARRON EXTRA', 15, 8, 14.50, 15.00, 'producto.png', 'Si', '2021-11-17', 1, 'Disponible', 1, 1),
-(1001, 'Ladrillo XYZ', 12, 8, 9.00, 11.00, '61117ccef3742.jpg', 'No', NULL, 1, 'Disponible', 1, 3);
+(1001, 'Ladrillo XYZ', 12, 8, 9.00, 11.00, '61117ccef3742.jpg', 'No', NULL, 1, 'Disponible', 1, 3),
+(1002, 'Tuberias', 40, 5, 5.00, 8.00, '611d83f541a14.jpg', 'No', NULL, 1, 'Disponible', 2, 10),
+(1003, 'Cemento Sol', 200, 50, 35.00, 40.00, '611d84664f922.jpg', 'Si', '2022-02-26', 1, 'Disponible', 1, 1),
+(1004, 'Tanque elevado ', 10, 2, 800.00, 1000.00, '611d850dd0de2.jpg', 'No', NULL, 1, 'Disponible', 2, 11);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proveedor`
+-- Estructura de tabla para la tabla `proveedor`
 --
 
 CREATE TABLE `proveedor` (
@@ -139,17 +200,18 @@ CREATE TABLE `proveedor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `proveedor`
+-- Volcado de datos para la tabla `proveedor`
 --
 
 INSERT INTO `proveedor` (`id_proveedor`, `raz_social`, `documento`, `nrodocumento`, `direccion`, `contacto`, `telefono`, `email`) VALUES
-(1, 'Proveedor XYZ', 2, '123456789', 'Calle San Juan #273', 'Jorge Lopez', '988666777', 'jlopez@gmail.com'),
-(2, 'Proveedor 1', 1, '75106474', 'Chepen', 'Juan Segura', '123456789', 'jsegura@gmail.com');
+(1, 'Proveedor 1', 2, '123456789', 'Calle San Juan #273', 'Jorge Lopez', '988666777', 'jlopez@gmail.com'),
+(2, 'Proveedor 2', 1, '75106474', 'Chepen', 'Juan Segura', '123456789', 'jsegura@gmail.com'),
+(3, 'Proveedor 3', 1, '12121212', 'Calle las flores #456', 'Julio Espinoza', '45689564', 'julio@gmail.com');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rol`
+-- Estructura de tabla para la tabla `rol`
 --
 
 CREATE TABLE `rol` (
@@ -158,7 +220,7 @@ CREATE TABLE `rol` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `rol`
+-- Volcado de datos para la tabla `rol`
 --
 
 INSERT INTO `rol` (`id_rol`, `rol`) VALUES
@@ -169,7 +231,7 @@ INSERT INTO `rol` (`id_rol`, `rol`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sessions`
+-- Estructura de tabla para la tabla `sessions`
 --
 
 CREATE TABLE `sessions` (
@@ -182,16 +244,16 @@ CREATE TABLE `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `sessions`
+-- Volcado de datos para la tabla `sessions`
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('LmG4ZbkYzf2bXqsmwFfskAASHqlX7fHczbjZbSSH', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZ0RuNWtwMWtCc1l0cldNV1o2S1NNOTZEQjk4amZmM0JxeTIwN1A2eiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYWphIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJDkySVhVTnBrak8wck9RNWJ5TWkuWWU0b0tvRWEzUm85bGxDLy5vZy9hdDIudWhlV0cvaWdpIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCQ5MklYVU5wa2pPMHJPUTVieU1pLlllNG9Lb0VhM1JvOWxsQy8ub2cvYXQyLnVoZVdHL2lnaSI7fQ==', 1628789202);
+('xenAYsGbWD8Y1yecHTebkaqFiCIQjz5KYJkObhmT', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVk12cVFDN2hUVFRYNE9tNDg4NjJHeU5wN3RvOU5UbkZ5NWhYZk1GTyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1629845833);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subcategoria`
+-- Estructura de tabla para la tabla `subcategoria`
 --
 
 CREATE TABLE `subcategoria` (
@@ -202,7 +264,7 @@ CREATE TABLE `subcategoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `subcategoria`
+-- Volcado de datos para la tabla `subcategoria`
 --
 
 INSERT INTO `subcategoria` (`id_subcategoria`, `subcategoria`, `categoria_id`, `estado`) VALUES
@@ -214,12 +276,14 @@ INSERT INTO `subcategoria` (`id_subcategoria`, `subcategoria`, `categoria_id`, `
 (6, 'Cerraduras', 3, 'Habilitado'),
 (7, 'Cable', 3, 'Habilitado'),
 (8, 'Clavos', 3, 'Habilitado'),
-(9, 'Destornillador', 3, 'Habilitado');
+(9, 'Destornillador', 3, 'Habilitado'),
+(10, 'Tubo 1/2\" (Eurotubo)', 2, 'Habilitado'),
+(11, 'Tanques Rotoplas', 2, 'Habilitado');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_documento`
+-- Estructura de tabla para la tabla `tipo_documento`
 --
 
 CREATE TABLE `tipo_documento` (
@@ -228,7 +292,7 @@ CREATE TABLE `tipo_documento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tipo_documento`
+-- Volcado de datos para la tabla `tipo_documento`
 --
 
 INSERT INTO `tipo_documento` (`id`, `tipo`) VALUES
@@ -239,7 +303,7 @@ INSERT INTO `tipo_documento` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidad_medida`
+-- Estructura de tabla para la tabla `unidad_medida`
 --
 
 CREATE TABLE `unidad_medida` (
@@ -248,7 +312,7 @@ CREATE TABLE `unidad_medida` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `unidad_medida`
+-- Volcado de datos para la tabla `unidad_medida`
 --
 
 INSERT INTO `unidad_medida` (`id`, `medida`) VALUES
@@ -263,7 +327,7 @@ INSERT INTO `unidad_medida` (`id`, `medida`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estructura de tabla para la tabla `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -278,38 +342,70 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `usuario`
+-- Volcado de datos para la tabla `usuario`
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `email`, `password`, `profile_photo_path`, `created_at`, `updated_at`, `rol_id`) VALUES
 (3, 'Waldir Sanchez', 'waldirc925@gmail.com', '$2y$10$DC1teJyeeLIbyQoqDkcYcOpdknNspwYl.s1vFtSB0OukekMtIK9sW', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1),
 (5, 'Jhon Cruzado', 'jhonpaulcruzadodelacruz@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1);
 
+-- --------------------------------------------------------
+
 --
--- Indexes for dumped tables
+-- Estructura de tabla para la tabla `venta`
+--
+
+CREATE TABLE `venta` (
+  `id_venta` bigint(20) NOT NULL,
+  `cliente_id` bigint(20) NOT NULL,
+  `subtotal` float(12,2) NOT NULL,
+  `igv` float(12,2) NOT NULL,
+  `total` float(12,2) NOT NULL,
+  `fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `venta`
+--
+
+INSERT INTO `venta` (`id_venta`, `cliente_id`, `subtotal`, `igv`, `total`, `fecha`) VALUES
+(8, 2, 365.72, 80.28, 446.00, '2021-08-18 18:48:23'),
+(9, 2, 90.20, 19.80, 110.00, '2021-08-24 16:38:25'),
+(10, 6, 58.22, 12.78, 71.00, '2021-08-24 17:21:35');
+
+--
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `caja`
+-- Indices de la tabla `caja`
 --
 ALTER TABLE `caja`
   ADD PRIMARY KEY (`id_caja`);
 
 --
--- Indexes for table `categoria`
+-- Indices de la tabla `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Indexes for table `cliente`
+-- Indices de la tabla `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`id_cliente`),
   ADD KEY `documento` (`documento`);
 
 --
--- Indexes for table `producto`
+-- Indices de la tabla `detalle_venta`
+--
+ALTER TABLE `detalle_venta`
+  ADD PRIMARY KEY (`id_detalle`),
+  ADD KEY `fk_id_detalle` (`venta_id`),
+  ADD KEY `fk_id_detalle2` (`producto_id`);
+
+--
+-- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
   ADD PRIMARY KEY (`id_producto`),
@@ -318,126 +414,154 @@ ALTER TABLE `producto`
   ADD KEY `subcategoria_id` (`subcategoria_id`);
 
 --
--- Indexes for table `proveedor`
+-- Indices de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
   ADD PRIMARY KEY (`id_proveedor`),
   ADD KEY `documento` (`documento`);
 
 --
--- Indexes for table `rol`
+-- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`id_rol`);
 
 --
--- Indexes for table `sessions`
+-- Indices de la tabla `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `subcategoria`
+-- Indices de la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
   ADD PRIMARY KEY (`id_subcategoria`),
   ADD KEY `categoria_id` (`categoria_id`);
 
 --
--- Indexes for table `tipo_documento`
+-- Indices de la tabla `tipo_documento`
 --
 ALTER TABLE `tipo_documento`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `unidad_medida`
+-- Indices de la tabla `unidad_medida`
 --
 ALTER TABLE `unidad_medida`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `usuario`
+-- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
   ADD KEY `rol_id` (`rol_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indices de la tabla `venta`
+--
+ALTER TABLE `venta`
+  ADD PRIMARY KEY (`id_venta`),
+  ADD KEY `fk_id_venta` (`cliente_id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `caja`
+-- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `id_caja` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `categoria`
+-- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `cliente`
+-- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cliente` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `producto`
+-- AUTO_INCREMENT de la tabla `detalle_venta`
+--
+ALTER TABLE `detalle_venta`
+  MODIFY `id_detalle` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1002;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1005;
 
 --
--- AUTO_INCREMENT for table `proveedor`
+-- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `rol`
+-- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
   MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `subcategoria`
+-- AUTO_INCREMENT de la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
-  MODIFY `id_subcategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_subcategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `tipo_documento`
+-- AUTO_INCREMENT de la tabla `tipo_documento`
 --
 ALTER TABLE `tipo_documento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `unidad_medida`
+-- AUTO_INCREMENT de la tabla `unidad_medida`
 --
 ALTER TABLE `unidad_medida`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `usuario`
+-- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT de la tabla `venta`
+--
+ALTER TABLE `venta`
+  MODIFY `id_venta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `cliente`
+-- Filtros para la tabla `cliente`
 --
 ALTER TABLE `cliente`
   ADD CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`documento`) REFERENCES `tipo_documento` (`id`);
 
 --
--- Constraints for table `producto`
+-- Filtros para la tabla `detalle_venta`
+--
+ALTER TABLE `detalle_venta`
+  ADD CONSTRAINT `fk_id_detalle` FOREIGN KEY (`venta_id`) REFERENCES `venta` (`id_venta`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_id_detalle2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_producto_id` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id_producto`),
+  ADD CONSTRAINT `fk_venta_id` FOREIGN KEY (`venta_id`) REFERENCES `venta` (`id_venta`);
+
+--
+-- Filtros para la tabla `producto`
 --
 ALTER TABLE `producto`
   ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`medida_id`) REFERENCES `unidad_medida` (`id`),
@@ -445,22 +569,28 @@ ALTER TABLE `producto`
   ADD CONSTRAINT `producto_ibfk_3` FOREIGN KEY (`subcategoria_id`) REFERENCES `subcategoria` (`id_subcategoria`);
 
 --
--- Constraints for table `proveedor`
+-- Filtros para la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
   ADD CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`documento`) REFERENCES `tipo_documento` (`id`);
 
 --
--- Constraints for table `subcategoria`
+-- Filtros para la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
   ADD CONSTRAINT `subcategoria_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id_categoria`);
 
 --
--- Constraints for table `usuario`
+-- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id_rol`);
+
+--
+-- Filtros para la tabla `venta`
+--
+ALTER TABLE `venta`
+  ADD CONSTRAINT `fk_id_venta` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
