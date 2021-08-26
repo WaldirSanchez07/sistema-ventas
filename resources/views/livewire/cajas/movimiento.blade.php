@@ -25,7 +25,7 @@
                     </button>
                 </div>
             </div>
-            <div class="row" >
+            {{-- <div class="row" >
                 <div class="col-sm-12">
                     <div class="card box-shadow">
                         <div class="card-body">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         @else
             <div class="d-flex justify-content-between mb-2">
                 <button id="ingresar" type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)" >
@@ -57,7 +57,7 @@
                     <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Retiro&nbsp;&nbsp;
                 </button>
             </div>
-            <div class="row" >
+            {{-- <div class="row" >
                 <div class="col-sm-12">
                     <div class="card box-shadow">
                         <div class="card-body">
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         @endif
     <div class="row">
         <div class="col-sm-12 mb-4">

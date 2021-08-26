@@ -17,9 +17,9 @@
                             <label class="form-label">Descripción</label>
                             <input wire:model.defer="descripcion" type="text"
                                 class="form-control @error('descripcion') is-invalid @enderror" required />
-                            {{-- @error('fecha_vence')
+                            @error('descripcion')
                                 <small class="invalid-feedback">{{ $message }}</small>
-                            @enderror --}}
+                            @enderror
                         </div>
                     </div>
                     <div class="row">
@@ -27,9 +27,9 @@
                             <label class="form-label">Monto</label>
                             <input wire:model.defer="monto" type="number"
                             class="form-control @error('monto') is-invalid @enderror" placeholder="00.00"  required/>
-                            {{-- @error('monto')
+                            @error('monto')
                                 <small class="invalid-feedback">{{ $message }}</small>
-                            @enderror --}}
+                            @enderror
                         </div>
                     </div>
                 </div>

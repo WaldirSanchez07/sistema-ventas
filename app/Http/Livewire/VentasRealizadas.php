@@ -20,7 +20,7 @@ class VentasRealizadas extends Component
 
     public function render()
     {
-        $ventas = Venta::paginate($this->paginate);
+        $ventas = Venta::orderBy('id_venta','DESC')->paginate($this->paginate);
         $detalle = DetalleVenta::where('venta_id', '=', $this->idVenta)->get();
 
         return view('livewire.ventas.realizadas', compact('ventas', 'detalle'));

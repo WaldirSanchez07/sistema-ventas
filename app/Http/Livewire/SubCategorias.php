@@ -35,8 +35,10 @@ class SubCategorias extends Component
     public function render()
     {
         $categorias = Categoria::all();
-        $subcategorias = SubCategoria::where('categoria_id', 'like', '%' . $this->categoria . '%')
-            ->where('subcategoria', 'like', '%' . $this->search . '%')->paginate($this->paginate);
+        $subcategorias = SubCategoria::orderBy('id_subcategoria','DESC')
+            ->where('categoria_id', 'like', '%' . $this->categoria . '%')
+            ->where('subcategoria', 'like', '%' . $this->search . '%')
+            ->paginate($this->paginate);
         $nItems = $subcategorias->count();
 
         return view('livewire.subcategorias.index', compact('categorias', 'subcategorias'));
@@ -69,7 +71,7 @@ class SubCategorias extends Component
         if ($model == null || $model->id_subcategoria == $id) {
             $this->rules = array_replace($this->rules, ['subcategoria' => 'required']);
         }
-        
+
         $validatedData = $this->validate();
         SubCategoria::findOrFail($id)->update($validatedData);
 

@@ -28,7 +28,9 @@ class Categorias extends Component
 
     public function render()
     {
-        $categorias = Categoria::where('categoria', 'like', '%' . $this->search . '%')->paginate($this->paginate);
+        $categorias = Categoria::orderBy('id_categoria','DESC')
+            ->where('categoria', 'like', '%' . $this->search . '%')
+            ->paginate($this->paginate);
         $nItems = $categorias->count();
 
         return view('livewire.categorias.index', compact('categorias'));

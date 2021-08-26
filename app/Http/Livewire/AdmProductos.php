@@ -55,7 +55,8 @@ class AdmProductos extends Component
 
     public function render()
     {
-        $productos = Producto::join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
+        $productos = Producto::orderBy('id_producto','DESC')
+            ->join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
             ->leftJoin('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
             ->select( 'c.*', 's.*','producto.*','c.estado AS state','s.estado AS xstate',)
             ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')

@@ -51,22 +51,24 @@ class Proveedores extends Component
     public function buscandoDatos()
     {
         $nrodoc = $this->nrodocumento;
-        if (strlen($nrodoc)== 8) {
+        if (strlen($nrodoc)== 8 && $this->documento == 1) {
             $url = Http::get('https://dniruc.apisperu.com/api/v1/dni/'.$nrodoc.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhbXllc2h1YTcyN0BnbWFpbC5jb20ifQ.0z14bKT2JWPsbs2y9j40RWrW_RvG9XaXtwUh2MRGOyQ');
             $this->raz_social = $url->json('nombres').' '.$url->json('apellidoPaterno').' '.$url->json('apellidoMaterno');
-        } else if (strlen($nrodoc)== 11) {
+        } else if (strlen($nrodoc)== 11 && $this->documento == 2) {
             $url = Http::get('https://dniruc.apisperu.com/api/v1/ruc/'.$nrodoc.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhbXllc2h1YTcyN0BnbWFpbC5jb20ifQ.0z14bKT2JWPsbs2y9j40RWrW_RvG9XaXtwUh2MRGOyQ');
            /*  dd($url->json()); */
             $this->raz_social = $url->json('razonSocial');
             $this->direccion = $url->json('direccion');
+        } else if (strlen($nrodoc)== 12 && $this->documento == 3){
+             $this->dispatchBrowserEvent('alertWarning', ['title' => "Datos no encontrados", 'text' => "Error inesperado, por favor registre sus datos!"]);
+             return 0;
+        } else  if ($this->documento == null){
+             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Seleccione un documento!"]);
+             return 0;
         } else{
-             $this->dispatchBrowserEvent('alertWarning', ['title' => "Datos no encontrados", 'text' => "Error inesperado!"]);
+             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Ingrese el número de documento!"]);
              return 0;
         }
-        /* dd($url->json('nombres')); */
-
-        /* $this->nombre = $url->json('nombres').' '.$url->json('apellidoPaterno').' '.$url->json('apellidoMaterno'); */
-        /* dd($datos); */
     }
 
     public function save()

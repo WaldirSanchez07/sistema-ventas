@@ -22,9 +22,9 @@
                             <input wire:model.defer="monto" type="number"
                                 class="form-control @error('monto') is-invalid @enderror" placeholder="00.00"
                                 required />
-                            {{-- @error('stock')
+                            @error('monto')
                                 <small class="invalid-feedback">{{ $message }}</small>
-                            @enderror --}}
+                            @enderror
                         </div>
                     </div>
                 </div>
