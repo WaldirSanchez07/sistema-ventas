@@ -44,7 +44,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-4 col-sm-6">
+         <div class="col-xl col-md col-sm-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="avatar bg-light-secondary p-50 mb-1">
+                        <div class="avatar-content">
+                            <i class="far fa-truck fa-2x"></i>
+                        </div>
+                    </div>
+                    <h2 class="fw-bolder">{{ $cpro }}</h2>
+                    <p class="card-text">Proveedores</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl col-md col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-warning p-50 mb-1">
@@ -57,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="col-xl col-md col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-info p-50 mb-1">
@@ -70,10 +83,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="col-xl col-md col-sm">
             <div class="card text-center">
                 <div class="card-body">
-                    <div class="avatar bg-light-secondary p-50 mb-1">
+                    <div class="avatar bg-light-dark p-50 mb-1">
                         <div class="avatar-content">
                             <i class="far fa-users fa-2x"></i>
                         </div>
