@@ -18,7 +18,7 @@ class AdmProductos extends Component
     protected $paginationTheme = 'simple-bootstrap';
     protected $listeners = ['update', 'delete'];
 
-    public $idProducto, $producto, $stock, $stock_minimo, $precio_compra, $precio_venta, $foto, $vence, $fecha_vence;
+    public $idProducto, $producto, $stock, $stock_minimo, $precio_compra, $precio_venta, $foto, $vence, $ubicacion;
     public $medida_id, $categoria_id, $subcategoria_id;
     public $estado = 'Disponible';
     public $vto = false;
@@ -33,18 +33,18 @@ class AdmProductos extends Component
     public $search, $categoria, $subcategoria;
 
     protected $rules = [
-        'producto' => 'required|unique:producto',
+        'producto' => 'required|unique:producto|max:200',
         'stock' => 'required|numeric|min:1',
         'stock_minimo' => 'required|numeric|min:1',
         'precio_compra' => 'required|numeric|min:0.10|max:2000.99',
         'precio_venta' => 'required|numeric|min:0.10|max:2000.99',
+        'ubicacion' => 'required|max:100',
         'foto' => 'nullable|image|max:2048',
         'vence' => 'required|in:Si,No',
-        'fecha_vence' => 'nullable',
         'medida_id' => 'required|numeric',
         'categoria_id' => 'required',
         'subcategoria_id' => 'nullable',
-        'estado' => 'required|in:Disponible,Stock mínimo,Agotado,Vencido'
+        'estado' => 'required|in:Habilitado,Deshabilitado'
     ];
 
     protected $validationAttributes = [
@@ -59,7 +59,7 @@ class AdmProductos extends Component
             ->leftJoin('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
             ->select( 'c.*', 's.*','producto.*','c.estado AS state','s.estado AS xstate',)
             ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')
-            ->orWhereNull('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
+            ->where('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
             ->where('producto.producto', 'Like', '%' . $this->search . '%')
             ->paginate($this->paginate);
         $medidas = UnidadMedida::all();
@@ -78,11 +78,9 @@ class AdmProductos extends Component
     public function save()
     {
         if ($this->vto) {
-            $this->rules = array_replace($this->rules, ['fecha_vence' => 'required|date']);
             $this->vence = 'Si';
         } else {
             $this->vence = 'No';
-            $this->fecha_vence = null;
         }
 
         $validatedData = $this->validate();
@@ -108,9 +106,9 @@ class AdmProductos extends Component
         $this->precio_venta = $model->precio_venta;
         $this->oldFoto = $model->foto;
         $this->foto = $model->foto;
+        $this->ubicacion = $model->ubicacion;
         $this->vto = $model->vence == 'Si' ? true : false;
         $this->medida_id = $model->medida_id;
-        $this->fecha_vence = $model->fecha_vence;
         $this->categoria_id = $model->categoria_id;
         $this->subcategoria_id = $model->subcategoria_id;
         $this->estado = $model->estado;
@@ -121,11 +119,9 @@ class AdmProductos extends Component
     public function update($id)
     {
         if ($this->vto) {
-            $this->rules = array_replace($this->rules, ['fecha_vence' => 'required|date']);
             $this->vence = 'Si';
         } else {
             $this->vence = 'No';
-            $this->fecha_vence = null;
         }
 
         $this->rules = array_replace($this->rules, ['foto' => 'nullable']);
@@ -180,7 +176,7 @@ class AdmProductos extends Component
 
     public function limpiarCampos()
     {
-        $this->reset(['idProducto', 'producto', 'stock', 'stock_minimo', 'precio_compra', 'precio_venta', 'foto', 'vence', 'fecha_vence']);
+        $this->reset(['idProducto', 'producto', 'stock', 'stock_minimo', 'precio_compra', 'precio_venta', 'foto', 'vence', 'ubicacion']);
         $this->reset(['estado']);
         $this->reset(['categoria_id', 'subcategoria_id','medida_id']);
 

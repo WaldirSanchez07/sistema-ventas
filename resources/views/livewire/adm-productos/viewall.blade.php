@@ -20,7 +20,7 @@
                                     <input type="radio" class="btn-check" name="radio_options" id="radio_option2"
                                         autocomplete="off" checked />
                                     <label class="btn btn-icon btn-outline-primary view-btn list-view-btn"
-                                        for="radio_option2"><i data-feather="list" class="font-medium-3"></i></label>
+                                        for="radio_option2"><i class="fas fa-th-large"></i></label>
                                 </div>
                             </div>
                         </div>
@@ -48,22 +48,34 @@
             <!-- E-commerce Search Bar Ends -->
 
             <!-- E-commerce Products Starts -->
-            <section id="ecommerce-products" class="list-view">
+            <section id="ecommerce-products" class="grid-view">
                 @foreach ($productos as $p)
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
+                    <div class="card ecommerce-card shadow">
+                        <div class="item-img text-center justify-content-center">
                             <a href="javascript:void(0);">
                                 <img class="img-fluid card-img-top" src="{{ asset('storage/' . $p->foto) }}"
                                     alt="img-placeholder" /></a>
                         </div>
                         <div class="card-body">
-                            <h6 class="item-name">
+                            <div class="item-wrapper">
+                                <div class="item-rating">
+                                    <ul class="unstyled-list list-inline">
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h6 class="item-price">{{ 'S/' . number_format($p->precio_venta, 2) }}</h6>
+                                </div>
+                            </div>
+                            <h6 class="item-name mb-1">
                                 <a class="text-body" href="javascript:void(0);">{{ $p->producto }}</a>
-                                {{--<span class="card-text item-company">By <a href="#"
-                                        class="company-name">Apple</a></span>--}}
                             </h6>
                             <div class="item-wrapper">
-                                <div class="row">
+                                <div class="row flex-column">
                                     <div class="col-lg">
                                         <i class="fad fa-box"></i>
                                         <b>&nbsp;Stock:&nbsp;</b>{{ $p->stock }}
@@ -72,19 +84,14 @@
                                         <i class="fad fa-ruler"></i>
                                         <b>&nbsp;Medida:&nbsp;</b>{{ $p->medidas->medida }}
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-lg">
                                         <i class="fad fa-calendar-alt"></i>
                                         <b>&nbsp;Vencimiento:&nbsp;</b>
                                         {{ $p->fecha_vence ? date('d/m/Y', strtotime($p->fecha_vence)) : 'No vence' }}
                                     </div>
                                 </div>
+                                
                             </div>
-                            <p class="card-text item-description">
-                                On Retina display that never sleeps, so it’s easy to see the time and other important
-                                information, without
-                            </p>
                         </div>
                         <div class="item-options text-center">
                             <div class="item-wrapper">
@@ -92,14 +99,14 @@
                                     <h4 class="item-price">{{ 'S/' . number_format($p->precio_venta, 2) }}</h4>
                                 </div>
                             </div>
-                            <button class="btn btn-light btn-wishlist" style="cursor: default">
+                            <a href="#" class="btn btn-light btn-wishlist" style="cursor: default">
                                 <i class="fas fa-barcode"></i>
-                                <span>{{ 'SKU: ' . $p->id_producto }}</span>
-                            </button>
-                            <button class="btn btn-primary btn-copy" data-sku="{{$p->id_producto}}">
+                                <span>{{ $p->id_producto }}</span>
+                            </a>
+                            <a href="#" class="btn btn-primary btn-cart btn-copy" data-sku="{{$p->id_producto}}">
                                 <i class="far fa-copy"></i>
                                 <span class="add-to-cart">Copiar SKU</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 @endforeach
@@ -122,25 +129,25 @@
                         <h6 class="filter-heading d-none d-lg-block">Filtros</h6>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card shadow">
                     <div class="card-body">
                         <!-- Categories Starts -->
                         <div id="product-categories">
                             <h6 class="filter-title mt-0">Categorias</h6>
                             <ul class="list-unstyled categories-list">
                                 <li>
-                                    <div class="form-check">
+                                    <div class="form-check p-0">
                                         <input wire:model="categoria" type="radio" id="category" name="category"
-                                            class="form-check-input" value="" checked />
+                                            class="" value="" checked />
                                         <label class="form-check-label" for="category">Todo</label>
                                     </div>
                                 </li>
                                 @foreach ($categorias as $c)
                                     <li>
-                                        <div class="form-check">
+                                        <div class="form-check p-0">
                                             <input wire:model="categoria" type="radio"
                                                 id="category{{ $c->categoria_id }}" name="category"
-                                                class="form-check-input" value="{{ $c->categoria_id }}" />
+                                                class="" value="{{ $c->categoria_id }}" />
                                             <label class="form-check-label" for="category{{ $c->categoria_id }}">
                                                 {{ $c->categorias->categoria }}
                                             </label>
@@ -156,18 +163,18 @@
                             <h6 class="filter-title">Subcategorias</h6>
                             <ul class="list-unstyled brand-list">
                                 <li>
-                                    <div class="form-check">
+                                    <div class="form-check p-0">
                                         <input wire:model="subcategoria" type="radio" id="sub" name="subcategory"
-                                            class="form-check-input" value="" checked />
+                                            class="" value="" checked />
                                         <label class="form-check-label" for="sub">Todo</label>
                                     </div>
                                 </li>
                                 @foreach ($subcategorias as $s)
                                     <li>
-                                        <div class="form-check">
+                                        <div class="form-check p-0">
                                             <input wire:model="subcategoria" type="radio"
                                                 id="sub{{ $s->id_subcategoria }}" name="subcategory"
-                                                class="form-check-input" value="{{ $s->id_subcategoria }}" />
+                                                class="" value="{{ $s->id_subcategoria }}" />
                                             <label class="form-check-label" for="sub{{ $s->id_subcategoria }}">
                                                 {{ $s->subcategoria }}
                                             </label>
@@ -215,7 +222,7 @@
                 document.execCommand('copy');
                 document.body.removeChild(tempInput);
             }
-
+            
             // Copy Icon On Click
             $(document).on('click', '.btn-copy', function() {
                 var $this = $(this),

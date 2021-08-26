@@ -29,7 +29,7 @@
                             </g>
                         </svg>
                     </span>
-                    <h2 class="brand-text text-dark">Olano S.A</h2>
+                    <h2 class="brand-text text-dark">Olano S.A.C</h2>
                 </a>
             </li>
             <li class="nav-item nav-toggle">
@@ -116,7 +116,7 @@
                     </li>
                 </ul>
             </li>
-            <li class=" nav-item">
+            {{--<li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='clipboard'></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Inventario</span>
@@ -135,7 +135,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li>--}}
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='shopping-cart'></i>
@@ -148,8 +148,8 @@
                             <span class="menu-item text-truncate">Nueva venta</span>
                         </a>
                     </li>
-                    <li class="{{setActive('ventas-realizadas')}}">
-                        <a class="d-flex align-items-center" href="{{route('ventas-realizadas')}}">
+                    <li class="{{setActive('ventas')}}">
+                        <a class="d-flex align-items-center" href="{{route('ventas')}}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Ventas realizadas</span>
                         </a>
@@ -157,6 +157,26 @@
                 </ul>
             </li>
             <li class=" nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather='shopping-bag'></i>
+                    <span class="menu-title text-truncate">Compras</span>
+                </a>
+                <ul class="menu-content">
+                    <li class="{{setActive('nueva-compra')}}">
+                        <a class="d-flex align-items-center" href="{{route('nueva-compra')}}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Nueva compra</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive('compras')}}">
+                        <a class="d-flex align-items-center" href="{{route('compras')}}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Compras realizadas</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {{--<li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='grid'></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Almacen</span>
@@ -175,6 +195,12 @@
                         </a>
                     </li>
                 </ul>
+            </li>--}}
+            <li class="nav-item {{setActive('kardex')}}">
+                <a class="d-flex align-items-center" href="{{route('kardex')}}">
+                    <i data-feather='folder'></i>
+                    <span class="menu-title text-truncate">Kardex</span>
+                </a>
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
@@ -197,19 +223,19 @@
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='settings'></i>
-                    <span class="menu-title text-truncate" data-i18n="eCommerce">Configuraciones</span>
+                    <span class="menu-title text-truncate">Configuraciones</span>
                 </a>
                 <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="app-ecommerce-shop.html">
+                    <li class="{{setActive('empresa')}}">
+                        <a class="d-flex align-items-center" href="{{route('empresa')}}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Shop">Shop</span>
+                            <span class="menu-item text-truncate">Datos de la empresa</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="app-ecommerce-details.html">
+                    <li class="{{setActive('usuarios')}}">
+                        <a class="d-flex align-items-center" href="{{route('usuarios')}}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Details">Details</span>
+                            <span class="menu-item text-truncate">Usuarios</span>
                         </a>
                     </li>
                 </ul>

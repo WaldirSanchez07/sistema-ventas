@@ -3,6 +3,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/vendors/css/extensions/toastr.min.css') }}">
     <!-- END: Vendor CSS-->
 
+    @stack('styles')
+    
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/bootstrap-extended.css') }}">
@@ -15,7 +17,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/core/menu/menu-types/vertical-menu.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/plugins/extensions/ext-component-toastr.css') }}">
     <!-- END: Page CSS-->
-    @stack('styles')
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
 

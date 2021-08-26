@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Proveedor;
 use App\Models\TipoDocumento;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -40,11 +41,32 @@ class Proveedores extends Component
     public function render()
     {
         $tipoDoc = TipoDocumento::all();
-        $proveedores = Proveedor::where('raz_social', 'like', '%' . $this->search . '%')
+        $proveedores = Proveedor::orderBy('id_proveedor','DESC')->where('raz_social', 'like', '%' . $this->search . '%')
             ->orWhere('nrodocumento', 'like', '%' . $this->search . '%')->paginate($this->paginate);
         $this->nItems = $proveedores->count();
 
         return view('livewire.proveedores.index', compact('tipoDoc', 'proveedores'));
+    }
+
+    public function buscandoDatos()
+    {
+        $nrodoc = $this->nrodocumento;
+        if (strlen($nrodoc)== 8) {
+            $url = Http::get('https://dniruc.apisperu.com/api/v1/dni/'.$nrodoc.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhbXllc2h1YTcyN0BnbWFpbC5jb20ifQ.0z14bKT2JWPsbs2y9j40RWrW_RvG9XaXtwUh2MRGOyQ');
+            $this->raz_social = $url->json('nombres').' '.$url->json('apellidoPaterno').' '.$url->json('apellidoMaterno');
+        } else if (strlen($nrodoc)== 11) {
+            $url = Http::get('https://dniruc.apisperu.com/api/v1/ruc/'.$nrodoc.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhbXllc2h1YTcyN0BnbWFpbC5jb20ifQ.0z14bKT2JWPsbs2y9j40RWrW_RvG9XaXtwUh2MRGOyQ');
+           /*  dd($url->json()); */
+            $this->raz_social = $url->json('razonSocial');
+            $this->direccion = $url->json('direccion');
+        } else{
+             $this->dispatchBrowserEvent('alertWarning', ['title' => "Datos no encontrados", 'text' => "Error inesperado!"]);
+             return 0;
+        }
+        /* dd($url->json('nombres')); */
+
+        /* $this->nombre = $url->json('nombres').' '.$url->json('apellidoPaterno').' '.$url->json('apellidoMaterno'); */
+        /* dd($datos); */
     }
 
     public function save()

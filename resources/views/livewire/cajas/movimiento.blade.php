@@ -150,6 +150,22 @@
                                                 class="btn btn-icon btn-icon rounded-circle btn-flat-success title-detalle " wire:click="verDetalle({{ $v->id_venta }})" wire:loading.attr="disabled">
                                                     <i class="fas fa-clipboard-list"></i>
                                                 </button>
+                                                <a target="_blank"
+                                                    class="btn btn-icon rounded-circle btn-flat-danger title-pdf"
+                                                    href="/factura-venta/{{ $v->id_venta }}">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                            </td>
+                                        @endif
+                                    @endforeach
+                                @elseif($m->descripcion == "Compra")
+                                    @foreach($compra as $c)
+                                        @if($c->fecha == $m->fecha)
+                                            <td>
+                                                <button type="button"
+                                                class="btn btn-icon btn-icon rounded-circle btn-flat-success title-detalle " wire:click="verDetalle2({{ $c->id_compra }})" wire:loading.attr="disabled">
+                                                    <i class="fas fa-clipboard-list"></i>
+                                                </button>
                                             </td>
                                         @endif
                                     @endforeach
@@ -243,6 +259,9 @@
     @endif
     @if ($_detalle)
         @include('livewire.cajas.detalle')
+    @endif
+    @if ($_detalle2)
+        @include('livewire.cajas.detallecompra')
     @endif
 
     @push('js')

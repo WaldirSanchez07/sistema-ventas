@@ -20,7 +20,7 @@ class Producto extends Model
         'precio_venta',
         'foto',
         'vence',
-        'fecha_vence',
+        'ubicacion',
         'medida_id',
         'estado',
         'categoria_id',
@@ -41,6 +41,10 @@ class Producto extends Model
 
     public function detalles(){
         return $this->belongsTo(DetalleVenta::class, 'producto_id', 'id_producto');
+    }
+
+    public function kardexs(){
+        return $this->belongsTo(Kardex::class, 'producto_id', 'id_producto');
     }
 
     public $timestamps = false;

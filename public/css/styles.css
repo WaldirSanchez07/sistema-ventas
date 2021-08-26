@@ -1,12 +1,14 @@
 .title-edit,
 .title-delete,
-.title-detalle{
+.title-detalle,
+.title-pdf{
     position: relative;
 }
 
 .title-edit:hover::before,
 .title-delete:hover::before,
-.title-detalle:hover::before{
+.title-detalle:hover::before,
+.title-pdf:hover::before{
     content: '';
     background-color: #202124f3;
     color: #fff;
@@ -24,18 +26,13 @@
 }
 tbody tr:last-child td button.title-edit:hover::before,
 tbody tr:last-child td button.title-delete:hover::before,
-tbody tr:last-child td button.title-detalle:hover::before{
+tbody tr:last-child td button.title-detalle:hover::before,
+tbody tr:last-child td button.title-pdf:hover::before{
     bottom: 2.9rem;
 }
 
 .title-edit:hover::before{
     content: 'Editar';
-}
-
-.title-detalle:hover::before{
-    content: 'Ver detalle';
-    width: 7rem;
-    left: -2.3rem;
 }
 
 .title-delete:hover::before{
@@ -44,9 +41,22 @@ tbody tr:last-child td button.title-detalle:hover::before{
     left: -1.3rem;
 }
 
+.title-detalle:hover::before{
+    content: 'Ver detalle';
+    width: 7rem;
+    left: -2.3rem;
+}
+
+.title-pdf:hover::before{
+    content: 'Ver pdf';
+    width: 7rem;
+    left: -2.3rem;
+}
+
 .title-edit:hover::after,
 .title-delete:hover::after,
-.title-detalle:hover::after{
+.title-delete:hover::after,
+.title-pdf:hover::after{
     content: '';
     position: absolute;
     left: calc(50% - .5rem);
@@ -62,7 +72,8 @@ tbody tr:last-child td button.title-detalle:hover::before{
 
 tbody tr:last-child td button.title-edit:hover::after,
 tbody tr:last-child td button.title-delete:hover::after,
-tbody tr:last-child td button.title-detalle:hover::after{
+tbody tr:last-child td button.title-detalle:hover::after,
+tbody tr:last-child td button.title-pdf:hover::after{
     transform: rotate(180deg);
     bottom: 1.9rem;
 }

@@ -11,7 +11,7 @@ use Livewire\WithPagination;
 class Clientes extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
+    protected $paginationTheme = 'simple-bootstrap';
     public $idCliente, $nombre, $documento, $nrodocumento, $direccion, $telefono, $email;
     public $paginate = 5;
     public $nItems = 0;
@@ -46,7 +46,8 @@ class Clientes extends Component
         return view('livewire.clientes.index', compact('tipoDoc', 'clientes'));
     }
 
-    public function buscandoDatos(){
+    public function buscandoDatos()
+    {
         $nrodoc = $this->nrodocumento;
         if (strlen($nrodoc)== 8) {
             $url = Http::get('https://dniruc.apisperu.com/api/v1/dni/'.$nrodoc.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhbXllc2h1YTcyN0BnbWFpbC5jb20ifQ.0z14bKT2JWPsbs2y9j40RWrW_RvG9XaXtwUh2MRGOyQ');

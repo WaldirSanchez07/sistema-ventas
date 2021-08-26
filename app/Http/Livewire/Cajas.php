@@ -5,6 +5,10 @@ namespace App\Http\Livewire;
 use App\Models\Caja;
 use App\Models\Venta;
 use App\Models\DetalleVenta;
+use App\Models\Compra;
+use App\Models\DetalleCompra;
+use App\Models\Empresa;
+use PDF;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -25,7 +29,9 @@ class Cajas extends Component
     public $_cierrecaja = false;
 
     public $idVenta;
+     public $idCompra;
     public $_detalle = false;
+    public $_detalle2 = false;
 
     public $_edit = false;
 
@@ -62,7 +68,11 @@ class Cajas extends Component
         $detalle = DetalleVenta::where('venta_id', '=', $this->idVenta)->get();
         $venta2 = Venta::where('id_venta', '=', $this->idVenta)->get();
 
-        return view('livewire.cajas.movimiento',compact('movimientos','lastregister','venta','detalle','venta2','cantidadApertura'));
+        $compra = Compra::all();
+        $detallecompra = DetalleCompra::where('compra_id', '=', $this->idCompra)->get();
+        $compra2 = Compra::where('id_compra', '=', $this->idCompra)->get();
+
+        return view('livewire.cajas.movimiento',compact('movimientos','lastregister','venta','detalle','venta2','compra','detallecompra','compra2','cantidadApertura'));
     }
 
     public function save($opc)
@@ -105,7 +115,6 @@ class Cajas extends Component
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
             $saldoTotal = Caja::sum('monto');
             $saldoactual = $saldoTotal + ($this->monto * -1);
-
             if($this->monto<=$saldoTotal)
             {
                 $saldoactual = $saldoTotal + ($this->monto * -1);
@@ -233,6 +242,25 @@ class Cajas extends Component
         /* dd($id); */
         $this->idVenta = $id;
         $this->_detalle = true;
+    }
+
+    public function pdf($id)
+    {
+        $ventas = Venta::join('detalle_venta as d', 'venta.id_venta', '=', 'd.venta_id')
+            ->join('producto as p', 'p.id_producto', '=', 'd.producto_id')
+            ->join('unidad_medida as m', 'm.id', '=', 'p.medida_id')
+            ->where('venta.id_venta', '=', $id)->get();
+        $empresa = Empresa::first();
+        //return view('livewire.ventas.pdf', compact('ventas'));
+        $pdf = PDF::loadView('livewire.ventas.pdf', compact('ventas','empresa'));
+        return $pdf->stream('factura-venta.pdf');
+    }
+
+    public function verDetalle2($id)
+    {
+        /* dd($id); */
+        $this->idCompra = $id;
+        $this->_detalle2 = true;
     }
 
     public function limpiarCampos()

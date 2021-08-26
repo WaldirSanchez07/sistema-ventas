@@ -7,7 +7,6 @@
     </div>
     @php
         $i = 0;
-        $suma = 0;
     @endphp
     <div class="modal-body">
         <div class="table-responsive bg-white table-shadow">
@@ -31,13 +30,13 @@
                                 {{ $d->productos->producto }}
                             </td>
                             <td style="text-align: center;">
-                                {{ number_format($d->cantidad) }}
+                                {{ $d->cantidad }}
                             </td>
                             <td style="text-align: center;">
-                                {{ number_format($d->precio) }}
+                                {{ $d->precio }}
                             </td>
                             <td style="text-align: center;">
-                                {{ number_format($d->descuento) }}
+                                {{ $d->descuento }}
                             </td>
                         </tr>
                     @endforeach
@@ -52,7 +51,7 @@
                                     <p><b>Sub Total:</b></p>
                                 </div>
                                 <div class="col" style="text-align:center">
-                                  <p>S/. {{ number_format($ve->subtotal) }}</p>
+                                  <p>S/. {{ $ve->subtotal }}</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -60,7 +59,7 @@
                                     <p><b>IGV (18%):</b></p>
                                 </div>
                                 <div class="col" style="text-align:center">
-                                    <p>S/. {{ number_format($ve->igv) }}</p>
+                                    <p>S/. {{ $ve->igv }}</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -68,12 +67,12 @@
                                     <p><b>Total:</b></p>
                                 </div>
                                 <div class="col" style="text-align:center">
-                                    <p>S/. {{ number_format($ve->total) }}</p>
+                                    <p>S/. {{ $ve->total }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-            @endforeach
+                @endforeach
             </div>
         </div>
     </div>

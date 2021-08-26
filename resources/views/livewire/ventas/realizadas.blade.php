@@ -35,7 +35,7 @@
                             <th>Subtotal</th>
                             <th>IGV</th>
                             <th>Total</th>
-                            <th>Acciones</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,12 +46,17 @@
                                 <td>{{ $v->subtotal }}</td>
                                 <td>{{ Nformat($v->igv) }}</td>
                                 <td>{{ Nformat($v->total) }}</td>
-                                <td>
+                                <td class="text-center">
                                     <button type="button"
                                         class="btn btn-icon btn-icon rounded-circle btn-flat-success title-detalle"
                                         wire:click="verDetalle({{ $v->id_venta }})" wire:loading.attr="disabled">
                                         <i class="fas fa-clipboard-list"></i>
                                     </button>
+                                    <a target="_blank"
+                                        class="btn btn-icon rounded-circle btn-flat-danger title-pdf"
+                                        href="/factura-venta/{{ $v->id_venta }}">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -64,7 +69,8 @@
                             <select wire:model="paginate" class="form-select form-select-sm" id="basicSelect">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
-                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="100">100</option>
                             </select>
                         </div>
                     </div>

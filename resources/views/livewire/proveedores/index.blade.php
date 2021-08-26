@@ -35,7 +35,7 @@
                             <th>Contacto</th>
                             <th>Telefono</th>
                             <th>Email</th>
-                            <th>Acciones</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +48,7 @@
                                 <td width="15%">{{ $p->contacto }}</td>
                                 <td>{{ $p->telefono }}</td>
                                 <td>{{ $p->email }}</td>
-                                <td>
+                                <td class="text-center">
                                     <button type="button"
                                         class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
                                         wire:click="edit({{ $p->id_proveedor }})" wire:loading.attr="disabled">
@@ -72,7 +72,8 @@
                             <select wire:model="paginate" class="form-select form-select-sm" id="basicSelect">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
-                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="100">100</option>
                             </select>
                         </div>
                     </div>
@@ -156,4 +157,4 @@
             }
         </script>
     @endpush
-</div>
+</main>

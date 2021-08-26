@@ -206,7 +206,8 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button wire:click="save" type="button" wire:loading.attr="disabled" class="btn btn-primary mt-1">
+                        <button wire:click="save" type="button" wire:loading.attr="disabled"
+                            class="btn btn-primary mt-1">
                             <i class="fas fa-save"></i>
                             <span>Guardar venta</span>
                         </button>
@@ -229,6 +230,10 @@
                     progressBar: true,
                     rtl: isRtl
                 });
+                /* if (event.detail.id) {
+                    uri = window.location.origin + `/factura-venta/${event.detail.id}`;
+                    window.open(`${uri}`, '_blank');
+                } */
             });
             window.addEventListener('alertWarning', event => {
                 toastr['warning'](`${event.detail.text}`, `${event.detail.title}`, {

@@ -28,7 +28,7 @@
                         <div class="input-group">
                             <input wire:model.defer="nrodocumento" type="number" class="form-control">
                             <a wire:click="buscandoDatos()" class="btn btn-primary" id="button-addon2" type="button">
-                                <i class="fas fa-search-plus"></i>
+                                <i class="far fa-search-plus"></i>
                             </a>
                         </div>
                         @error('nrodocumento')

@@ -14,14 +14,14 @@ class Productos extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $search, $categoria = "", $subcategoria = "";
-    public $paginate = 10;
+    public $paginate = 9;
 
     public function render()
     {
         $productos = Producto::join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
         ->leftJoin('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
         ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')
-        ->orWhereNull('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
+        ->where('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
         ->where('producto.producto', 'Like', '%' . $this->search . '%')
         ->paginate($this->paginate);
         $total = Producto::all()->count();
@@ -31,6 +31,12 @@ class Productos extends Component
 
         return view('livewire.adm-productos.viewall', compact('productos', 'categorias', 'subcategorias', 'total'));
     }
+
+    public function updatedCategoria()
+    {
+        $this->reset('subcategoria');
+    }
+
     public function limpiar()
     {
         $this->reset(['categoria', 'subcategoria']);
