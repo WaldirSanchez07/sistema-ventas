@@ -58,6 +58,16 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-lg-12 mb-1">
+                            <label class="form-label">Ubicación</label>
+                            <input wire:model.defer="ubicacion" type="text"
+                                class="form-control @error('ubicacion') is-invalid @enderror" required />
+                            @error('ubicacion')
+                                <small class="invalid-feedback">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg col-md mb-1">
                             <label class="form-label">Stock</label>
                             <input wire:model.defer="stock" type="number"
@@ -125,26 +135,19 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-2 col-md mb-1">
-                            <label class="form-label">Vence</label>
+                            <label class="form-label">Perecible</label>
                             <div class="form-check form-check-primary">
                                 <input wire:model.defer="vto" type="checkbox" class="form-check-input" id="colorCheck1">
                                 <label class="form-check-label" for="colorCheck1">Si</label>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md mb-1">
-                            <label class="form-label">Fecha vence</label>
-                            <input wire:model.defer="fecha_vence" type="date"
-                                class="form-control @error('fecha_vence') is-invalid @enderror" required />
-                            @error('fecha_vence')
-                                <small class="invalid-feedback">{{ $message }}</small>
-                            @enderror
-                        </div>
+                        <div class="col-lg-4 col-md mb-1"></div>
                         <div class="col-lg mb-1">
                             <label class="form-label">Estado</label>
-                            <select wire:model.defer="estado" disabled
+                            <select wire:model.defer="estado"
                                 class="form-select @error('estado') is-invalid @enderror" id="select-country1" required>
                                 <option value="">--- Seleccionar ---</option>
-                                <option value="Disponible">Disponible</option>
+                                <option value="Habilitado">Habilitado</option>
                                 <option value="Deshabilitado">Deshabilitado</option>
                             </select>
                             @error('estado')

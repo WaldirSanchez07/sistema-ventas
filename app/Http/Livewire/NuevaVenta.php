@@ -147,7 +147,7 @@ class NuevaVenta extends Component
             return;
         }
 
-        if ($this->pagado >= $this->total) {
+        if ($this->pagado < $this->total) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "Debe pagar el monto total!"]);
             return;
         }
@@ -174,7 +174,7 @@ class NuevaVenta extends Component
 
             DB::commit();
             $this->limpiarCampos();
-            return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!"]);
+            return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!", 'id' => $id]);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

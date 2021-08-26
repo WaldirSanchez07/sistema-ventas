@@ -34,7 +34,7 @@
                             <th>Dirección</th>
                             <th>Telefono</th>
                             <th>Email</th>
-                            <th>Acciones</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,7 @@
                                 <td>{{ $c->direccion }}</td>
                                 <td>{{ $c->telefono }}</td>
                                 <td>{{ $c->email }}</td>
-                                <td>
+                                <td class="text-center">
                                     <button type="button"
                                         class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
                                         wire:click="edit({{ $c->id_cliente }})" wire:loading.attr="disabled">
@@ -70,7 +70,8 @@
                             <select wire:model="paginate" class="form-select form-select-sm" id="basicSelect">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
-                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="100">100</option>
                             </select>
                         </div>
                     </div>
@@ -140,18 +141,18 @@
                 let body = {
                     title: '¿Estás seguro?',
                     text: texto,
-                    icon: 'warning',
+                    icon: 'info',
                     showCancelButton: true,
                     confirmButtonText: 'Confirmar',
                     cancelButtonText: 'Cancelar',
                     buttonsStyling: false,
                     customClass: {
-                        confirmButton: 'btn btn-round ' + button + '',
-                        cancelButton: 'btn btn-round btn-default ml-2',
+                        confirmButton: 'btn round me-1 ' + button + '',
+                        cancelButton: 'btn round btn-secondary',
                     }
                 }
                 return body;
             }
         </script>
     @endpush
-</div>
+</main>

@@ -49,14 +49,14 @@
                         <span class="avatar-status-online"></span>
                     </span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                    <a class="dropdown-item" href="page-profile.html">
+                <div class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdown-user">
+                    {{--<a class="dropdown-item" href="page-profile.html">
                         <i class="me-50" data-feather="user"></i> Perfil
                     </a>
                     <a class="dropdown-item" href="app-todo.html">
                         <i class="me-50" data-feather="check-square"></i> Task
                     </a>
-                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-divider"></div>--}}
                     <a class="dropdown-item" href="{{ route('logout') }}">
                         <i class="me-50" data-feather="power"></i> Logout
                     </a>

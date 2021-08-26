@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 class Clientes extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
+    protected $paginationTheme = 'simple-bootstrap';
     public $idCliente, $nombre, $documento, $nrodocumento, $direccion, $telefono, $email;
     public $paginate = 5;
     public $nItems = 0;

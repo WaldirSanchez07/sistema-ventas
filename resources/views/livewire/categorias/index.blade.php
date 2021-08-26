@@ -28,24 +28,22 @@
                     <thead class="table-secondary">
                         <tr>
                             <th>Categoría</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($categorias as $c)
                             <tr>
                                 <td>{{ $c->categoria }}</td>
-                                <td>
+                                <td class="text-center">
                                     @if ($c->estado == 'Habilitado')
-                                        <span
-                                            class="badge rounded-pill badge-light-success me-1">{{ $c->estado }}</span>
+                                        <span class="badge rounded-pill badge-light-success">{{ $c->estado }}</span>
                                     @else
-                                        <span
-                                            class="badge rounded-pill badge-light-danger me-1">{{ $c->estado }}</span>
+                                        <span class="badge rounded-pill badge-light-danger">{{ $c->estado }}</span>
                                     @endif
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <button type="button"
                                         class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
                                         wire:click="edit({{ $c->id_categoria }})" wire:loading.attr="disabled">
@@ -69,7 +67,8 @@
                             <select wire:model="paginate" class="form-select form-select-sm" id="basicSelect">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
-                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="100">100</option>
                             </select>
                         </div>
                     </div>
@@ -138,14 +137,14 @@
                 let body = {
                     title: '¿Estás seguro?',
                     text: texto,
-                    icon: 'warning',
+                    icon: 'info',
                     showCancelButton: true,
                     confirmButtonText: 'Confirmar',
                     cancelButtonText: 'Cancelar',
                     buttonsStyling: false,
                     customClass: {
-                        confirmButton: 'btn round ' + button + '',
-                        cancelButton: 'btn round btn-flat-dark',
+                        confirmButton: 'btn round me-1 ' + button + '',
+                        cancelButton: 'btn round btn-secondary',
                     }
                 }
                 return body;

@@ -33,7 +33,7 @@ tbody tr:last-child td button.title-detalle:hover::before{
 }
 
 .title-detalle:hover::before{
-    content: 'Detalle venta';
+    content: 'Ver detalle';
     width: 7rem;
     left: -2.3rem;
 }

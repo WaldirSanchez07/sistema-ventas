@@ -54,10 +54,10 @@
                             <th>Stock</th>
                             <th>P. compra</th>
                             <th>P. venta</th>
-                            <th>F. vence</th>
+                            <th>Perecible</th>
                             <th>Categoria</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,40 +65,29 @@
                             <tr>
                                 <td>{{ $p->id_producto }}</td>
                                 <td>
-                                    <img src="{{ asset("storage/$p->foto") }}" alt="{{ $p->producto }}" class="tab-foto">
+                                    <img src="{{ asset("storage/$p->foto") }}" alt="{{ $p->producto }}"
+                                        class="tab-foto">
                                 </td>
                                 <td width="25%">{{ $p->producto }}</td>
                                 <td>{{ $p->medidas->medida }}</td>
                                 <td>{{ $p->stock }}</td>
                                 <td>{{ number_format($p->precio_compra, 2) }}</td>
                                 <td>{{ number_format($p->precio_venta, 2) }}</td>
-                                <td>{{ date('d/m/Y', strtotime($p->fecha_vence)) }}</td>
+                                <td>{{ $p->vence }}</td>
                                 <td width="15%">
                                     {{ $p->categoria }}{{ $p->subcategoria ? ', ' . $p->subcategoria : '' }}
                                 </td>
-                                <td width="5%">
-                                    @switch($p->estado)
-                                        @case('Stock mínimo')
-                                            <span
-                                                class="badge rounded-pill badge-light-info me-1">{{ $p->estado }}</span>
-                                        @break
-                                        @case('Agotado')
-                                            <span
-                                                class="badge rounded-pill badge-light-warning me-1">{{ $p->estado }}</span>
-                                        @break
-                                        @case('Vencido')
-                                            <span
-                                                class="badge rounded-pill badge-light-danger me-1">{{ $p->estado }}</span>
-                                        @break
-                                        @default
-                                            <span
-                                                class="badge rounded-pill badge-light-success me-1">{{ $p->estado }}</span>
-                                    @endswitch
+                                <td width="5%" class="text-center">
+                                    @if ($p->estado == 'Habilitado')
+                                        <span class="badge rounded-pill badge-light-success">{{ $p->estado }}</span>
+                                    @else
+                                        <span class="badge rounded-pill badge-light-danger">{{ $p->estado }}</span>
+                                    @endif
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <button type="button"
                                         class="btn btn-icon btn-icon rounded-circle btn-flat-success title-edit"
-                                        wire:click="edit({{ $p->id_producto}})" wire:loading.attr="disabled">
+                                        wire:click="edit({{ $p->id_producto }})" wire:loading.attr="disabled">
                                         <i class="far fa-pen"></i>
                                     </button>
                                     <button type="button"
@@ -119,7 +108,8 @@
                             <select wire:model="paginate" class="form-select form-select-sm" id="basicSelect">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
-                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="100">100</option>
                             </select>
                         </div>
                     </div>
@@ -189,14 +179,14 @@
                 let body = {
                     title: '¿Estás seguro?',
                     text: texto,
-                    icon: 'warning',
+                    icon: 'info',
                     showCancelButton: true,
                     confirmButtonText: 'Confirmar',
                     cancelButtonText: 'Cancelar',
                     buttonsStyling: false,
                     customClass: {
-                        confirmButton: 'btn round ' + button + '',
-                        cancelButton: 'btn round btn-flat-dark',
+                        confirmButton: 'btn round me-1 ' + button + '',
+                        cancelButton: 'btn round btn-secondary',
                     }
                 }
                 return body;
