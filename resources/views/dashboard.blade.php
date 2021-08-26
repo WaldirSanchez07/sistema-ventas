@@ -34,10 +34,10 @@
                             <i class="far fa-money-bill-alt fa-2x"></i>
                         </div>
                     </div>
-                    @if($inventario == 0)
-                        <h2 class="fw-bolder">0.00</h2>
+                    @if($inventario == null)
+                        <h2 class="fw-bolder">"0.00"</h2>
                     @else
-                        <h2 class="fw-bolder">{{ number_format($inventario->valor_total, 2) }}</h2>
+                        <h2 class="fw-bolder">{{ number_format($inventario->valor_total,2) }}</h2>
                     @endif
 
                     <p class="card-text">Inventario</p>

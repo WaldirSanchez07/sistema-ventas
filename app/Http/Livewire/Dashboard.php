@@ -17,9 +17,9 @@ class Dashboard extends Component
         $ingresos = DB::table('venta')->select(DB::raw('SUM(total) as total'))->get();
         $egresos = DB::table('compra')->select(DB::raw('SUM(total) as total'))->get();
         $inventario = DB::table('kardex')->get()->last();
-        if ($inventario == null) {
+        /* if ($inventario == null) {
             $inventario= 0;
-        }
+        } */
         //dd($inventario);
         $cp = Producto::all()->count();
         $cc = Cliente::all()->count();
