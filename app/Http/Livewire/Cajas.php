@@ -160,7 +160,7 @@ class Cajas extends Component
         $this->descripcion = $model->descripcion;
         $this->tipoMovimiento = $model->tipoMovimiento;
         $monto = $model->monto;
-        if ($monto <= 0) {
+        if ($monto < 0) {
             $monto = $monto * (-1);
             $this->monto = $monto;
         }else{

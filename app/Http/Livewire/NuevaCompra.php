@@ -53,7 +53,7 @@ class NuevaCompra extends Component
 
     public function updatedCantidad()
     {
-        $cant = (floatval($this->precio) * floatval($this->cantidad)) - $this->descuento ?? 0;
+        $cant = (floatval($this->precio) * floatval($this->cantidad)) - floatval($this->descuento) ?? 0;
         if ($cant >= 0) {
             $this->add = true;
             $this->_subtotal = $cant ?? 0;
