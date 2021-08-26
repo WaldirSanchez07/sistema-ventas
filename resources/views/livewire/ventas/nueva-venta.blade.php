@@ -230,10 +230,10 @@
                     progressBar: true,
                     rtl: isRtl
                 });
-                /* if (event.detail.id) {
+                if (event.detail.id) {
                     uri = window.location.origin + `/factura-venta/${event.detail.id}`;
                     window.open(`${uri}`, '_blank');
-                } */
+                }
             });
             window.addEventListener('alertWarning', event => {
                 toastr['warning'](`${event.detail.text}`, `${event.detail.title}`, {

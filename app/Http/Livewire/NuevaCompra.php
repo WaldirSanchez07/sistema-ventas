@@ -212,8 +212,6 @@ class NuevaCompra extends Component
                 ]);
             }
 
-            DB::commit();
-
             /* Registrando en caja la compra*/
             $descripcion = "Compra";
             $tipoMovimiento = 0 ;
@@ -224,6 +222,8 @@ class NuevaCompra extends Component
             $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
             Caja::create($datos);
             DB::select('call Actualizar()');
+
+            DB::commit();
 
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva compra", 'text' => "Compra registrada!"]);

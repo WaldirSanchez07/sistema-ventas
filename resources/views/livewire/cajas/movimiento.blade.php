@@ -112,7 +112,7 @@
                                 </td>
                                 <td class="text-center" >
                                     @if($m->tipoMovimiento == 1)
-                                        <span class="badge rounded-pill badge-light-info">
+                                        <span class="badge rounded-pill badge-light-success">
                                             S/. {{ number_format($m->monto, 2) }}
                                         </span>
                                         {{-- <td style="color:#239B90;">
@@ -132,7 +132,7 @@
                                 </td>
                                 <td class="text-center">
                                     @if($m->estadoMovimiento === 1)
-                                        <span class="badge rounded-pill badge-light-info">
+                                        <span class="badge rounded-pill badge-light-success">
                                             Procesado
                                         </span>
                                     @else
