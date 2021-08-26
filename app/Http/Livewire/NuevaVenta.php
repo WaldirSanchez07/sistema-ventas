@@ -158,7 +158,11 @@ class NuevaVenta extends Component
     {
         if ($this->subtotal > 0 && $this->pagado >= $this->subtotal) {
             $cant = floatval($this->pagado) - floatval($this->total);
-            $this->vuelto = $cant ?? 0;
+             if ($cant < 0){
+                $this->vuelto = 0;
+            }else{
+                $this->vuelto = $cant ?? 0;
+            }
         } else {
             $this->vuelto = 0;
         }
@@ -218,6 +222,8 @@ class NuevaVenta extends Component
                 ]);
             }
 
+            DB::commit();
+            
             /* Registrando en caja la venta*/
             $descripcion = "Venta";
             $tipoMovimiento = 1;
@@ -228,8 +234,6 @@ class NuevaVenta extends Component
             $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
             Caja::create($datos);
             DB::select('call Actualizar()');
-
-            DB::commit();
 
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!", 'id' => $id]);

@@ -53,7 +53,7 @@ class NuevaCompra extends Component
 
     public function updatedCantidad()
     {
-        $cant = (floatval($this->precio) * floatval($this->cantidad)) - floatval($this->descuento) ?? 0;
+        $cant = (floatval($this->precio) * floatval($this->cantidad)) - $this->descuento ?? 0;
         if ($cant >= 0) {
             $this->add = true;
             $this->_subtotal = $cant ?? 0;
@@ -63,6 +63,7 @@ class NuevaCompra extends Component
             $this->_subtotal = 0;
             $this->oldSubtotal = 0;
         }
+
     }
 
     public function updatedDescuento()
@@ -152,7 +153,11 @@ class NuevaCompra extends Component
     {
         if ($this->subtotal > 0 && $this->pagado >= $this->subtotal) {
             $cant = floatval($this->pagado) - floatval($this->total);
-            $this->vuelto = $cant ?? 0;
+            if ($cant < 0){
+                $this->vuelto = 0;
+            }else{
+                $this->vuelto = $cant ?? 0;
+            }
         } else {
             $this->vuelto = 0;
         }
@@ -212,6 +217,8 @@ class NuevaCompra extends Component
                 ]);
             }
 
+            DB::commit();
+            
             /* Registrando en caja la compra*/
             $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
             if ($lastregister->saldo < $this->total) {
@@ -227,8 +234,6 @@ class NuevaCompra extends Component
             $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
             Caja::create($datos);
             DB::select('call Actualizar()');
-
-            DB::commit();
 
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva compra", 'text' => "Compra registrada!"]);
