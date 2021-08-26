@@ -42,12 +42,12 @@ class NuevaVenta extends Component
             return;
         }
         $producto = Producto::where('id_producto', '=', $this->sku)->first();
-        if ($producto->stock == 0) {
-            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No hay stock, por favor vaya a COMPRAS!!"]);
-            return;
-        }
         if (!$producto) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "SKU no encontrado!!"]);
+            return;
+        }
+        if ($producto->stock == 0) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No hay stock, por favor vaya a COMPRAS!!"]);
             return;
         }
         $this->producto = $producto->producto;

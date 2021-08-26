@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     @if($inventario == null)
-                        <h2 class="fw-bolder">"0.00"</h2>
+                        <h2 class="fw-bolder">0.00</h2>
                     @else
                         <h2 class="fw-bolder">{{ number_format($inventario->valor_total,2) }}</h2>
                     @endif

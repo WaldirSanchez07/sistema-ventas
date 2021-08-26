@@ -213,6 +213,11 @@ class NuevaCompra extends Component
             }
 
             /* Registrando en caja la compra*/
+            $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+            if ($lastregister->saldo < $this->total) {
+                $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja. Por favor ingresar dinero!!"]);
+                return;
+            }
             $descripcion = "Compra";
             $tipoMovimiento = 0 ;
             $monto=$this->total*-1;
