@@ -56,29 +56,6 @@ estado enum('Habilitado', 'Deshabilitado') default 'Habilitado' not null,
 foreign key(categoria_id) references categoria(id_categoria)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
-create table producto(
-id_producto int auto_increment primary key not null,
-producto varchar(200) not null,
-ubicacion varchar(100) not null,
-stock int not null,
-stock_minimo int not null,
-precio_compra float(12,2) not null,
-precio_venta float(12,2) not null,
-foto varchar(2048) null,
-vence enum('Si', 'No') not null,
-medida_id int not null,
-estado enum('Habilitado', 'Deshabilitado') default 'Habilitado' not null,
-categoria_id int,
-subcategoria_id int,
-foreign key(medida_id) references unidad_medida(id)
-ON DELETE CASCADE ON UPDATE CASCADE,
-foreign key(categoria_id) references categoria(id_categoria)
-ON DELETE CASCADE ON UPDATE CASCADE,
-foreign key(subcategoria_id) references subcategoria(id_subcategoria)
-ON DELETE CASCADE ON UPDATE CASCADE);
-
-ALTER TABLE producto AUTO_INCREMENT = 1000;
-
 create table proveedor(
 id_proveedor int auto_increment primary key not null,
 raz_social varchar(40) not null,
@@ -101,6 +78,29 @@ telefono char(15) not null,
 email varchar(80) null,
 foreign key(documento) references tipo_documento(id)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
+create table producto(
+id_producto int auto_increment primary key not null,
+producto varchar(200) not null,
+ubicacion varchar(100) not null,
+stock int not null,
+stock_minimo int not null,
+precio_compra float(12,2) not null,
+precio_venta float(12,2) not null,
+foto varchar(2048) null,
+vence enum('Si', 'No') not null,
+medida_id int not null,
+estado enum('Habilitado', 'Deshabilitado') default 'Habilitado' not null,
+categoria_id int,
+subcategoria_id int,
+foreign key(medida_id) references unidad_medida(id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+foreign key(categoria_id) references categoria(id_categoria)
+ON DELETE CASCADE ON UPDATE CASCADE,
+foreign key(subcategoria_id) references subcategoria(id_subcategoria)
+ON DELETE CASCADE ON UPDATE CASCADE);
+
+ALTER TABLE producto AUTO_INCREMENT = 1000;
 
 create table venta(
 id_venta bigint auto_increment primary key not null,
@@ -163,6 +163,17 @@ valor float(8,2) not null,
 stock_total float(12,2) not null,
 valor_total float(12,2) not null,
 foreign key(producto_id) references producto(id_producto)
+ON DELETE CASCADE ON UPDATE CASCADE);
+
+create table caja(
+id_caja bigint auto_increment primary key not null,
+descripcion varchar(100) not null,
+tipoMovimiento int(1) not null,
+monto float(10,2) not null,
+saldo float(10,2) not null,
+fecha datetime DEFAULT current_timestamp(),
+estado int(1) not null,
+estadoMovimiento int(1) not null default 1,
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 

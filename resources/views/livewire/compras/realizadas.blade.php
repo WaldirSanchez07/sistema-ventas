@@ -31,7 +31,7 @@
                     <thead class="table-secondary">
                         <tr>
                             <th>Fecha</th>
-                            <th>Cliente</th>
+                            <th>Proveedor</th>
                             <th>Subtotal</th>
                             <th>IGV</th>
                             <th>Total</th>

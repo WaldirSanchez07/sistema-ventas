@@ -1,5 +1,5 @@
 <main>
-    <div class="content-detached content-right">
+    <div class="content-detached content-right pb-1">
         <div class="content-body">
             <!-- E-commerce Content Section Starts -->
             <section id="ecommerce-header">
@@ -49,22 +49,28 @@
 
             <!-- E-commerce Products Starts -->
             <section id="ecommerce-products" class="grid-view">
+                @if (count($productos))
                 @foreach ($productos as $p)
                     <div class="card ecommerce-card shadow">
                         <div class="item-img text-center justify-content-center">
                             <a href="javascript:void(0);">
                                 <img class="img-fluid card-img-top" src="{{ asset('storage/' . $p->foto) }}"
-                                    alt="img-placeholder" /></a>
+                                    alt="img-placeholder" title="{{ $p->producto }}"/></a>
                         </div>
                         <div class="card-body">
                             <div class="item-wrapper">
                                 <div class="item-rating">
                                     <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i>
+                                        </li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i>
+                                        </li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i>
+                                        </li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i>
+                                        </li>
+                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div>
@@ -90,7 +96,7 @@
                                         {{ $p->fecha_vence ? date('d/m/Y', strtotime($p->fecha_vence)) : 'No vence' }}
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="item-options text-center">
@@ -103,13 +109,16 @@
                                 <i class="fas fa-barcode"></i>
                                 <span>{{ $p->id_producto }}</span>
                             </a>
-                            <a href="#" class="btn btn-primary btn-cart btn-copy" data-sku="{{$p->id_producto}}">
+                            <a href="#" class="btn btn-primary btn-cart btn-copy" aria-label="{{ $p->id_producto }}">
                                 <i class="far fa-copy"></i>
                                 <span class="add-to-cart">Copiar SKU</span>
                             </a>
                         </div>
                     </div>
                 @endforeach
+                @else
+                    <span>No hay productos</span>
+                @endif
             </section>
             <!-- E-commerce Products Ends -->
 
@@ -166,7 +175,7 @@
                                     <div class="form-check p-0">
                                         <input wire:model="subcategoria" type="radio" id="sub" name="subcategory"
                                             class="" value="" checked />
-                                        <label class="form-check-label" for="sub">Todo</label>
+                                        <label class="   form-check-label" for="sub">Todo</label>
                                     </div>
                                 </li>
                                 @foreach ($subcategorias as $s)
@@ -187,7 +196,8 @@
 
                         <!-- Clear Filters Starts -->
                         <div id="clear-filters">
-                            <button wire:click="limpiar" type="button" class="btn w-100 btn-primary">Limpiar filtros</button>
+                            <button wire:click="limpiar" type="button" class="btn w-100 btn-primary">Limpiar
+                                filtros</button>
                         </div>
                         <!-- Clear Filters Ends -->
                     </div>
@@ -209,6 +219,7 @@
     @push('js')
         <script>
             var isRtl = $('html').attr('data-textdirection') === 'rtl';
+
             function copyToClipboard(value) {
                 var tempInput = document.createElement('input');
                 tempInput.value = value;
@@ -222,12 +233,9 @@
                 document.execCommand('copy');
                 document.body.removeChild(tempInput);
             }
-            
-            // Copy Icon On Click
-            $(document).on('click', '.btn-copy', function() {
-                var $this = $(this),
-                iconCode = $this.data('sku');
-                copyToClipboard(iconCode);
+            $(document).on('click', '.btn-copy', function(e) {
+                code = e.currentTarget.ariaLabel;
+                copyToClipboard(code);
             });
         </script>
     @endpush

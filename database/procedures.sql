@@ -6,6 +6,7 @@ DROP TRIGGER kardex_egreso;
 DROP PROCEDURE ventas_x_mes;
 DROP PROCEDURE productos_mas_vendidos;
 */
+
 DELIMITER $$
 CREATE TRIGGER kardex_ingreso AFTER INSERT ON detalle_compra FOR EACH ROW
 BEGIN
@@ -78,4 +79,3 @@ BEGIN
     WHERE YEAR(fecha) = DATE_FORMAT(Now(),'%Y') GROUP BY año,p.producto ORDER BY importe DESC LIMIT 10;
 END$$
 DELIMITER ;
-

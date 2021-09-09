@@ -250,7 +250,7 @@ class NuevaVenta extends Component
 
     public function limpiarCampos()
     {
-        $this->reset(['pagado', 'vuelto', 'subtotal', 'igv', 'descuento', 'total', 'cliente', '_descuento', 'table']);
+        $this->reset(['pagado', 'vuelto', 'subtotal', 'igv', 'descuento', 'total', 'cliente', '_descuento', 'table','__subtotal']);
         $this->_cliente = false;
         $this->limpiarValidation();
     }

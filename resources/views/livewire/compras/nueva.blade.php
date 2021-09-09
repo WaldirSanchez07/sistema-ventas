@@ -182,7 +182,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">S/</span>
                             </div>
-                            <input type="number" class="form-control" placeholder="0.00"
+                            <input type="text" class="form-control" placeholder="0.00"
                                 value="{{ Nformat($vuelto) }}" disabled>
                         </div>
                     </div>

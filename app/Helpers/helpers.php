@@ -11,3 +11,38 @@ function MenuActive($urls){
         }
     }
 }
+
+function isAdmin($rol){
+    if($rol == 'Administrador'){
+        return true;
+    }
+    return false;
+}
+
+function isAdmin_V($rol){
+    switch ($rol) {
+        case 'Administrador':
+            return true;
+            break;
+        case 'Vendedor':
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
+}
+
+function isAdmin_T($rol){
+    switch ($rol) {
+        case 'Administrador':
+            return true;
+            break;
+        case 'Tesorero':
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
+}

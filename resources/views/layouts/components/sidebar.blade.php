@@ -3,6 +3,7 @@
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
+<<<<<<< HEAD
                 <a class="navbar-brand" href="/dashboard">
                 <span class="brand-logo">
                         <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
@@ -28,6 +29,11 @@
                                 </g>
                             </g>
                         </svg>
+=======
+                <a class="navbar-brand" href="/">
+                    <span class="brand-logo">
+                        <img src="{{asset('images/logo1.png')}}" alt="Olano S.A.C logo" style="height: 24px;">
+>>>>>>> ea1a91da0238b7bd1080ed3215c1d499c4348ce0
                     </span>
                     <h2 class="brand-text text-dark">Olano S.A.C</h2>
                 </a>
@@ -42,7 +48,7 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item {{setActive('dashboard')}}">
+            <li class=" nav-item {{ setActive('dashboard') }}">
                 <a class="d-flex align-items-center" href="/dashboard">
                     <i data-feather='layout'></i>
                     <span class="menu-title text-truncate" data-i18n="Clientes">Dashboard</span>
@@ -52,110 +58,98 @@
                 <span data-i18n="Apps &amp; Pages">General</span>
                 <i data-feather="more-horizontal"></i>
             </li>
-            <li class="nav-item">
-                <a class="d-flex align-items-center" href="#">
-                    <i data-feather="package"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Productos</span>
-                </a>
-                <ul class="menu-content">
-                    <li class="{{setActive('adm-productos')}}">
-                        <a class="d-flex align-items-center" href="{{route('adm-productos')}}">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Analytics">Adm. Productos</span>
-                        </a>
-                    </li>
-                    <li class="{{setActive('categorias')}}">
-                        <a class="d-flex align-items-center" href="{{route('categorias')}}">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="eCommerce">Adm. Categorias</span>
-                        </a>
-                    </li>
-                    <li class="{{setActive('sub-categorias')}}">
-                        <a class="d-flex align-items-center" href="{{route('sub-categorias')}}">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="eCommerce">Adm. Sub Categorias</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item {{setActive('clientes')}}">
-                <a class="d-flex align-items-center" href="{{route('clientes')}}">
-                    <i data-feather='users'></i>
-                    <span class="menu-title text-truncate" data-i18n="Clientes">Clientes</span>
-                </a>
-            </li>
-            <li class="nav-item {{setActive('proveedores')}}">
-                <a class="d-flex align-items-center" href="{{route('proveedores')}}">
-                    <i data-feather='truck'></i>
-                    <span class="menu-title text-truncate">Proveedores</span>
-                </a>
-            </li>
-            <li class="nav-item {{setActive('productos')}}">
-                <a class="d-flex align-items-center" href="{{route('productos')}}">
-                    <i data-feather="package"></i>
-                    <span class="menu-title text-truncate">Productos</span>
-                </a>
-            </li>
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="#">
-                    <i data-feather='trending-up'></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Reportes</span>
-                </a>
-                <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="#">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Analytics">Reporte #1</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="#">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="eCommerce">Reporte #2</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            {{--<li class=" nav-item">
-                <a class="d-flex align-items-center" href="#">
-                    <i data-feather='clipboard'></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Inventario</span>
-                </a>
-                <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="#">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Analytics">Reporte #1</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="#">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="eCommerce">Reporte #2</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>--}}
+            @if (Auth::user()->roles->rol == 'Administrador')
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather="package"></i>
+                        <span class="menu-title text-truncate">Productos</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="{{ setActive('adm-productos') }}">
+                            <a class="d-flex align-items-center" href="{{ route('adm-productos') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Adm. Productos</span>
+                            </a>
+                        </li>
+                        <li class="{{ setActive('categorias') }}">
+                            <a class="d-flex align-items-center" href="{{ route('categorias') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Adm. Categorias</span>
+                            </a>
+                        </li>
+                        <li class="{{ setActive('sub-categorias') }}">
+                            <a class="d-flex align-items-center" href="{{ route('sub-categorias') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Adm. Sub Categorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+            @if(isAdmin_V(Auth::user()->roles->rol))
+                <li class="nav-item {{ setActive('clientes') }}">
+                    <a class="d-flex align-items-center" href="{{ route('clientes') }}">
+                        <i data-feather='users'></i>
+                        <span class="menu-title text-truncate">Clientes</span>
+                    </a>
+                </li>
+            @endif
+            @if (Auth::user()->roles->rol == 'Administrador')
+                <li class="nav-item {{ setActive('proveedores') }}">
+                    <a class="d-flex align-items-center" href="{{ route('proveedores') }}">
+                        <i data-feather='truck'></i>
+                        <span class="menu-title text-truncate">Proveedores</span>
+                    </a>
+                </li>
+            @endif
+            @if (Auth::user()->roles->rol == 'Vendedor')
+                <li class="nav-item {{ setActive('productos') }}">
+                    <a class="d-flex align-items-center" href="{{ route('productos') }}">
+                        <i data-feather="package"></i>
+                        <span class="menu-title text-truncate">Productos</span>
+                    </a>
+                </li>
+            @endif
+            @if (isAdmin_T(Auth::user()->roles->rol))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather='trending-up'></i>
+                        <span class="menu-title text-truncate">Reportes</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="{{ setActive('rep-ventas') }}">
+                            <a class="d-flex align-items-center" href="{{ route('rep-ventas') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Reporte ventas</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+            @if (isAdmin_V(Auth::user()->roles->rol))
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='shopping-cart'></i>
                     <span class="menu-title text-truncate">Ventas</span>
                 </a>
                 <ul class="menu-content">
-                    <li class="{{setActive('nueva-venta')}}">
-                        <a class="d-flex align-items-center" href="{{route('nueva-venta')}}">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate">Nueva venta</span>
-                        </a>
-                    </li>
-                    <li class="{{setActive('ventas')}}">
-                        <a class="d-flex align-items-center" href="{{route('ventas')}}">
+                    @if (Auth::user()->roles->rol == 'Vendedor')
+                        <li class="{{ setActive('nueva-venta') }}">
+                            <a class="d-flex align-items-center" href="{{ route('nueva-venta') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Nueva venta</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li class="{{ setActive('ventas') }}">
+                        <a class="d-flex align-items-center" href="{{ route('ventas') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Ventas realizadas</span>
                         </a>
                     </li>
                 </ul>
             </li>
+<<<<<<< HEAD
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='shopping-bag'></i>
@@ -240,6 +234,67 @@
                     </li>
                 </ul>
             </li>
+=======
+            @endif
+            @if (isAdmin_T(Auth::user()->roles->rol))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather='shopping-bag'></i>
+                        <span class="menu-title text-truncate">Compras</span>
+                    </a>
+                    <ul class="menu-content">
+                        @if (Auth::user()->roles->rol == 'Administrador')
+                            <li class="{{ setActive('nueva-compra') }}">
+                                <a class="d-flex align-items-center" href="{{ route('nueva-compra') }}">
+                                    <i data-feather="circle"></i>
+                                    <span class="menu-item text-truncate">Registrar compra</span>
+                                </a>
+                            </li>
+                        @endif
+                        <li class="{{ setActive('compras') }}">
+                            <a class="d-flex align-items-center" href="{{ route('compras') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Compras realizadas</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+            @if (isAdmin_T(Auth::user()->roles->rol))
+                <li class="nav-item {{ setActive('kardex') }}">
+                    <a class="d-flex align-items-center" href="{{ route('kardex') }}">
+                        <i data-feather='folder'></i>
+                        <span class="menu-title text-truncate">Kardex</span>
+                    </a>
+                </li>
+            @endif
+            @if (Auth::user()->roles->rol == 'Administrador')
+                <li class=" navigation-header">
+                    <span data-i18n="Apps &amp; Pages">Operaciones</span>
+                    <i data-feather="more-horizontal"></i>
+                </li>
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather='settings'></i>
+                        <span class="menu-title text-truncate">Configuraciones</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="{{ setActive('empresa') }}">
+                            <a class="d-flex align-items-center" href="{{ route('empresa') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Datos de la empresa</span>
+                            </a>
+                        </li>
+                        <li class="{{ setActive('usuarios') }}">
+                            <a class="d-flex align-items-center" href="{{ route('usuarios') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Usuarios</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+>>>>>>> ea1a91da0238b7bd1080ed3215c1d499c4348ce0
         </ul>
     </div>
 </div>

@@ -45,7 +45,7 @@ class Usuarios extends Component
         $validatedData = $this->validate();
 
         if ($this->password === $this->confirm_password) {
-            $this->password = Hash::make($this->password);
+            $validatedData = array_replace($validatedData, ['password' => Hash::make($this->password)]);
             User::create($validatedData);
 
             $this->dispatchBrowserEvent('alertSuccess', ['title' => "Mensaje", 'text' => "Se ha creado correctamente!"]);

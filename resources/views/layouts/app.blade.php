@@ -8,9 +8,15 @@
     <meta name="author" content="team coders">
     <title>Olano S.A.C</title>
     <link rel="apple-touch-icon" href="{{ asset('rs/images/ico/apple-icon-120.png') }}">
+<<<<<<< HEAD
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('rs/images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
+=======
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo1.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+        rel="stylesheet">
+>>>>>>> ea1a91da0238b7bd1080ed3215c1d499c4348ce0
     @include('layouts.components.css')
     @livewireStyles
 </head>
@@ -25,21 +31,15 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper container-xxl p-0">
-            {{ $slot }}
+            @if(isset($slot))
+                {{ $slot }}
+            @endif
+            @yield('reportes')
         </div>
     </div>
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
-
-    <footer class="footer footer-static footer-light footer-shadow">
-        <p class="clearfix mb-0">
-            <span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021
-                <a class="ms-25" href="#" target="_blank">OLANO S.A.C</a>
-                <span class="d-none d-sm-inline-block">, All rights Reserved</span>
-            </span>
-        </p>
-    </footer>
 
     @include('layouts.components.js')
     @livewireScripts
