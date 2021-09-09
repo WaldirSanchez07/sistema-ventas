@@ -113,6 +113,10 @@ tbody tr:last-child td button.title-pdf:hover::after{
     color: #EA5455;
 }
 
+.text-wwarning {
+    color: #FFC107;
+}
+
 .m-title {
     font-weight: 700;
     font-size: 13px;

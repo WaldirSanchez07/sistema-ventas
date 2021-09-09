@@ -244,11 +244,20 @@
     @if ($_ingreso)
         @include('livewire.cajas.ingreso')
     @endif
-    @if ($_aperturacaja)
-        @if($cantidadApertura == 0)
-            @include('livewire.cajas.aperturacaja')
+    @if (Auth::user()->roles->rol == 'Administrador')
+        @if ($_aperturacaja)
+            @if($cantidadApertura == 0)
+                @include('livewire.cajas.aperturacaja')
+            @endif
+        @endif
+    @else
+        @if ($_aperturacaja)
+            @if($cantdatos == 0 || $lastregister->estado == 0)
+                @include('livewire.cajas.mensaje')
+            @endif
         @endif
     @endif
+
     @if ($_cierrecaja)
         @include('livewire.cajas.cierrecaja')
     @endif

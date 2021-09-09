@@ -82,7 +82,7 @@
                     </a>
                 </li>
             @endif
-            @if (isAdmin_T(Auth::user()->roles->rol))
+            @if (isAdmin_C(Auth::user()->roles->rol))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather='trending-up'></i>
@@ -122,7 +122,7 @@
                 </ul>
             </li>
             @endif
-            @if (isAdmin_T(Auth::user()->roles->rol))
+            @if (isAdmin_C(Auth::user()->roles->rol))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather='shopping-bag'></i>
@@ -162,7 +162,7 @@
                     </ul>
                 </li>
             @endif
-            @if (isAdmin_T(Auth::user()->roles->rol))
+            @if (isAdmin_C(Auth::user()->roles->rol))
                 <li class="nav-item {{ setActive('kardex') }}">
                     <a class="d-flex align-items-center" href="{{ route('kardex') }}">
                         <i data-feather='folder'></i>

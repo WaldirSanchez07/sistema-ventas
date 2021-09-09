@@ -47,7 +47,7 @@ class NuevaVenta extends Component
             return;
         }
         if ($producto->stock == 0) {
-            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No hay stock, por favor vaya a COMPRAS!!"]);
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No hay stock, por favor solicite a su administrador COMPRAR!!"]);
             return;
         }
         $this->producto = $producto->producto;
@@ -223,7 +223,7 @@ class NuevaVenta extends Component
             }
 
             DB::commit();
-            
+
             /* Registrando en caja la venta*/
             $descripcion = "Venta";
             $tipoMovimiento = 1;

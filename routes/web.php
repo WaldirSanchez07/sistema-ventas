@@ -43,13 +43,13 @@ Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V'])->get('/productos', 
 Route::middleware(['auth:sanctum', 'verified', 'auth2:V'])->get('/nueva-venta', NuevaVenta::class)->name('nueva-venta');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V'])->get('/ventas', VentasRealizadas::class)->name('ventas');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/nueva-compra', NuevaCompra::class)->name('nueva-compra');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,T'])->get('/kardex', Kardex::class)->name('kardex');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V,T'])->get('/factura-venta/{id}', [VentasRealizadas::class, 'pdf']);
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,T'])->get('/tarjeta-kardex/{id?}', [Kardex::class, 'pdf']);
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,T'])->get('/compras', ComprasRealizadas::class)->name('compras');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/kardex', Kardex::class)->name('kardex');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V,C'])->get('/factura-venta/{id}', [VentasRealizadas::class, 'pdf']);
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/tarjeta-kardex/{id?}', [Kardex::class, 'pdf']);
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/compras', ComprasRealizadas::class)->name('compras');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/info-empresa', InfoEmpresa::class)->name('empresa');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/usuarios', Usuarios::class)->name('usuarios');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/reporte-ventas', [ReportesGraficos::class, 'reporteVentas'])->name('rep-ventas');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/reporte-ventas', [ReportesGraficos::class, 'reporteVentas'])->name('rep-ventas');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V'])->get('/caja', Cajas::class )->name('caja');
 
 Route::get('no-autorizado', function(){

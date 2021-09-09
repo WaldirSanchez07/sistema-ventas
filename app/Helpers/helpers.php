@@ -33,12 +33,12 @@ function isAdmin_V($rol){
     }
 }
 
-function isAdmin_T($rol){
+function isAdmin_C($rol){
     switch ($rol) {
         case 'Administrador':
             return true;
             break;
-        case 'Tesorero':
+        case 'Contador':
             return true;
             break;
         default:

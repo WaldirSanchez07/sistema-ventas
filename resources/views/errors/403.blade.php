@@ -36,7 +36,7 @@
     <main style="text-align: center">
         <h1>403</h1>
         <h2>El usuario no posee permisos para acceder al contenido!</h2><br>
-        <a href="/" class="btn-return">Ir a inicio</a>
+        <a href="/dashboard" class="btn-return">Ir a inicio</a>
     </main>
 </body>
 
