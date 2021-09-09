@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Categoria;
 use App\Models\Producto;
 use App\Models\SubCategoria;
 use Livewire\Component;
@@ -12,7 +11,11 @@ class Productos extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'categoria' => ['except' => ''],
+        'subcategoria' => ['except' => ''],
+    ];
     public $search, $categoria = "", $subcategoria = "";
     public $paginate = 9;
 
@@ -24,6 +27,7 @@ class Productos extends Component
         ->where('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
         ->where('producto.producto', 'Like', '%' . $this->search . '%')
         ->paginate($this->paginate);
+        
         $total = Producto::all()->count();
         $categorias = Producto::select('producto.categoria_id')->groupBy('producto.categoria_id')->get();
         $subcategorias = SubCategoria::where('categoria_id', 'like', '%' . $this->categoria . '%')->get();

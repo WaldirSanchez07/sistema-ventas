@@ -218,3 +218,7 @@ tbody tr:last-child td button.title-detalle:hover::after{
         transform: rotate(359deg);
     }
 }
+.portada{
+    width: 40%;
+    height: 100%;
+}

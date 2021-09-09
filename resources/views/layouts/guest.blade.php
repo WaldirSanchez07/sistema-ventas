@@ -32,10 +32,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <meta name="author" content="PIXINVENT">
-    <title>Olano S.A - Login</title>
+    <title>Olano S.A.C - Login</title>
 
     <link rel="apple-touch-icon" href="{{ asset('rs/images/ico/apple-icon-120.png') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('rs/images/ico/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo1.png') }}">
 
     @include('layouts.components.css')
     @livewireStyles

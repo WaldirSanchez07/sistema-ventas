@@ -74,7 +74,7 @@
                                 <div class="col-lg-3 mb-1">
                                     <div class="form-group input">
                                         <label class="form-label label">Subtotal</label>
-                                        <input value="{{ Nformat($_subtotal) }}" class="form-control" type="number"
+                                        <input value="{{ Nformat($_subtotal) }}" class="form-control" type="text"
                                             placeholder="0.00" disabled>
                                     </div>
                                 </div>

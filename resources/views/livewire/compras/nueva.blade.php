@@ -74,7 +74,7 @@
                                 <div class="col-lg-3 mb-1">
                                     <div class="form-group input">
                                         <label class="form-label label">Subtotal</label>
-                                        <input value="{{ Nformat($_subtotal) }}" class="form-control" type="number"
+                                        <input value="{{ Nformat($_subtotal) }}" class="form-control" type="text"
                                             placeholder="0.00" disabled>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">S/</span>
                             </div>
-                            <input type="number" class="form-control" placeholder="0.00"
+                            <input type="text" class="form-control" placeholder="0.00"
                                 value="{{ Nformat($vuelto) }}" disabled>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                     <div class="text-center">
                         <button wire:click="save" type="button" wire:loading.attr="disabled" class="btn btn-primary mt-1">
                             <i class="fas fa-save"></i>
-                            <span>Guardar venta</span>
+                            <span>Guardar compra</span>
                         </button>
                     </div>
                 </div>

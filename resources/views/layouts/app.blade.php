@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <meta name="author" content="team coders">
-    <title>Olano S.A</title>
+    <title>Olano S.A.C</title>
     <link rel="apple-touch-icon" href="{{ asset('rs/images/ico/apple-icon-120.png') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('rs/images/ico/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo1.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">
     @include('layouts.components.css')
@@ -25,21 +25,15 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper container-xxl p-0">
-            {{ $slot }}
+            @if(isset($slot))
+                {{ $slot }}
+            @endif
+            @yield('reportes')
         </div>
     </div>
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
-
-    <footer class="footer footer-static footer-light footer-shadow">
-        <p class="clearfix mb-0">
-            <span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021
-                <a class="ms-25" href="#" target="_blank">OLANO S.A.C</a>
-                <span class="d-none d-sm-inline-block">, All rights Reserved</span>
-            </span>
-        </p>
-    </footer>
 
     @include('layouts.components.js')
     @livewireScripts
