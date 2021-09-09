@@ -8,15 +8,9 @@
     <meta name="author" content="team coders">
     <title>Olano S.A.C</title>
     <link rel="apple-touch-icon" href="{{ asset('rs/images/ico/apple-icon-120.png') }}">
-<<<<<<< HEAD
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('rs/images/ico/favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
-
-=======
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo1.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">
->>>>>>> ea1a91da0238b7bd1080ed3215c1d499c4348ce0
     @include('layouts.components.css')
     @livewireStyles
 </head>

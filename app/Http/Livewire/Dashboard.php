@@ -21,10 +21,6 @@ class Dashboard extends Component
         $cc = Cliente::all()->count();
         $cpro = Proveedor::all()->count();
         $cu = User::all()->count();
-<<<<<<< HEAD
-        return view('dashboard', compact('ventas', 'productos', 'ingresos', 'egresos', 'inventario', 'cp', 'cc', 'cu', 'cpro'));
-=======
-        return view('dashboard', compact( 'ingresos', 'egresos', 'inventario', 'cp', 'cc', 'cu'));
->>>>>>> ea1a91da0238b7bd1080ed3215c1d499c4348ce0
+        return view('dashboard', compact(/* 'ventas', 'productos', */ 'ingresos', 'egresos', 'inventario', 'cp', 'cc', 'cu', 'cpro'));
     }
 }

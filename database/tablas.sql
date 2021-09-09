@@ -1,6 +1,6 @@
-drop database if exists sistemav1;
-create database sistemav1;
-use sistemav1;
+drop database if exists SVOlanoSAC;
+create database SVOlanoSAC;
+use SVOlanoSAC;
 
 create table empresa(
 id int auto_increment primary key not null,
@@ -173,8 +173,7 @@ monto float(10,2) not null,
 saldo float(10,2) not null,
 fecha datetime DEFAULT current_timestamp(),
 estado int(1) not null,
-estadoMovimiento int(1) not null default 1,
-ON DELETE CASCADE ON UPDATE CASCADE);
+estadoMovimiento int(1) not null default 1);
 
 
 

@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum', 'verified', 'auth2:A,T'])->get('/compras', Co
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/info-empresa', InfoEmpresa::class)->name('empresa');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/usuarios', Usuarios::class)->name('usuarios');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/reporte-ventas', [ReportesGraficos::class, 'reporteVentas'])->name('rep-ventas');
-Route::middleware(['auth:sanctum', 'verified'])->get('/caja', Cajas::class )->name('caja');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V'])->get('/caja', Cajas::class )->name('caja');
 
 Route::get('no-autorizado', function(){
     abort('403');

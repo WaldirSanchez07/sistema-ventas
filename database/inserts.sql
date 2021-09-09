@@ -1,4 +1,4 @@
-use sistemav1;
+use SVOlanoSAC;
 
 insert into empresa(nombre,ruc,telefono,direccion)
 values('Distribuciones Olano S.A.C.','20103365628','987654332','Exequiel Gonzales Caceda 1151, Chepén 13871');
@@ -81,7 +81,7 @@ values
 ('Foco Globo Led E27 – 18w Luz Blanca',0,10,0,26.50,'No',1,10,12,'Foco-Globo-Led-E27–18w-Luz-Blanca.jpg','zona B, pasillo 3, nivel 1'),
 ('Foco Led 8.5w E27 Luz Calida',0,10,0,25.50,'No',1,10,12,'Foco-Led-8.5w-E27-Luz-Calida.jpg','zona B, pasillo 3, nivel 2');
 
-INSERT INTO `compra` (`id_compra`, `proveedor_id`, `subtotal`, `igv`, `total`, `fecha`) VALUES
+/* INSERT INTO `compra` (`id_compra`, `proveedor_id`, `subtotal`, `igv`, `total`, `fecha`) VALUES
 (1000, 1, 5674.40, 1245.60, 6920.00, '2021-01-02 09:19:33'),
 (1001, 2, 6396.00, 1404.00, 7800.00, '2021-01-02 09:24:08'),
 (1002, 3, 6002.40, 1317.60, 7320.00, '2021-01-02 09:28:09'),
@@ -106,5 +106,5 @@ INSERT INTO `detalle_compra` (`id_detalle`, `compra_id`, `producto_id`, `precio`
 (15, 1003, 1014, 16.40, 50.00, 0.00),
 (16, 1003, 1015, 16.50, 50.00, 0.00),
 (17, 1004, 1016, 7.20, 40.00, 0.00),
-(18, 1004, 1017, 7.40, 40.00, 0.00);
+(18, 1004, 1017, 7.40, 40.00, 0.00); */
 
