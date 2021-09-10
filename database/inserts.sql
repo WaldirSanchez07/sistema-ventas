@@ -4,7 +4,7 @@ insert into empresa(nombre,ruc,telefono,direccion)
 values('Distribuciones Olano S.A.C.','20103365628','987654332','Exequiel Gonzales Caceda 1151, Chepén 13871');
 
 insert into rol(rol)
-values('Administrador'),('Vendedor'),('Tesorero');
+values('Administrador'),('Vendedor'),('Contador');
 
 insert into usuario(nombre,email,password,created_at,updated_at,rol_id)
 values
@@ -22,7 +22,6 @@ drop table subcategoria;
 drop table categoria;
 drop table cliente;
 drop table proveedor;
-
 drop table unidad_medida;
 drop table tipo_documento;
 */
