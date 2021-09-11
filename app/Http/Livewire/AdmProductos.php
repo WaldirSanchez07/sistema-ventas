@@ -20,7 +20,7 @@ class AdmProductos extends Component
 
     public $idProducto, $producto, $stock, $stock_minimo, $precio_compra, $precio_venta, $foto, $vence, $ubicacion;
     public $medida_id, $categoria_id, $subcategoria_id;
-    public $estado = 'Disponible';
+    public $estado = 'Habilitado';
     public $vto = false;
     public $oldFoto;
 
@@ -34,7 +34,7 @@ class AdmProductos extends Component
 
     protected $rules = [
         'producto' => 'required|unique:producto|max:200',
-        'stock' => 'required|numeric|min:1',
+        'stock' => 'required|numeric|min:0',
         'stock_minimo' => 'required|numeric|min:1',
         'precio_compra' => 'required|numeric|min:0.10|max:2000.99',
         'precio_venta' => 'required|numeric|min:0.10|max:2000.99',

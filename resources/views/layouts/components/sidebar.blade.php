@@ -33,8 +33,8 @@
             @if (Auth::user()->roles->rol == 'Administrador')
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="#">
-                        <i data-feather="package"></i>
-                        <span class="menu-title text-truncate">Productos</span>
+                        <i data-feather="grid"></i>
+                        <span class="menu-title text-truncate">Almacen</span>
                     </a>
                     <ul class="menu-content">
                         <li class="{{ setActive('adm-productos') }}">

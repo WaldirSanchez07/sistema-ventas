@@ -148,7 +148,7 @@
                             <select wire:model.defer="estado" disabled
                                 class="form-select @error('estado') is-invalid @enderror" id="select-country1" required>
                                 <option value="">--- Seleccionar ---</option>
-                                <option value="Disponible">Disponible</option>
+                                <option value="Habilitado">Habilitado</option>
                                 <option value="Deshabilitado">Deshabilitado</option>
                             </select>
                             @error('estado')
