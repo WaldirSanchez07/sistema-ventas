@@ -888,6 +888,22 @@ ALTER TABLE `venta`
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
+-- Indices de la tabla `caja`
+--
+ALTER TABLE `caja`
+  ADD PRIMARY KEY (`id_caja`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `caja`
+--
+ALTER TABLE `caja`
+  MODIFY `id_caja` bigint(20) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 --
 -- AUTO_INCREMENT de la tabla `categoria`
 --
