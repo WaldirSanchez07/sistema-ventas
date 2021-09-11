@@ -773,7 +773,21 @@ INSERT INTO `venta` (`id_venta`, `cliente_id`, `subtotal`, `igv`, `total`, `fech
 --
 -- Índices para tablas volcadas
 --
+-- Indices de la tabla `caja`
+--
+ALTER TABLE `caja`
+  ADD PRIMARY KEY (`id_caja`);
 
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `caja`
+--
+ALTER TABLE `caja`
+  MODIFY `id_caja` bigint(20) NOT NULL AUTO_INCREMENT;
+COMMIT;
 --
 -- Indices de la tabla `categoria`
 --
