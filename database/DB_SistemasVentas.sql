@@ -64,7 +64,7 @@ CREATE TABLE `caja` (
   `estadoMovimiento` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
+/* --
 -- Volcado de datos para la tabla `caja`
 --
 
@@ -72,7 +72,7 @@ INSERT INTO `caja` (`id_caja`, `descripcion`, `tipoMovimiento`, `monto`, `saldo`
 (1, 'Apertura de Caja', 1, 5000.00, 5000.00, '2021-09-11 00:03:22', 1, 1),
 (2, 'Deposito Juan', 1, 500.00, 5500.00, '2021-09-11 00:12:17', 1, 1),
 (3, 'Pagar Internet', 0, -100.00, 5400.00, '2021-09-11 00:12:30', 1, 1);
-
+ */
 --
 --
 -- Estructura de tabla para la tabla `categoria`
