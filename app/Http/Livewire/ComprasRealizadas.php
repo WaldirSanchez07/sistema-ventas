@@ -18,7 +18,7 @@ class ComprasRealizadas extends Component
 
     public function render()
     {
-        $compras = Compra::paginate($this->paginate);
+        $compras = Compra::orderBy('id_compra','DESC')->paginate($this->paginate);
         $detalle = DetalleCompra::where('compra_id', '=', $this->idCompra)->get();
 
         return view('livewire.compras.realizadas', compact('compras', 'detalle'));

@@ -53,7 +53,7 @@
                                         <i class="fas fa-clipboard-list"></i>
                                     </button>
                                     <a target="_blank"
-                                        class="btn btn-icon rounded-circle btn-flat-danger"
+                                        class="btn btn-icon rounded-circle btn-flat-danger title-pdf"
                                         href="/factura-venta/{{ $v->id_venta }}">
                                         <i class="fas fa-file-pdf"></i>
                                     </a>

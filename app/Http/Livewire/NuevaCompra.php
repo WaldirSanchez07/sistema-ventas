@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Producto;
 use App\Models\Proveedor;
+use App\Models\Caja;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -31,8 +32,21 @@ class NuevaCompra extends Component
 
     public function buscarProducto()
     {
+        $movimientos = Caja::all();
+         $cantdatos = $movimientos->count();
+        if ($cantdatos == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
+            return;
+        }
+        if ($this->sku == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado el SKU!!"]);
+            return;
+        }
         $producto = Producto::where('id_producto', '=', $this->sku)->first();
-        if (!$producto) return;
+        if (!$producto) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "SKU no encontrado!!"]);
+            return;
+        }
         $this->producto = $producto->producto;
         $this->stock = $producto->stock;
     }
@@ -49,6 +63,7 @@ class NuevaCompra extends Component
             $this->_subtotal = 0;
             $this->oldSubtotal = 0;
         }
+
     }
 
     public function updatedDescuento()
@@ -70,6 +85,28 @@ class NuevaCompra extends Component
 
     public function addDetalle()
     {
+        $movimientos = Caja::all();
+         $cantdatos = $movimientos->count();
+        if ($cantdatos == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
+            return;
+        }
+        if ($this->producto == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha seleccionado el producto!!"]);
+            return;
+        }
+        if ($this->precio == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado el precio!!"]);
+            return;
+        }
+        if ($this->cantidad == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado la cantidad!!"]);
+            return;
+        }
+        if ($this->descuento == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado un descuento!!"]);
+            return;
+        }
         $ok = true;
         foreach ($this->table as $i => $value) {
             if ($value['sku'] == $this->sku) {
@@ -116,7 +153,11 @@ class NuevaCompra extends Component
     {
         if ($this->subtotal > 0 && $this->pagado >= $this->subtotal) {
             $cant = floatval($this->pagado) - floatval($this->total);
-            $this->vuelto = $cant ?? 0;
+            if ($cant < 0){
+                $this->vuelto = 0;
+            }else{
+                $this->vuelto = $cant ?? 0;
+            }
         } else {
             $this->vuelto = 0;
         }
@@ -124,6 +165,12 @@ class NuevaCompra extends Component
 
     public function addCliente(Proveedor $model)
     {
+        $movimientos = Caja::all();
+        $cantdatos = $movimientos->count();
+        if ($cantdatos == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
+            return;
+        }
         $this->idProveedor = $model->id_proveedor;
         $this->proveedor = $model->raz_social;
         $this->_proveedor = false;
@@ -131,16 +178,20 @@ class NuevaCompra extends Component
 
     public function save()
     {
-        if (!$this->idProveedor) {
-            $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "Debé agregar un cliente!"]);
+        $movimientos = Caja::all();
+        $cantdatos = $movimientos->count();
+        if ($cantdatos == null) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
             return;
         }
-
         if (!count($this->table)) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "No hay productos en el detalle!"]);
             return;
         }
-
+        if (!$this->idProveedor) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "Debé agregar un cliente!"]);
+            return;
+        }
         if ($this->pagado < $this->total) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "Debe pagar el monto total!"]);
             return;
@@ -167,6 +218,23 @@ class NuevaCompra extends Component
             }
 
             DB::commit();
+            
+            /* Registrando en caja la compra*/
+            $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+            if ($lastregister->saldo < $this->total) {
+                $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja. Por favor ingresar dinero!!"]);
+                return;
+            }
+            $descripcion = "Compra";
+            $tipoMovimiento = 0 ;
+            $monto=$this->total*-1;
+            $saldo=0;
+            $estado = 1;
+
+            $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
+            Caja::create($datos);
+            DB::select('call Actualizar()');
+
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva compra", 'text' => "Compra registrada!"]);
         } catch (\Exception $e) {

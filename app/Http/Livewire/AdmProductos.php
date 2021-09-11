@@ -20,7 +20,7 @@ class AdmProductos extends Component
 
     public $idProducto, $producto, $stock, $stock_minimo, $precio_compra, $precio_venta, $foto, $vence, $ubicacion;
     public $medida_id, $categoria_id, $subcategoria_id;
-    public $estado = 'Disponible';
+    public $estado = 'Habilitado';
     public $vto = false;
     public $oldFoto;
 
@@ -34,7 +34,7 @@ class AdmProductos extends Component
 
     protected $rules = [
         'producto' => 'required|unique:producto|max:200',
-        'stock' => 'required|numeric|min:1',
+        'stock' => 'required|numeric|min:0',
         'stock_minimo' => 'required|numeric|min:1',
         'precio_compra' => 'required|numeric|min:0.10|max:2000.99',
         'precio_venta' => 'required|numeric|min:0.10|max:2000.99',
@@ -55,7 +55,8 @@ class AdmProductos extends Component
 
     public function render()
     {
-        $productos = Producto::join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
+        $productos = Producto::orderBy('id_producto','DESC')
+            ->join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
             ->leftJoin('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
             ->select( 'c.*', 's.*','producto.*','c.estado AS state','s.estado AS xstate',)
             ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')
@@ -178,6 +179,7 @@ class AdmProductos extends Component
     {
         $this->reset(['idProducto', 'producto', 'stock', 'stock_minimo', 'precio_compra', 'precio_venta', 'foto', 'vence', 'ubicacion']);
         $this->reset(['estado']);
+        $this->reset(['categoria_id', 'subcategoria_id','medida_id']);
 
         $this->_create = false;
         $this->_edit = false;

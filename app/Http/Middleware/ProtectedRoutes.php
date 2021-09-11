@@ -19,7 +19,7 @@ class ProtectedRoutes
                     return $next($request);
                 }
             }
-            
+
             return redirect('no-autorizado');
 
         }else{
@@ -30,7 +30,7 @@ class ProtectedRoutes
                 return $next($request);
             }
 
-            return redirect('no-autorizado');    
+            return redirect('no-autorizado');
         }
     }
 
@@ -42,8 +42,8 @@ class ProtectedRoutes
             case 'V':
                 return 'Vendedor';
                 break;
-            case 'T':
-                return 'Tesorero';
+            case 'C':
+                return 'Contador';
                 break;
             default:
                 return '';

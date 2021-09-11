@@ -7,9 +7,9 @@
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.7
 
-drop database if exists sistemav1;
-create database sistemav1;
-use sistemav1;
+drop database if exists SVOlanoSAC;
+create database SVOlanoSAC;
+use SVOlanoSAC;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,6 +30,10 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizar` ()  BEGIN
+	UPDATE caja set saldo = (SELECT  sum(c.monto) FROM caja c WHERE c.id_caja <= caja.id_caja);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `productos_mas_vendidos` ()  BEGIN
 	SELECT YEAR(fecha) as año, p.producto, SUM(cantidad) as importe
     FROM venta v inner join detalle_venta d on d.venta_id = v.id_venta
@@ -37,7 +41,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `productos_mas_vendidos` ()  BEGIN
     WHERE YEAR(fecha) = DATE_FORMAT(Now(),'%Y') GROUP BY año,p.producto ORDER BY importe DESC LIMIT 10;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ventas_x_mes` ()  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ventas_x_mes` ()  BEGIN
 	SELECT YEAR(fecha) as año,MONTH(fecha) as mes,CAST(SUM(total) AS DECIMAL(12,2)) as total
     FROM venta WHERE YEAR(fecha) = DATE_FORMAT(Now(),'%Y') GROUP BY mes,año ORDER BY mes asc;
 END$$
@@ -45,7 +49,31 @@ END$$
 DELIMITER ;
 
 -- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `caja`
+--
 
+CREATE TABLE `caja` (
+  `id_caja` bigint(20) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `tipoMovimiento` int(1) NOT NULL,
+  `monto` float(10,2) NOT NULL,
+  `saldo` float(10,2) NOT NULL,
+  `fecha` datetime DEFAULT current_timestamp(),
+  `estado` int(1) NOT NULL,
+  `estadoMovimiento` int(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `caja`
+--
+
+INSERT INTO `caja` (`id_caja`, `descripcion`, `tipoMovimiento`, `monto`, `saldo`, `fecha`, `estado`, `estadoMovimiento`) VALUES
+(1, 'Apertura de Caja', 1, 5000.00, 5000.00, '2021-09-11 00:03:22', 1, 1),
+(2, 'Deposito Juan', 1, 500.00, 5500.00, '2021-09-11 00:12:17', 1, 1),
+(3, 'Pagar Internet', 0, -100.00, 5400.00, '2021-09-11 00:12:30', 1, 1);
+
+--
 --
 -- Estructura de tabla para la tabla `categoria`
 --
@@ -176,7 +204,7 @@ CREATE TRIGGER `kardex_ingreso` AFTER INSERT ON `detalle_compra` FOR EACH ROW BE
     SET cantidad = (SELECT COUNT(*) FROM kardex WHERE producto_id = NEW.producto_id);
     IF cantidad = 0 THEN
 		UPDATE producto SET precio_compra = NEW.precio, precio_venta = ROUND(NEW.precio/(1-0.25),1),stock = (stock + NEW.cantidad) WHERE id_producto = NEW.producto_id;
-        
+
 		INSERT INTO kardex(fecha,producto_id,operacion,nrodocumento,valor_unitario,cantidad,valor,stock_total,valor_total)
 		VALUES(CURDATE(),NEW.producto_id,'Compra',NEW.compra_id,NEW.precio,NEW.cantidad,NEW.precio,NEW.cantidad,(NEW.precio * NEW.cantidad));
     ELSE
@@ -187,7 +215,7 @@ CREATE TRIGGER `kardex_ingreso` AFTER INSERT ON `detalle_compra` FOR EACH ROW BE
         SET cantidad_total = (SELECT stock_total FROM kardex WHERE producto_id = NEW.producto_id ORDER BY id_kardex DESC LIMIT 1);
         SET cantidad_total = (cantidad_total + NEW.cantidad);
         UPDATE producto SET precio_compra = valor_promedio, precio_venta = ROUND(valor_promedio/(1-0.25),1),stock = (stock + NEW.cantidad) WHERE id_producto = NEW.producto_id;
-        
+
 		INSERT INTO kardex(fecha,producto_id,operacion,nrodocumento,valor_unitario,cantidad,valor,stock_total,valor_total)
 		VALUES(CURDATE(),NEW.producto_id,'Compra',NEW.compra_id,valor_promedio,NEW.cantidad,NEW.precio,cantidad_total,v_total);
     END IF;
@@ -295,12 +323,12 @@ CREATE TRIGGER `kardex_egreso` AFTER INSERT ON `detalle_venta` FOR EACH ROW BEGI
     DECLARE valor_promedio FLOAT(8,2);
     DECLARE v_total FLOAT(12,2);
     DECLARE cantidad_total FLOAT(12,2);
-    
+
     SET cantidad = (SELECT COUNT(*) FROM kardex WHERE producto_id = NEW.producto_id AND operacion = 'Compra');
     UPDATE producto SET stock = (stock - NEW.cantidad) WHERE id_producto = NEW.producto_id;
     SET valor_promedio = (SELECT precio_compra FROM producto WHERE id_producto = NEW.producto_id);
     SET cantidad_total = (SELECT stock FROM producto WHERE id_producto = NEW.producto_id);
-    
+
     IF cantidad = 0 THEN
 		SET v_total = (SELECT precio_compra * stock FROM producto WHERE id_producto = NEW.producto_id);
 		INSERT INTO kardex(fecha,producto_id,operacion,nrodocumento,valor_unitario,cantidad,valor,stock_total,valor_total)
@@ -543,7 +571,7 @@ CREATE TABLE `rol` (
 INSERT INTO `rol` (`id_rol`, `rol`) VALUES
 (1, 'Administrador'),
 (2, 'Vendedor'),
-(3, 'Tesorero');
+(3, 'Contador');
 
 -- --------------------------------------------------------
 
@@ -664,10 +692,12 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `email`, `password`, `profile_photo_path`, `estado`, `created_at`, `updated_at`, `rol_id`) VALUES
-(3, 'Waldir Sanchez', 'waldirc925@gmail.com', '$2y$10$DC1teJyeeLIbyQoqDkcYcOpdknNspwYl.s1vFtSB0OukekMtIK9sW', NULL, 'Habilitado', '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1),
-(6, 'Carlos Sanchez', 'waldir@gmail.com', '$2y$10$SZoE37e1rXHP6dPZhyp55Ob6opueR.tKoHDKNLrLw6OiLe7svNEqq', NULL, 'Habilitado', '2021-09-08 14:34:41', '2021-09-08 14:34:41', 2),
-(7, 'Jhon Cruzado', 'jhon@gmail.com', '$2y$10$u/Rw62bL0zvRcHW.9lDNoeaqd8Y8eG.Uj4qPychLQiw83OSldMSk.', NULL, 'Habilitado', '2021-09-09 20:26:04', '2021-09-09 20:27:20', 3);
+INSERT INTO `usuario` (`id`, `nombre`, `email`, `password`, `profile_photo_path`, `created_at`, `updated_at`, `rol_id`, `estado`) VALUES
+(1, 'Waldir Sanchez', 'waldir@gmail.com', '$2y$10$DC1teJyeeLIbyQoqDkcYcOpdknNspwYl.s1vFtSB0OukekMtIK9sW', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
+(2, 'Jhon Cruzado', 'jhon@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
+(3, 'Isac Miñano', 'isac@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
+(4, 'Betsi Mendoza', 'betsi@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-09-09 21:45:26', '2021-09-09 21:45:26', 2, 'Habilitado'),
+(5, 'Cesar Perez', 'cesar@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-09-09 22:29:37', '2021-09-09 22:29:37', 3, 'Habilitado');
 
 -- --------------------------------------------------------
 

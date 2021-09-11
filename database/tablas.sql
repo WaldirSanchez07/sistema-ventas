@@ -1,6 +1,6 @@
-drop database if exists sistemav1;
-create database sistemav1;
-use sistemav1;
+drop database if exists SVOlanoSAC;
+create database SVOlanoSAC;
+use SVOlanoSAC;
 
 create table empresa(
 id int auto_increment primary key not null,
@@ -35,7 +35,6 @@ rol_id int not null,
 estado enum('Habilitado','Deshabilitado') default 'Habilitado',
 foreign key (rol_id) references rol(id_rol));
 
-
 create table unidad_medida(
 id int auto_increment primary key not null,
 medida varchar(20) not null);
@@ -43,8 +42,6 @@ medida varchar(20) not null);
 create table tipo_documento(
 id int auto_increment primary key not null,
 tipo char(30) not null);
-
-
 
 create table categoria(
 id_categoria int auto_increment primary key not null,
@@ -56,7 +53,7 @@ id_subcategoria int auto_increment primary key not null,
 subcategoria varchar(40) not null,
 categoria_id int not null,
 estado enum('Habilitado', 'Deshabilitado') default 'Habilitado' not null,
-foreign key(categoria_id) references categoria(id_categoria) 
+foreign key(categoria_id) references categoria(id_categoria)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 create table proveedor(
@@ -68,7 +65,7 @@ direccion varchar(100) not null,
 contacto varchar(80) not null,
 telefono char(15) not null,
 email varchar(100) null,
-foreign key(documento) references tipo_documento(id) 
+foreign key(documento) references tipo_documento(id)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 create table cliente(
@@ -79,7 +76,7 @@ nrodocumento char(15) not null,
 direccion varchar(100) not null,
 telefono char(15) not null,
 email varchar(80) null,
-foreign key(documento) references tipo_documento(id) 
+foreign key(documento) references tipo_documento(id)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 create table producto(
@@ -96,11 +93,11 @@ medida_id int not null,
 estado enum('Habilitado', 'Deshabilitado') default 'Habilitado' not null,
 categoria_id int,
 subcategoria_id int,
-foreign key(medida_id) references unidad_medida(id) 
+foreign key(medida_id) references unidad_medida(id)
 ON DELETE CASCADE ON UPDATE CASCADE,
-foreign key(categoria_id) references categoria(id_categoria) 
+foreign key(categoria_id) references categoria(id_categoria)
 ON DELETE CASCADE ON UPDATE CASCADE,
-foreign key(subcategoria_id) references subcategoria(id_subcategoria) 
+foreign key(subcategoria_id) references subcategoria(id_subcategoria)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 ALTER TABLE producto AUTO_INCREMENT = 1000;
@@ -112,7 +109,7 @@ subtotal float(12,2) not null,
 igv float(12,2) not null,
 total float(12,2) not null,
 fecha datetime not null,
-foreign key(cliente_id) references cliente(id_cliente) 
+foreign key(cliente_id) references cliente(id_cliente)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 ALTER TABLE venta AUTO_INCREMENT = 1000;
@@ -124,9 +121,9 @@ producto_id int not null,
 precio float(8,2) not null,
 cantidad float(8,2) not null,
 descuento float(8,2) not null,
-foreign key(producto_id) references producto(id_producto) 
+foreign key(producto_id) references producto(id_producto)
 ON DELETE CASCADE ON UPDATE CASCADE,
-foreign key(venta_id) references venta(id_venta) 
+foreign key(venta_id) references venta(id_venta)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 create table compra(
@@ -136,7 +133,7 @@ subtotal float(12,2) not null,
 igv float(12,2) not null,
 total float(12,2) not null,
 fecha datetime not null,
-foreign key(proveedor_id) references proveedor(id_proveedor) 
+foreign key(proveedor_id) references proveedor(id_proveedor)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 ALTER TABLE compra AUTO_INCREMENT = 1000;
@@ -148,9 +145,9 @@ producto_id int not null,
 precio float(8,2) not null,
 cantidad float(8,2) not null,
 descuento float(8,2) not null,
-foreign key(producto_id) references producto(id_producto) 
+foreign key(producto_id) references producto(id_producto)
 ON DELETE CASCADE ON UPDATE CASCADE,
-foreign key(compra_id) references compra(id_compra) 
+foreign key(compra_id) references compra(id_compra)
 ON DELETE CASCADE ON UPDATE CASCADE);
 
 create table kardex(
@@ -165,8 +162,18 @@ cantidad float(8,2) not null,
 valor float(8,2) not null,
 stock_total float(12,2) not null,
 valor_total float(12,2) not null,
-foreign key(producto_id) references producto(id_producto) 
+foreign key(producto_id) references producto(id_producto)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
+create table caja(
+id_caja bigint auto_increment primary key not null,
+descripcion varchar(100) not null,
+tipoMovimiento int(1) not null,
+monto float(10,2) not null,
+saldo float(10,2) not null,
+fecha datetime DEFAULT current_timestamp(),
+estado int(1) not null,
+estadoMovimiento int(1) not null default 1);
 
 
 

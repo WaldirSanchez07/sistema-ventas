@@ -1,4 +1,4 @@
-use sistemav1;
+use SVOlanoSAC;
 
 /*
 DROP TRIGGER kardex_ingreso;
@@ -17,7 +17,7 @@ BEGIN
     SET cantidad = (SELECT COUNT(*) FROM kardex WHERE producto_id = NEW.producto_id);
     IF cantidad = 0 THEN
 		UPDATE producto SET precio_compra = NEW.precio, precio_venta = ROUND(NEW.precio/(1-0.25),1),stock = (stock + NEW.cantidad) WHERE id_producto = NEW.producto_id;
-        
+
 		INSERT INTO kardex(fecha,producto_id,operacion,nrodocumento,valor_unitario,cantidad,valor,stock_total,valor_total)
 		VALUES(CURDATE(),NEW.producto_id,'Compra',NEW.compra_id,NEW.precio,NEW.cantidad,NEW.precio,NEW.cantidad,(NEW.precio * NEW.cantidad));
     ELSE
@@ -28,7 +28,7 @@ BEGIN
         SET cantidad_total = (SELECT stock_total FROM kardex WHERE producto_id = NEW.producto_id ORDER BY id_kardex DESC LIMIT 1);
         SET cantidad_total = (cantidad_total + NEW.cantidad);
         UPDATE producto SET precio_compra = valor_promedio, precio_venta = ROUND(valor_promedio/(1-0.25),1),stock = (stock + NEW.cantidad) WHERE id_producto = NEW.producto_id;
-        
+
 		INSERT INTO kardex(fecha,producto_id,operacion,nrodocumento,valor_unitario,cantidad,valor,stock_total,valor_total)
 		VALUES(CURDATE(),NEW.producto_id,'Compra',NEW.compra_id,valor_promedio,NEW.cantidad,NEW.precio,cantidad_total,v_total);
     END IF;
@@ -42,12 +42,12 @@ BEGIN
     DECLARE valor_promedio FLOAT(8,2);
     DECLARE v_total FLOAT(12,2);
     DECLARE cantidad_total FLOAT(12,2);
-    
+
     SET cantidad = (SELECT COUNT(*) FROM kardex WHERE producto_id = NEW.producto_id AND operacion = 'Compra');
     UPDATE producto SET stock = (stock - NEW.cantidad) WHERE id_producto = NEW.producto_id;
     SET valor_promedio = (SELECT precio_compra FROM producto WHERE id_producto = NEW.producto_id);
     SET cantidad_total = (SELECT stock FROM producto WHERE id_producto = NEW.producto_id);
-    
+
     IF cantidad = 0 THEN
 		SET v_total = (SELECT precio_compra * stock FROM producto WHERE id_producto = NEW.producto_id);
 		INSERT INTO kardex(fecha,producto_id,operacion,nrodocumento,valor_unitario,cantidad,valor,stock_total,valor_total)
@@ -63,19 +63,26 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE ventas_x_mes ()  
-BEGIN 
+CREATE PROCEDURE ventas_x_mes ()
+BEGIN
 	SELECT YEAR(fecha) as año,MONTH(fecha) as mes,CAST(SUM(total) AS DECIMAL(12,2)) as total
     FROM venta WHERE YEAR(fecha) = DATE_FORMAT(Now(),'%Y') GROUP BY mes,año ORDER BY mes asc;
 END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE productos_mas_vendidos()  
+CREATE PROCEDURE productos_mas_vendidos()
 BEGIN
 	SELECT YEAR(fecha) as año, p.producto, SUM(cantidad) as importe
     FROM venta v inner join detalle_venta d on d.venta_id = v.id_venta
     inner join producto p on p.id_producto = d.producto_id
     WHERE YEAR(fecha) = DATE_FORMAT(Now(),'%Y') GROUP BY año,p.producto ORDER BY importe DESC LIMIT 10;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE actualizar()
+BEGIN
+	UPDATE caja set saldo = (SELECT  sum(c.monto) FROM caja c WHERE c.id_caja <= caja.id_caja);
 END$$
 DELIMITER ;

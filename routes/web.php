@@ -14,6 +14,8 @@ use App\Http\Livewire\NuevaVenta;
 use App\Http\Livewire\Productos;
 use App\Http\Livewire\Proveedores;
 use App\Http\Livewire\SubCategorias;
+use App\Http\Livewire\Cajas;
+use App\Http\Livewire\ReporteMovimientos;
 use App\Http\Livewire\Usuarios;
 use App\Http\Livewire\VentasRealizadas;
 use Illuminate\Support\Facades\Artisan;
@@ -28,7 +30,7 @@ Route::post('/signin', [AuthController::class, 'login'])->name('signin');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
-    return redirect()->to('login');
+    return view('auth/login');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', Dashboard::class)->name('dashboard');
@@ -42,19 +44,20 @@ Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V'])->get('/productos', 
 Route::middleware(['auth:sanctum', 'verified', 'auth2:V'])->get('/nueva-venta', NuevaVenta::class)->name('nueva-venta');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V'])->get('/ventas', VentasRealizadas::class)->name('ventas');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/nueva-compra', NuevaCompra::class)->name('nueva-compra');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,T'])->get('/kardex', Kardex::class)->name('kardex');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V,T'])->get('/factura-venta/{id}', [VentasRealizadas::class, 'pdf']);
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,T'])->get('/tarjeta-kardex/{id?}', [Kardex::class, 'pdf']);
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A,T'])->get('/compras', ComprasRealizadas::class)->name('compras');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/kardex', Kardex::class)->name('kardex');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V,C'])->get('/factura-venta/{id}', [VentasRealizadas::class, 'pdf']);
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/tarjeta-kardex/{id?}', [Kardex::class, 'pdf']);
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V,C'])->get('/reporte-movimiento', [ReporteMovimientos::class, 'pdf'])->name('rep-movimientos');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/compras', ComprasRealizadas::class)->name('compras');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/info-empresa', InfoEmpresa::class)->name('empresa');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/usuarios', Usuarios::class)->name('usuarios');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])
-->get('/reporte-ventas', [ReportesGraficos::class, 'reporteVentas'])->name('rep-ventas');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/reporte-ventas', [ReportesGraficos::class, 'reporteVentas'])->name('rep-ventas');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V'])->get('/caja', Cajas::class )->name('caja');
 
-Route::get('no-autorizado', function(){ 
-    abort('403'); 
+Route::get('no-autorizado', function(){
+    abort('403');
 });
 
-Route::get('error', function(){ 
-    abort('404'); 
+Route::get('error', function(){
+    abort('404');
 });

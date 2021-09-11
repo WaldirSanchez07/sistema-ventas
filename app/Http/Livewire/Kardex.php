@@ -16,6 +16,7 @@ class Kardex extends Component
     public $paginate = 5;
 
     public $idProducto;
+
     public function render()
     {
         $productos = Producto::all();

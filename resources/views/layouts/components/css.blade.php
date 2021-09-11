@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/bootstrap-extended.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/components.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/principal.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('rs/css/themes/bordered-layout.css') }}">
 
     <!-- BEGIN: Page CSS-->

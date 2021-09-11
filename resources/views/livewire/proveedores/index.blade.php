@@ -44,8 +44,8 @@
                                 <td width="20%">{{ $p->raz_social }}</td>
                                 <td>{{ $p->tipos->tipo }}</td>
                                 <td>{{ $p->nrodocumento }}</td>
-                                <td>{{ $p->direccion }}</td>
-                                <td width="15%">{{ $p->contacto }}</td>
+                                <td width="30%">{{ $p->direccion }}</td>
+                                <td width="12%">{{ $p->contacto }}</td>
                                 <td>{{ $p->telefono }}</td>
                                 <td>{{ $p->email }}</td>
                                 <td class="text-center">
@@ -130,6 +130,24 @@
 
             window.addEventListener('alertSuccess', event => {
                 toastr['success'](`${event.detail.text}`, `${event.detail.title}`, {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            })
+
+            Livewire.on('alertWarning', msj => {
+                toastr['warning'](`${msj}`, 'Progress Bar', {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    progressBar: true,
+                    rtl: isRtl
+                });
+            })
+
+            window.addEventListener('alertWarning', event => {
+                toastr['warning'](`${event.detail.text}`, `${event.detail.title}`, {
                     closeButton: true,
                     tapToDismiss: false,
                     progressBar: true,

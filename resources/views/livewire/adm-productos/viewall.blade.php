@@ -60,7 +60,7 @@
                         <div class="card-body">
                             <div class="item-wrapper">
                                 <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
+                                    <ul class="unstyled-list list-inline d-none">
                                         <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i>
                                         </li>
                                         <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i>

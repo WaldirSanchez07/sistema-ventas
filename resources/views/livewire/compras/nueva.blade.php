@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-lg-3 mb-1">
                                     <div class="form-group input">
-                                        <label class="form-label label">Catidad</label>
+                                        <label class="form-label label">Cantidad</label>
                                         <input wire:model="cantidad" class="form-control box" type="number"
                                             placeholder="0.00">
                                     </div>

@@ -7,7 +7,7 @@
                     <span class="brand-logo">
                         <img src="{{asset('images/logo1.png')}}" alt="Olano S.A.C logo" style="height: 24px;">
                     </span>
-                    <h2 class="brand-text text-dark">Olano S.A</h2>
+                    <h2 class="brand-text text-dark">Olano S.A.C</h2>
                 </a>
             </li>
             <li class="nav-item nav-toggle">
@@ -33,8 +33,8 @@
             @if (Auth::user()->roles->rol == 'Administrador')
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="#">
-                        <i data-feather="package"></i>
-                        <span class="menu-title text-truncate">Productos</span>
+                        <i data-feather="grid"></i>
+                        <span class="menu-title text-truncate">Almacen</span>
                     </a>
                     <ul class="menu-content">
                         <li class="{{ setActive('adm-productos') }}">
@@ -74,7 +74,8 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->roles->rol == 'Vendedor')
+            {{-- @if (Auth::user()->roles->rol == 'Vendedor') --}}
+            @if (isAdmin_V(Auth::user()->roles->rol))
                 <li class="nav-item {{ setActive('productos') }}">
                     <a class="d-flex align-items-center" href="{{ route('productos') }}">
                         <i data-feather="package"></i>
@@ -82,7 +83,7 @@
                     </a>
                 </li>
             @endif
-            @if (isAdmin_T(Auth::user()->roles->rol))
+            @if (isAdmin_C(Auth::user()->roles->rol))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather='trending-up'></i>
@@ -93,6 +94,14 @@
                             <a class="d-flex align-items-center" href="{{ route('rep-ventas') }}">
                                 <i data-feather="circle"></i>
                                 <span class="menu-item text-truncate">Reporte ventas</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="menu-content">
+                        <li class="{{ setActive('rep-movimientos') }}">
+                            <a class="d-flex align-items-center" href="{{ route('rep-movimientos') }}" target="_blank">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Reporte movimientos</span>
                             </a>
                         </li>
                     </ul>
@@ -122,7 +131,7 @@
                 </ul>
             </li>
             @endif
-            @if (isAdmin_T(Auth::user()->roles->rol))
+            @if (isAdmin_C(Auth::user()->roles->rol))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather='shopping-bag'></i>
@@ -146,7 +155,23 @@
                     </ul>
                 </li>
             @endif
-            @if (isAdmin_T(Auth::user()->roles->rol))
+            @if (isAdmin_V(Auth::user()->roles->rol))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather='credit-card'></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">Movimientos</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="{{setActive('caja')}}">
+                            <a class="d-flex align-items-center" href="{{route('caja')}}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Analytics">Caja</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+            @if (isAdmin_C(Auth::user()->roles->rol))
                 <li class="nav-item {{ setActive('kardex') }}">
                     <a class="d-flex align-items-center" href="{{ route('kardex') }}">
                         <i data-feather='folder'></i>

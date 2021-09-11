@@ -1,14 +1,15 @@
-use sistemav1;
+use SVOlanoSAC;
 
 insert into empresa(nombre,ruc,telefono,direccion)
 values('Distribuciones Olano S.A.C.','20103365628','987654332','Exequiel Gonzales Caceda 1151, Chepén 13871');
 
 insert into rol(rol)
-values('Administrador'),('Vendedor'),('Tesorero');
+values('Administrador'),('Vendedor'),('Contador');
 
-insert into usuario(nombres,email,password,created_at,updated_at,rol_id)
+insert into usuario(nombre,email,password,created_at,updated_at,rol_id)
 values
-('Waldir Sanchez','waldirc925@gmail.com','$2y$10$DC1teJyeeLIbyQoqDkcYcOpdknNspwYl.s1vFtSB0OukekMtIK9sW','2021-06-27 16:21:17','2021-07-03 23:02:01', 1);
+('Waldir Sanchez','waldirc925@gmail.com','$2y$10$DC1teJyeeLIbyQoqDkcYcOpdknNspwYl.s1vFtSB0OukekMtIK9sW','2021-06-27 16:21:17','2021-07-03 23:02:01', 1),
+('Jhon Cruzado', 'jhonpaulcruzadodelacruz@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2021-06-27 16:21:17','2021-07-03 23:02:01', 1);
 
 /*
 drop table detalle_venta;
@@ -21,7 +22,6 @@ drop table subcategoria;
 drop table categoria;
 drop table cliente;
 drop table proveedor;
-
 drop table unidad_medida;
 drop table tipo_documento;
 */
@@ -51,7 +51,7 @@ values
 ('SUPPLIER JKL S.A', 2, '5682553455','Calle Arequipa,1294,Of. 7043','Ernesto Soto Román','976226442','esoto@gmail.com');
 
 insert into categoria(categoria)
-values 
+values
 ('Construcción'),('Pisos y Cerámicos'),('Tuberías y accesorios'),('Ferretería general'),('Galvanizados'),('Grifería'),
 ('Herramientas eléctricas'),('Limpieza y aseo'),('Pinturas y solvente'),('Iluminación');
 
@@ -80,7 +80,7 @@ values
 ('Foco Globo Led E27 – 18w Luz Blanca',0,10,0,26.50,'No',1,10,12,'Foco-Globo-Led-E27–18w-Luz-Blanca.jpg','zona B, pasillo 3, nivel 1'),
 ('Foco Led 8.5w E27 Luz Calida',0,10,0,25.50,'No',1,10,12,'Foco-Led-8.5w-E27-Luz-Calida.jpg','zona B, pasillo 3, nivel 2');
 
-INSERT INTO `compra` (`id_compra`, `proveedor_id`, `subtotal`, `igv`, `total`, `fecha`) VALUES
+/* INSERT INTO `compra` (`id_compra`, `proveedor_id`, `subtotal`, `igv`, `total`, `fecha`) VALUES
 (1000, 1, 5674.40, 1245.60, 6920.00, '2021-01-02 09:19:33'),
 (1001, 2, 6396.00, 1404.00, 7800.00, '2021-01-02 09:24:08'),
 (1002, 3, 6002.40, 1317.60, 7320.00, '2021-01-02 09:28:09'),
@@ -105,5 +105,5 @@ INSERT INTO `detalle_compra` (`id_detalle`, `compra_id`, `producto_id`, `precio`
 (15, 1003, 1014, 16.40, 50.00, 0.00),
 (16, 1003, 1015, 16.50, 50.00, 0.00),
 (17, 1004, 1016, 7.20, 40.00, 0.00),
-(18, 1004, 1017, 7.40, 40.00, 0.00);
+(18, 1004, 1017, 7.40, 40.00, 0.00); */
 
