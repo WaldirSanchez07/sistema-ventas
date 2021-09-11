@@ -15,6 +15,7 @@ use App\Http\Livewire\Productos;
 use App\Http\Livewire\Proveedores;
 use App\Http\Livewire\SubCategorias;
 use App\Http\Livewire\Cajas;
+use App\Http\Livewire\ReporteMovimientos;
 use App\Http\Livewire\Usuarios;
 use App\Http\Livewire\VentasRealizadas;
 use Illuminate\Support\Facades\Artisan;
@@ -46,6 +47,7 @@ Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/nueva-compra',
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/kardex', Kardex::class)->name('kardex');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V,C'])->get('/factura-venta/{id}', [VentasRealizadas::class, 'pdf']);
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/tarjeta-kardex/{id?}', [Kardex::class, 'pdf']);
+Route::middleware(['auth:sanctum', 'verified', 'auth2:A,V,C'])->get('/reporte-movimiento', [ReporteMovimientos::class, 'pdf'])->name('rep-movimientos');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A,C'])->get('/compras', ComprasRealizadas::class)->name('compras');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/info-empresa', InfoEmpresa::class)->name('empresa');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:A'])->get('/usuarios', Usuarios::class)->name('usuarios');

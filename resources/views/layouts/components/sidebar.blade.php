@@ -74,7 +74,8 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->roles->rol == 'Vendedor')
+            {{-- @if (Auth::user()->roles->rol == 'Vendedor') --}}
+            @if (isAdmin_V(Auth::user()->roles->rol))
                 <li class="nav-item {{ setActive('productos') }}">
                     <a class="d-flex align-items-center" href="{{ route('productos') }}">
                         <i data-feather="package"></i>
@@ -93,6 +94,14 @@
                             <a class="d-flex align-items-center" href="{{ route('rep-ventas') }}">
                                 <i data-feather="circle"></i>
                                 <span class="menu-item text-truncate">Reporte ventas</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="menu-content">
+                        <li class="{{ setActive('rep-movimientos') }}">
+                            <a class="d-flex align-items-center" href="{{ route('rep-movimientos') }}" target="_blank">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate">Reporte movimientos</span>
                             </a>
                         </li>
                     </ul>

@@ -1,6 +1,9 @@
 <main class="content-body">
     <div class="d-flex justify-content-between mb-2">
         <h2 class="content-header-title float-start mb-0 text-dark">Historial de Movimientos</h2>
+        <a target="_blank" class="btn btn-outline-primary" href="/reporte-movimiento">
+            <i class="fal fa-file-pdf"></i>&nbsp;&nbsp;Generar Reporte
+        </a>
     </div>
         @if($cantdatos == 0 || $lastregister->estado == 0)
             <div class="d-flex justify-content-between mb-2">
@@ -404,6 +407,7 @@
 
         </script>
     @endpush
+
 </main>
 
 

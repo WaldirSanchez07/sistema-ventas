@@ -72,6 +72,8 @@ class Cajas extends Component
         $detallecompra = DetalleCompra::where('compra_id', '=', $this->idCompra)->get();
         $compra2 = Compra::where('id_compra', '=', $this->idCompra)->get();
 
+     /*    $fechas = Caja::select('fecha')->get(); */
+
         return view('livewire.cajas.movimiento',compact('movimientos','lastregister','venta','detalle','venta2','compra','detallecompra','compra2','cantidadApertura'));
     }
 
