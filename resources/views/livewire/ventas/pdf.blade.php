@@ -128,7 +128,7 @@
                         <td style="border-left: 1px solid #000; border-right: 1px solid #000;">{{$v->producto}}</td>
                         <td width="12%" style="text-align: center">{{Nformat($v->precio) }}</td>
                         <td width="12%" style="text-align: center">{{Nformat($v->descuento)}}</td>
-                        <td width="12%" style="text-align: center">{{Nformat($v->precio - ($v->precio * $v->descuento)) }}</td>
+                        <td width="12%" style="text-align: center">{{Nformat($v->precio - round($v->precio * ($v->descuento / 100), 1)) }}</td>
                     </tr>
                 @endforeach
             </tbody>

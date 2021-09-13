@@ -65,8 +65,12 @@
                                 <div class="col-lg-3 mb-1">
                                     <div class="form-group input">
                                         <label class="form-label">Descuento</label>
-                                        <input wire:model="descuento" class="form-control box" type="number"
-                                            placeholder="0.00">
+                                        <div class="input-group input">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <input type="number" class="form-control" placeholder="0.00" wire:model="descuento">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

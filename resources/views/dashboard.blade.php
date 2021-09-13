@@ -14,8 +14,8 @@
             </div>
         </div>
     </section>
-    <section class="row">
-        <div class="col-xl-2 col-md-4 col-sm-6">
+    <section class="row justify-content-center">
+        <div class="col-xl-3 col-md-4 col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-success p-50 mb-1">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="col-xl-3 col-md-4 col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-danger p-50 mb-1">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="col-xl-3 col-md-4 col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-primary p-50 mb-1">
@@ -49,17 +49,12 @@
                             <i class="far fa-money-bill-alt fa-2x"></i>
                         </div>
                     </div>
-                    {{-- @if($inventario == null)
-                        <h2 class="fw-bolder">0.00</h2>
-                    @else
-                        <h2 class="fw-bolder">{{ number_format($inventario->valor_total,2) }}</h2>
-                    @endif --}}
                     <h2 class="fw-bolder">{{ number_format($inventario->valor_total ?? 0, 2) }}</h2>
                     <p class="card-text">Inventario</p>
                 </div>
             </div>
         </div>
-         <div class="col-xl col-md col-sm-6">
+         <div class="col-xl-3 col-md-3 col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-secondary p-50 mb-1">
@@ -72,7 +67,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl col-md col-sm-6">
+    </section>
+    <section class="row justify-content-center">
+        <div class="col-xl-3 col-md-3 col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-warning p-50 mb-1">
@@ -85,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl col-md col-sm-6">
+        <div class="col-xl-3 col-md-3 col-sm-6">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-info p-50 mb-1">
@@ -98,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl col-md col-sm">
+        <div class="col-xl-3 col-md-3 col-sm">
             <div class="card text-center">
                 <div class="card-body">
                     <div class="avatar bg-light-dark p-50 mb-1">
@@ -112,7 +109,4 @@
             </div>
         </div>
     </section>
-    @push('scripts')
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    @endpush
 </main>

@@ -19,30 +19,23 @@ function isAdmin($rol){
     return false;
 }
 
-function isAdmin_V($rol){
-    switch ($rol) {
-        case 'Administrador':
-            return true;
-            break;
-        case 'Vendedor':
-            return true;
-            break;
-        default:
-            return false;
-            break;
+function isJL($rol){
+    if($rol == 'Jefe de Línea'){
+        return true;
     }
+    return false;
 }
 
-function isAdmin_C($rol){
-    switch ($rol) {
-        case 'Administrador':
-            return true;
-            break;
-        case 'Contador':
-            return true;
-            break;
-        default:
-            return false;
-            break;
+function isEA($rol){
+    if($rol == 'Encargado de almacén'){
+        return true;
     }
+    return false;
+}
+
+function isV($rol){
+    if($rol == 'Vendedor'){
+        return true;
+    }
+    return false;
 }

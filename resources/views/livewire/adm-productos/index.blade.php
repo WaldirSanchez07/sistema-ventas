@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 mb-4">
+        <div class="col-sm-12 mb-3">
             <div class="table-responsive bg-white box-shadow">
                 <table class="table table-hover">
                     <thead class="table-secondary">

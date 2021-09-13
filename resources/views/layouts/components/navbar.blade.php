@@ -41,9 +41,8 @@
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
-                        {{-- <span class="user-name fw-bolder">{{ substr(Auth::user()->nombre, 0, 6) }}</span> --}}
-                        <span class="user-name fw-bolder">{{ Auth::user()->nombre }}</span>
-                        <span class="user-status">{{ Auth::user()->roles->rol }}</span>
+                        <span class="user-name fw-bolder text-truncate">{{ Auth::user()->nombre }}</span>
+                        <span class="user-status" style="color: #26a69a">{{ Auth::user()->roles->rol }}</span>
                     </div><span class="avatar">
                         <img class="round" src="{{ asset('images/default.jpg') }}" alt="avatar"
                             height="40" width="40">
@@ -51,13 +50,6 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdown-user">
-                    {{--<a class="dropdown-item" href="page-profile.html">
-                        <i class="me-50" data-feather="user"></i> Perfil
-                    </a>
-                    <a class="dropdown-item" href="app-todo.html">
-                        <i class="me-50" data-feather="check-square"></i> Task
-                    </a>
-                    <div class="dropdown-divider"></div>--}}
                     <a class="dropdown-item" href="{{ route('logout') }}">
                         <i class="me-50" data-feather="power"></i> Logout
                     </a>
