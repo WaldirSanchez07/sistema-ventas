@@ -64,7 +64,7 @@ CREATE TABLE `caja` (
   `estadoMovimiento` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
+/* --
 -- Volcado de datos para la tabla `caja`
 --
 
@@ -72,7 +72,7 @@ INSERT INTO `caja` (`id_caja`, `descripcion`, `tipoMovimiento`, `monto`, `saldo`
 (1, 'Apertura de Caja', 1, 5000.00, 5000.00, '2021-09-11 00:03:22', 1, 1),
 (2, 'Deposito Juan', 1, 500.00, 5500.00, '2021-09-11 00:12:17', 1, 1),
 (3, 'Pagar Internet', 0, -100.00, 5400.00, '2021-09-11 00:12:30', 1, 1);
-
+ */
 --
 --
 -- Estructura de tabla para la tabla `categoria`
@@ -693,11 +693,11 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `email`, `password`, `profile_photo_path`, `created_at`, `updated_at`, `rol_id`, `estado`) VALUES
-(1, 'Waldir Sanchez', 'waldir@gmail.com', '$2y$10$DC1teJyeeLIbyQoqDkcYcOpdknNspwYl.s1vFtSB0OukekMtIK9sW', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
-(2, 'Jhon Cruzado', 'jhon@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
-(3, 'Isac Miñano', 'isac@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
-(4, 'Betsi Mendoza', 'betsi@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-09-09 21:45:26', '2021-09-09 21:45:26', 2, 'Habilitado'),
-(5, 'Cesar Perez', 'cesar@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-09-09 22:29:37', '2021-09-09 22:29:37', 3, 'Habilitado');
+(1, 'Waldir Sanchez', 'waldir@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
+(2, 'Jhon Cruzado', 'jhon@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
+(3, 'Isac Miñano', 'isac@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
+(4, 'Betsi Mendoza', 'betsi@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-09-09 21:45:26', '2021-09-09 21:45:26', 2, 'Habilitado'),
+(5, 'Cesar Perez', 'cesar@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-09-09 22:29:37', '2021-09-09 22:29:37', 3, 'Habilitado');
 
 -- --------------------------------------------------------
 
@@ -773,6 +773,10 @@ INSERT INTO `venta` (`id_venta`, `cliente_id`, `subtotal`, `igv`, `total`, `fech
 --
 -- Índices para tablas volcadas
 --
+-- Indices de la tabla `caja`
+--
+ALTER TABLE `caja`
+  ADD PRIMARY KEY (`id_caja`);
 
 --
 -- Indices de la tabla `categoria`
@@ -884,26 +888,11 @@ ALTER TABLE `venta`
   ADD PRIMARY KEY (`id_venta`),
   ADD KEY `cliente_id` (`cliente_id`);
 
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
--- Indices de la tabla `caja`
---
-ALTER TABLE `caja`
-  ADD PRIMARY KEY (`id_caja`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
 -- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
   MODIFY `id_caja` bigint(20) NOT NULL AUTO_INCREMENT;
 COMMIT;
-
 --
 -- AUTO_INCREMENT de la tabla `categoria`
 --

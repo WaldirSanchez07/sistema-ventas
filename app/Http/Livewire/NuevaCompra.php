@@ -103,7 +103,7 @@ class NuevaCompra extends Component
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado la cantidad!!"]);
             return;
         }
-        
+
         $ok = true;
         foreach ($this->table as $i => $value) {
             if ($value['sku'] == $this->sku) {
@@ -193,6 +193,11 @@ class NuevaCompra extends Component
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "Debe pagar el monto total!"]);
             return;
         }
+        $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+        if ($lastregister->saldo < $this->total) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja."]);
+            return;
+        }
 
         DB::beginTransaction();
         try {
@@ -214,15 +219,7 @@ class NuevaCompra extends Component
                 ]);
             }
 
-            DB::commit();
-            
             /* Registrando en caja la compra*/
-            $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
-            if ($lastregister->saldo < $this->total) {
-                $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja. Por favor ingresar dinero!!"]);
-                return;
-            }
-
             $descripcion = "Compra";
             $tipoMovimiento = 0 ;
             $monto=$this->total*-1;
@@ -230,7 +227,11 @@ class NuevaCompra extends Component
             $estado = 1;
 
             $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
+
             Caja::create($datos);
+
+            DB::commit();
+            
             DB::select('call Actualizar()');
 
             DB::table('usuario_compra')->insert([

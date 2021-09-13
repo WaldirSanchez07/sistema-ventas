@@ -1,12 +1,12 @@
 <!-- BEGIN: Main Menu-->
 @php
-    $user = Auth::user()->roles->rol;    
+    $user = Auth::user()->roles->rol;
 @endphp
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="/dashboard">
                     <span class="brand-logo">
                         <img src="{{asset('images/logo1.png')}}" alt="Olano S.A.C logo" style="height: 24px;">
                     </span>
@@ -101,7 +101,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (isEA($user))
+                        @if (isJL($user) || isEA($user))
                             <li class="{{ setActive('rep-compras') }}">
                                 <a class="d-flex align-items-center" href="{{ route('rep-compras') }}">
                                     <i data-feather="circle"></i>
@@ -109,7 +109,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (isJL($user))
+                        @if (isJL($user) || isEA($user))
                             <li class="{{ setActive('rep-movimientos') }}">
                                 <a class="d-flex align-items-center" href="{{ route('rep-movimientos') }}" target="_blank">
                                     <i data-feather="circle"></i>

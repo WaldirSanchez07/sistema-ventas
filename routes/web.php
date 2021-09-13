@@ -51,8 +51,8 @@ Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/nueva-compra'
 Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,EA'])->get('/kardex', Kardex::class)->name('kardex');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:V,JL'])->get('/factura-venta/{id}', [VentasRealizadas::class, 'pdf']);
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/tarjeta-kardex/{id?}', [Kardex::class, 'pdf']);
-Route::middleware(['auth:sanctum', 'verified', 'auth2:V,JL'])->get('/reporte-movimiento', [ReporteMovimientos::class, 'pdf'])->name('rep-movimientos');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/compras', ComprasRealizadas::class)->name('compras');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:V,JL,EA'])->get('/reporte-movimiento', [ReporteMovimientos::class, 'pdf'])->name('rep-movimientos');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,EA'])->get('/compras', ComprasRealizadas::class)->name('compras');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:JL'])->get('/info-empresa', InfoEmpresa::class)->name('empresa');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:JL'])->get('/usuarios', Usuarios::class)->name('usuarios');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:JL'])->get('/reporte-ventas', [ReportesGraficos::class, 'reporteVentas'])->name('rep-ventas');

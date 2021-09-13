@@ -7,7 +7,7 @@
                         <img src="{{asset('images/logo2.png')}}" alt="Olano S.A.C" class="portada">
                     </div>
                     <br>
-                    <p class="jumbotron">
+                    <p class="jumbotron" style="font-size:20px;text-align:justify">
                         Somos Distribuciones <b>Olano S.A.C</b>, una empresa peruana con más de 27 años de presencia a nivel nacional, comercializando todo lo que necesitas para realizar mejoras en tu hogar con productos de calidad y los mejores precios. Estamos para acompañarte en el proceso de construir el proyecto de tus sueños, con un servicio especializado de asesoramiento y de excelente atención. Tu positiva experiencia de compra es nuestro propósito y pasión.
                     </p>
                 </div>

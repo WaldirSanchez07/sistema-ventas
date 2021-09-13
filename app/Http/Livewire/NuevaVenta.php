@@ -241,15 +241,15 @@ class NuevaVenta extends Component
             $estado = 1;
 
             $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
+
             Caja::create($datos);
-            DB::select('call Actualizar()');
 
             DB::table('usuario_venta')->insert([
                 'usuario_id' => auth()->user()->id,
                 'venta_id' => $id,
                 'fecha' => date('Y-m-d H:i:s'),
             ]);
-
+            DB::select('call Actualizar()');
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!", 'id' => $id]);
         } catch (\Exception $e) {
