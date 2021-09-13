@@ -11,6 +11,8 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
+    public $nombres = [];
+    public $valores = [];
     public function render()
     {
         $ingresos = DB::table('venta')->select(DB::raw('SUM(total) as total'))->get();

@@ -1,5 +1,14 @@
 use SVOlanoSAC;
 
+/*
+DROP TRIGGER kardex_ingreso;
+DROP TRIGGER kardex_egreso;
+DROP PROCEDURE ventas_x_mes;
+DROP PROCEDURE productos_mas_vendidos;
+DROP PROCEDURE actualizar;
+DROP PROCEDURE compras_x_mes;
+*/
+
 DELIMITER $$
 CREATE TRIGGER kardex_ingreso AFTER INSERT ON detalle_compra FOR EACH ROW
 BEGIN
@@ -89,6 +98,7 @@ BEGIN
 END$$
 DELIMITER ;
 
+<<<<<<< HEAD
 DELIMITER $$
 CREATE PROCEDURE ventas_x_vendedor()
 BEGIN
@@ -104,6 +114,8 @@ BEGIN
 END$$
 DELIMITER ;
 
+=======
+>>>>>>> 248ad5c4fb1d9d2f726cea34c70dc58b422685e8
 DELIMITER $$
 CREATE PROCEDURE compras_x_mes()
 BEGIN

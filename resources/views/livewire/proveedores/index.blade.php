@@ -41,11 +41,11 @@
                     <tbody>
                         @foreach ($proveedores as $p)
                             <tr>
-                                <td >{{ $p->raz_social }}</td>
+                                <td width="18%">{{ $p->raz_social }}</td>
                                 <td>{{ $p->tipos->tipo }}</td>
                                 <td>{{ $p->nrodocumento }}</td>
-                                <td >{{ $p->direccion }}</td>
-                                <td >{{ $p->contacto }}</td>
+                                <td width="20%">{{ $p->direccion }}</td>
+                                <td width="12%">{{ $p->contacto }}</td>
                                 <td>{{ $p->telefono }}</td>
                                 <td>{{ $p->email }}</td>
                                 <td class="text-center">

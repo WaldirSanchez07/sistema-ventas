@@ -33,7 +33,7 @@ class NuevaCompra extends Component
     public function buscarProducto()
     {
         $movimientos = Caja::all();
-         $cantdatos = $movimientos->count();
+        $cantdatos = $movimientos->count();
         if ($cantdatos == null) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
             return;
@@ -63,7 +63,6 @@ class NuevaCompra extends Component
             $this->_subtotal = 0;
             $this->oldSubtotal = 0;
         }
-
     }
 
     public function updatedDescuento()
@@ -86,7 +85,7 @@ class NuevaCompra extends Component
     public function addDetalle()
     {
         $movimientos = Caja::all();
-         $cantdatos = $movimientos->count();
+        $cantdatos = $movimientos->count();
         if ($cantdatos == null) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
             return;
@@ -150,9 +149,9 @@ class NuevaCompra extends Component
     {
         if ($this->subtotal > 0 && $this->pagado >= $this->subtotal) {
             $cant = floatval($this->pagado) - floatval($this->total);
-            if ($cant < 0){
+            if ($cant < 0) {
                 $this->vuelto = 0;
-            }else{
+            } else {
                 $this->vuelto = $cant ?? 0;
             }
         } else {
@@ -195,7 +194,7 @@ class NuevaCompra extends Component
         }
         $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
         if ($lastregister->saldo < $this->total) {
-            $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja."]);
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja. Por favor ingresar dinero!!"]);
             return;
         }
 
@@ -220,14 +219,22 @@ class NuevaCompra extends Component
             }
 
             /* Registrando en caja la compra*/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 248ad5c4fb1d9d2f726cea34c70dc58b422685e8
             $descripcion = "Compra";
-            $tipoMovimiento = 0 ;
-            $monto=$this->total*-1;
-            $saldo=0;
+            $tipoMovimiento = 0;
+            $monto = $this->total * -1;
+            $saldo = 0;
             $estado = 1;
 
+<<<<<<< HEAD
             $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
 
+=======
+            $datos = array("descripcion" => $descripcion, "tipoMovimiento" => $tipoMovimiento, "monto" => $monto, "saldo" => $saldo, "estado" => $estado);
+>>>>>>> 248ad5c4fb1d9d2f726cea34c70dc58b422685e8
             Caja::create($datos);
 
             DB::select('call Actualizar()');

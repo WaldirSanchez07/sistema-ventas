@@ -15,7 +15,7 @@ class NuevaVenta extends Component
     public $idCliente, $cliente, $search; //cliente
     public $sku, $producto, $stock = 0, $precio = 0; //producto
     public $cantidad, $_subtotal = 0, $__subtotal = 0;
-    public $pagado, $vuelto, $descuento, $_descuento = 0;
+    public $pagado, $vuelto, $descuento, $_descuento = 0, $_desc = 0;
     public $oldSubtotal;
 
     public $_cliente = false;
@@ -82,7 +82,8 @@ class NuevaVenta extends Component
         if ($this->cantidad > 0 && $this->descuento > 0) {
             if ($this->_subtotal > 0) {
                 $this->add = true;
-                $cant = floatval($this->oldSubtotal) - round($this->oldSubtotal * ($this->descuento/100), 1);
+                $cant = floatval($this->oldSubtotal) - round($this->oldSubtotal * ($this->descuento/100),1);
+                $this->_desc = round($this->oldSubtotal * ($this->descuento/100),1);
                 $this->_subtotal = $cant ?? 0;
             } else {
                 $this->add = false;
@@ -135,12 +136,12 @@ class NuevaVenta extends Component
                 'producto' => $this->producto,
                 'precio' => $this->precio,
                 'cantidad' => $this->cantidad,
-                'descuento' => $this->descuento ?? 0,
+                'descuento' => $this->_desc ?? 0,
                 'subtotal' => $this->_subtotal,
             ];
             $this->__subtotal += $this->_subtotal;
             $this->igv = floatval($this->__subtotal * 0.18);
-            $this->_descuento += $this->descuento ?? 0;
+            $this->_descuento += $this->_desc;
             $this->total = $this->__subtotal;
             $this->subtotal = $this->total - $this->igv;
             $this->limpiarInfoProducto();

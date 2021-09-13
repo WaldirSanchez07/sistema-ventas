@@ -43,12 +43,12 @@ Route::middleware(['auth:sanctum', 'verified', 'auth2:V,JL'])->get('/clientes', 
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/categorias', Categorias::class)->name('categorias');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/sub-categorias', SubCategorias::class)->name('sub-categorias');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/adm-productos', AdmProductos::class)->name('adm-productos');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,EA'])->get('/proveedores', Proveedores::class)->name('proveedores');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/proveedores', Proveedores::class)->name('proveedores');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,V'])->get('/productos', Productos::class)->name('productos');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:V'])->get('/nueva-venta', NuevaVenta::class)->name('nueva-venta');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,V'])->get('/ventas', VentasRealizadas::class)->name('ventas');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/nueva-compra', NuevaCompra::class)->name('nueva-compra');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,EA'])->get('/kardex', Kardex::class)->name('kardex');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/kardex', Kardex::class)->name('kardex');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:V,JL'])->get('/factura-venta/{id}', [VentasRealizadas::class, 'pdf']);
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/tarjeta-kardex/{id?}', [Kardex::class, 'pdf']);
 Route::middleware(['auth:sanctum', 'verified', 'auth2:V,JL,EA'])->get('/reporte-movimiento', [ReporteMovimientos::class, 'pdf'])->name('rep-movimientos');

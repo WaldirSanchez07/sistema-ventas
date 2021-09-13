@@ -192,6 +192,14 @@
                     </div>
                     <div class="form-group d-flex flex-column gap-1">
                         <div class="d-flex justify-content-between">
+                            <label class="form-label">Total Bruto:</label>
+                            <span class="_label font-weight-bold">{{ Nformat($total + $_descuento) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label">Descuento:</label>
+                            <span class="_label text-danger">{{ Nformat($_descuento) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
                             <label class="form-label">Subtotal:</label>
                             <span class="_label">{{ Nformat($subtotal) }}</span>
                         </div>
@@ -199,13 +207,9 @@
                             <label class="form-label">IGV(18%):</label>
                             <span class="_label">{{ Nformat($igv) }}</span>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <label class="form-label">Descuento:</label>
-                            <span class="_label text-danger">{{ Nformat($_descuento) }}</span>
-                        </div>
                         <hr class="border-secondary">
                         <div class="d-flex justify-content-between">
-                            <h6 class="_label font-weight-bold">Total:</h6>
+                            <h6 class="_label font-weight-bold">Total Neto:</h6>
                             <span class="_label font-weight-bold">{{ Nformat($total) }}</span>
                         </div>
                     </div>

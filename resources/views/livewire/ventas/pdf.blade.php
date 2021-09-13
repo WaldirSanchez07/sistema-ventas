@@ -116,7 +116,7 @@
                     <th style="text-align: center; border-left: 1px solid #000; border-right: 1px solid #000;">
                         Descripción</th>
                     <th style="text-align: center;">Valor</th>
-                    <th style="text-align: center;">Descuento</th>
+                    <th style="text-align: center;">Descuento(%)</th>
                     <th style="text-align: center;">Importe</th>
                 </tr>
             </thead>
@@ -137,6 +137,14 @@
     <section class="box-container">
         <table class="values">
             <tbody>
+                <tr>
+                    <td style="text-align: right; font-weight: bold" width="85%">Total Bruto:</td>
+                    <td style="text-align: center">{{Nformat(($ventas[0]->subtotal + $ventas[0]->igv) + $ventas[0]->descuento)}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; font-weight: bold" width="85%">Descuento:</td>
+                    <td style="text-align: center">{{Nformat($ventas[0]->descuento)}}</td>
+                </tr>
                 <tr style="margin: 0">
                     <td style="text-align: right; font-weight: bold" width="85%">Subtotal:</td>
                     <td style="text-align: center">{{Nformat($ventas[0]->subtotal)}}</td>
@@ -146,11 +154,7 @@
                     <td style="text-align: center">{{Nformat($ventas[0]->igv)}}</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right; font-weight: bold" width="85%">Descuento:</td>
-                    <td style="text-align: center">{{Nformat($ventas[0]->descuento)}}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: right; font-weight: bold" width="85%">Total:</td>
+                    <td style="text-align: right; font-weight: bold" width="85%">Total Neto:</td>
                     <td style="text-align: center">{{Nformat($ventas[0]->total)}}</td>
                 </tr>
             </tbody>
