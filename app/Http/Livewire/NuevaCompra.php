@@ -228,8 +228,6 @@ class NuevaCompra extends Component
             $datos = array("descripcion" => $descripcion, "tipoMovimiento" => $tipoMovimiento, "monto" => $monto, "saldo" => $saldo, "estado" => $estado);
             Caja::create($datos);
 
-            DB::select('call Actualizar()');
-
             DB::table('usuario_compra')->insert([
                 'usuario_id' => auth()->user()->id,
                 'compra_id' => $id,
@@ -237,7 +235,8 @@ class NuevaCompra extends Component
             ]);
 
             DB::commit();
-
+            DB::select('call Actualizar()');
+            
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva compra", 'text' => "Compra registrada!"]);
         } catch (\Exception $e) {

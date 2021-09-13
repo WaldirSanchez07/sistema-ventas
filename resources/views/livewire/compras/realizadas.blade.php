@@ -41,7 +41,7 @@
                     <tbody>
                         @foreach ($compras as $c)
                             <tr>
-                                <td>{{ date('d/m/Y h:s a', strtotime($c->fecha)) }}</td>
+                                <td>{{ date('d/m/Y h:i a', strtotime($c->fecha)) }}</td>
                                 <td width="40%">{{ $c->proveedores->raz_social }}</td>
                                 <td>{{ $c->subtotal }}</td>
                                 <td>{{ Nformat($c->igv) }}</td>

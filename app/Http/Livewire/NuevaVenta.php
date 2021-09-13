@@ -250,7 +250,6 @@ class NuevaVenta extends Component
             ]);
 
             DB::commit();
-
             DB::select('call Actualizar()');
 
             $this->limpiarCampos();
