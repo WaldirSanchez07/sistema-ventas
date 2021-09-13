@@ -101,7 +101,7 @@
 
                                 @if($m->descripcion == "Venta")
                                     @foreach($venta as $v)
-                                        @if($v->fecha == $m->fecha)
+                                        @if(date($v->fecha,'Y-m-d H:i') == date($m->fecha, 'Y-m-d H:i'))
                                             <td>
                                                 <button type="button"
                                                 class="btn btn-icon btn-icon rounded-circle btn-flat-success title-detalle " wire:click="verDetalle({{ $v->id_venta }})" wire:loading.attr="disabled">
