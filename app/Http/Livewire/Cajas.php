@@ -222,6 +222,7 @@ class Cajas extends Component
         /* dd($datos); */
         Caja::findOrFail($id)->update($datos);
 
+        
         DB::select('call Actualizar()');
 
         if ($model->tipoMovimiento == 1) {

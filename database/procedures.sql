@@ -98,24 +98,6 @@ BEGIN
 END$$
 DELIMITER ;
 
-<<<<<<< HEAD
-DELIMITER $$
-CREATE PROCEDURE ventas_x_vendedor()
-BEGIN
-	SELECT (CASE WHEN CAST(monthname(uv.fecha) AS CHAR(3)) = 'Jan' THEN 'Ene'
-			WHEN CAST(monthname(uv.fecha) AS CHAR(3)) = 'Apr' THEN 'Abr' WHEN CAST(monthname(uv.fecha) AS CHAR(3)) = 'Aug' THEN 'Ago'
-			WHEN CAST(monthname(uv.fecha) AS CHAR(3)) = 'Dec' THEN 'Dic' ELSE CAST(monthname(uv.fecha) AS CHAR(3)) END) AS mes,
-            month(uv.fecha) AS num_mes,
-			u.nombre, SUM(v.total) as valor
-	FROM usuario_venta uv
-	INNER JOIN usuario u ON uv.usuario_id = u.id
-	INNER JOIN venta v ON uv.venta_id = v.id_venta
-    GROUP BY u.nombre, mes, num_mes ORDER BY num_mes;
-END$$
-DELIMITER ;
-
-=======
->>>>>>> 248ad5c4fb1d9d2f726cea34c70dc58b422685e8
 DELIMITER $$
 CREATE PROCEDURE compras_x_mes()
 BEGIN

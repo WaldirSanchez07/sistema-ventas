@@ -249,10 +249,10 @@ class NuevaVenta extends Component
                 'fecha' => date('Y-m-d H:i:s'),
             ]);
 
+            DB::commit();
+
             DB::select('call Actualizar()');
 
-            DB::commit();
-            
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!", 'id' => $id]);
         } catch (\Exception $e) {

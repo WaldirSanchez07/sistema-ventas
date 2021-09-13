@@ -219,22 +219,13 @@ class NuevaCompra extends Component
             }
 
             /* Registrando en caja la compra*/
-<<<<<<< HEAD
-=======
-
->>>>>>> 248ad5c4fb1d9d2f726cea34c70dc58b422685e8
             $descripcion = "Compra";
             $tipoMovimiento = 0;
             $monto = $this->total * -1;
             $saldo = 0;
             $estado = 1;
 
-<<<<<<< HEAD
-            $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
-
-=======
             $datos = array("descripcion" => $descripcion, "tipoMovimiento" => $tipoMovimiento, "monto" => $monto, "saldo" => $saldo, "estado" => $estado);
->>>>>>> 248ad5c4fb1d9d2f726cea34c70dc58b422685e8
             Caja::create($datos);
 
             DB::select('call Actualizar()');
