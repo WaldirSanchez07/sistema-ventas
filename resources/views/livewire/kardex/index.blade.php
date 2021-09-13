@@ -24,7 +24,7 @@
     </div>
     <!-- Accordion start -->
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 mb-3">
             <div class="table-responsive bg-white table-shadow">
                 <table class="table table-hover table-bordered text-center">
                     <thead class="table-light">

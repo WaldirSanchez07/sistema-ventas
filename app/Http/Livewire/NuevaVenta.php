@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\Caja;
+use App\Models\Empresa;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -62,7 +63,8 @@ class NuevaVenta extends Component
             $this->subtotal = 0;
             return;
         } else {
-            $cant = (floatval($this->precio) * floatval($this->cantidad)) - $this->descuento ?? 0;
+            $xSubTotal = (floatval($this->precio) * floatval($this->cantidad));
+            $cant = $xSubTotal - ($xSubTotal * round(($this->descuento ?  $this->descuento / 100 : 0),1));
             if ($cant >= 0) {
                 $this->add = true;
                 $this->_subtotal = $cant ?? 0;
@@ -78,9 +80,9 @@ class NuevaVenta extends Component
     public function updatedDescuento()
     {
         if ($this->cantidad > 0 && $this->descuento > 0) {
-            if ($this->_subtotal > $this->descuento) {
+            if ($this->_subtotal > 0) {
                 $this->add = true;
-                $cant = floatval($this->oldSubtotal) - floatval($this->descuento);
+                $cant = floatval($this->oldSubtotal) - round($this->oldSubtotal * ($this->descuento/100), 1);
                 $this->_subtotal = $cant ?? 0;
             } else {
                 $this->add = false;
@@ -108,9 +110,12 @@ class NuevaVenta extends Component
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado la cantidad!!"]);
             return;
         }
-        if ($this->descuento == null) {
-            $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado un descuento!!"]);
-            return;
+        if ($this->descuento != null) {
+            $margen =  Empresa::select('margen')->first();
+            if($this->descuento > $margen->margen - 5){
+                $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Esté descuento no es aplicable!!"]);
+                return;
+            }
         }
         $ok = true;
         foreach ($this->table as $i => $value) {
@@ -118,6 +123,10 @@ class NuevaVenta extends Component
                 $ok = false;
                 $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "El producto ya está en el detalle!"]);
             }
+        }
+
+        if(!$this->descuento){
+            $this->descuento = 0;
         }
 
         if ($ok) {
@@ -234,6 +243,12 @@ class NuevaVenta extends Component
             $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
             Caja::create($datos);
             DB::select('call Actualizar()');
+
+            DB::table('usuario_venta')->insert([
+                'usuario_id' => auth()->user()->id,
+                'venta_id' => $id,
+                'fecha' => date('Y-m-d H:i:s'),
+            ]);
 
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!", 'id' => $id]);

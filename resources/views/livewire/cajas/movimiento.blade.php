@@ -28,26 +28,6 @@
                     </button>
                 </div>
             </div>
-            {{-- <div class="row" >
-                <div class="col-sm-12">
-                    <div class="card box-shadow">
-                        <div class="card-body">
-                            <h6 class="mb-1">Filtros</h6>
-                            <div class="row">
-                                <div class="col-lg">
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text" id="basic-addon-search2">
-                                            <i class="far fa-search"></i>
-                                        </span >
-                                        <input wire:model="search" type="text" class="form-control" placeholder="Buscar movimiento..."
-                                        aria-label="Buscar movimiento..." aria-describedby="basic-addon-search2" disabled/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         @else
             <div class="d-flex justify-content-between mb-2">
                 <button id="ingresar" type="button" class="btn btn-primary" wire:click="$set('_ingreso', true)" >
@@ -60,29 +40,9 @@
                     <i class="fal fa-minus-circle"></i>&nbsp;&nbsp;Retiro&nbsp;&nbsp;
                 </button>
             </div>
-            {{-- <div class="row" >
-                <div class="col-sm-12">
-                    <div class="card box-shadow">
-                        <div class="card-body">
-                            <h6 class="mb-1">Filtros</h6>
-                            <div class="row">
-                                <div class="col-lg">
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text" id="basic-addon-search2">
-                                            <i class="far fa-search"></i>
-                                        </span >
-                                        <input wire:model="search" type="text" class="form-control" placeholder="Buscar movimiento..."
-                                        aria-label="Buscar movimiento..." aria-describedby="basic-addon-search2"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         @endif
     <div class="row">
-        <div class="col-sm-12 mb-4">
+        <div class="col-sm-12 mb-3">
             <div class="table-responsive bg-white box-shadow">
                 <table class="table table-hover"  style="text-align:center">
                     <thead class="table-secondary">
@@ -118,16 +78,10 @@
                                         <span class="badge rounded-pill badge-light-success">
                                             S/. {{ number_format($m->monto, 2) }}
                                         </span>
-                                        {{-- <td style="color:#239B90;">
-                                            S/. {{ number_format($m->monto, 2) }}
-                                        </td> --}}
                                     @else
                                         <span class="badge rounded-pill badge-light-danger">
                                             S/. {{ number_format($m->monto, 2) }}
                                         </span>
-                                        {{-- <td style="color:#EA5455;">
-                                            S/. {{ number_format($m->monto*-1, 2) }}
-                                        </td> --}}
                                     @endif
                                 </td>
                                 <td>
@@ -247,7 +201,7 @@
     @if ($_ingreso)
         @include('livewire.cajas.ingreso')
     @endif
-    @if (Auth::user()->roles->rol == 'Administrador')
+    @if (isAdmin(Auth::user()->roles->rol) || isJL(Auth::user()->roles->rol) || isV(Auth::user()->roles->rol))
         @if ($_aperturacaja)
             @if($cantidadApertura == 0)
                 @include('livewire.cajas.aperturacaja')
@@ -304,16 +258,6 @@
                 })
             });
 
-            /* Livewire.on('confirmClose', id => {
-                Swal.fire(
-                    alertBody("La caja será cerrada.", 'btn-danger')
-                ).then((result) => {
-                    if (result.isConfirmed) {
-                        Livewire.emitTo(url, 'close', id);
-                    }
-                })
-            }); */
-
             Livewire.on('alertSuccess', msj => {
                 toastr['success'](`${msj}`, 'Progress Bar', {
                     closeButton: true,
@@ -367,24 +311,6 @@
                     rtl: isRtl
                 });
             })
-
-            /* Livewire.on('alertOpen', msj => {
-                toastr['success'](`${msj}`, 'Progress Bar', {
-                    closeButton: true,
-                    tapToDismiss: false,
-                    progressBar: true,
-                    rtl: isRtl
-                });
-            })
-
-            window.addEventListener('alertOpen', event => {
-                toastr['success'](`${event.detail.text}`, `${event.detail.title}`, {
-                    closeButton: true,
-                    tapToDismiss: false,
-                    progressBar: true,
-                    rtl: isRtl
-                });
-            }) */
 
             /****** End events for Tipo *****/
 

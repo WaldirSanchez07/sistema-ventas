@@ -1,9 +1,11 @@
 <main class="content-body">
     <div class="d-flex justify-content-between mb-2">
         <h2 class="content-header-title float-start mb-0 text-dark">Clientes</h2>
-        <button type="button" class="btn btn-primary" wire:click="$set('_create', true)">
-            <i class="far fa-plus"></i>&nbsp;&nbsp;Agregar
-        </button>
+        @if (isV(Auth::user()->roles->rol))
+            <button type="button" class="btn btn-primary" wire:click="$set('_create', true)">
+                <i class="far fa-plus"></i>&nbsp;&nbsp;Agregar
+            </button>
+        @endif
     </div>
     <div class="row">
         <div class="col-sm-12">
@@ -23,7 +25,7 @@
     </div>
     <!-- Accordion start -->
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 mb-3">
             <div class="table-responsive bg-white table-shadow">
                 <table class="table table-hover">
                     <thead class="table-light">

@@ -39,11 +39,14 @@ class ProtectedRoutes
             case 'A':
                 return 'Administrador';
                 break;
+            case 'JL':
+                return 'Jefe de Línea';
+                break;
+            case 'EA':
+                return 'Encargado de almacén';
+                break;
             case 'V':
                 return 'Vendedor';
-                break;
-            case 'C':
-                return 'Contador';
                 break;
             default:
                 return '';

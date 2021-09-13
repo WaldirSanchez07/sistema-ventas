@@ -1,4 +1,7 @@
 <!-- BEGIN: Main Menu-->
+@php
+    $user = Auth::user()->roles->rol;    
+@endphp
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
@@ -30,7 +33,7 @@
                 <span data-i18n="Apps &amp; Pages">General</span>
                 <i data-feather="more-horizontal"></i>
             </li>
-            @if (Auth::user()->roles->rol == 'Administrador')
+            @if (isEA($user))
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather="grid"></i>
@@ -58,7 +61,7 @@
                     </ul>
                 </li>
             @endif
-            @if(isAdmin_V(Auth::user()->roles->rol))
+            @if(isV($user) || isJL($user))
                 <li class="nav-item {{ setActive('clientes') }}">
                     <a class="d-flex align-items-center" href="{{ route('clientes') }}">
                         <i data-feather='users'></i>
@@ -66,7 +69,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->roles->rol == 'Administrador')
+            @if (isEA($user) || isJL($user))
                 <li class="nav-item {{ setActive('proveedores') }}">
                     <a class="d-flex align-items-center" href="{{ route('proveedores') }}">
                         <i data-feather='truck'></i>
@@ -75,7 +78,7 @@
                 </li>
             @endif
             {{-- @if (Auth::user()->roles->rol == 'Vendedor') --}}
-            @if (isAdmin_V(Auth::user()->roles->rol))
+            @if (isJL($user) || isV($user))
                 <li class="nav-item {{ setActive('productos') }}">
                     <a class="d-flex align-items-center" href="{{ route('productos') }}">
                         <i data-feather="package"></i>
@@ -83,38 +86,48 @@
                     </a>
                 </li>
             @endif
-            @if (isAdmin_C(Auth::user()->roles->rol))
+            @if (isJL($user) || isEA($user))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather='trending-up'></i>
                         <span class="menu-title text-truncate">Reportes</span>
                     </a>
                     <ul class="menu-content">
-                        <li class="{{ setActive('rep-ventas') }}">
-                            <a class="d-flex align-items-center" href="{{ route('rep-ventas') }}">
-                                <i data-feather="circle"></i>
-                                <span class="menu-item text-truncate">Reporte ventas</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="menu-content">
-                        <li class="{{ setActive('rep-movimientos') }}">
-                            <a class="d-flex align-items-center" href="{{ route('rep-movimientos') }}" target="_blank">
-                                <i data-feather="circle"></i>
-                                <span class="menu-item text-truncate">Reporte movimientos</span>
-                            </a>
-                        </li>
+                        @if (isJL($user))
+                            <li class="{{ setActive('rep-ventas') }}">
+                                <a class="d-flex align-items-center" href="{{ route('rep-ventas') }}">
+                                    <i data-feather="circle"></i>
+                                    <span class="menu-item text-truncate">Reporte ventas</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (isEA($user))
+                            <li class="{{ setActive('rep-compras') }}">
+                                <a class="d-flex align-items-center" href="{{ route('rep-compras') }}">
+                                    <i data-feather="circle"></i>
+                                    <span class="menu-item text-truncate">Reporte compras</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (isJL($user))
+                            <li class="{{ setActive('rep-movimientos') }}">
+                                <a class="d-flex align-items-center" href="{{ route('rep-movimientos') }}" target="_blank">
+                                    <i data-feather="circle"></i>
+                                    <span class="menu-item text-truncate">Reporte movimientos</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             @endif
-            @if (isAdmin_V(Auth::user()->roles->rol))
+            @if (isJL($user) || isV($user))
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='shopping-cart'></i>
                     <span class="menu-title text-truncate">Ventas</span>
                 </a>
                 <ul class="menu-content">
-                    @if (Auth::user()->roles->rol == 'Vendedor')
+                    @if (isV($user))
                         <li class="{{ setActive('nueva-venta') }}">
                             <a class="d-flex align-items-center" href="{{ route('nueva-venta') }}">
                                 <i data-feather="circle"></i>
@@ -131,14 +144,14 @@
                 </ul>
             </li>
             @endif
-            @if (isAdmin_C(Auth::user()->roles->rol))
+            @if (isJL($user) || isEA($user))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather='shopping-bag'></i>
                         <span class="menu-title text-truncate">Compras</span>
                     </a>
                     <ul class="menu-content">
-                        @if (Auth::user()->roles->rol == 'Administrador')
+                        @if (isEA($user))
                             <li class="{{ setActive('nueva-compra') }}">
                                 <a class="d-flex align-items-center" href="{{ route('nueva-compra') }}">
                                     <i data-feather="circle"></i>
@@ -155,7 +168,7 @@
                     </ul>
                 </li>
             @endif
-            @if (isAdmin_V(Auth::user()->roles->rol))
+            @if (isJL($user) || isV($user))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather='credit-card'></i>
@@ -171,7 +184,7 @@
                     </ul>
                 </li>
             @endif
-            @if (isAdmin_C(Auth::user()->roles->rol))
+            @if (isJL($user) || isEA($user))
                 <li class="nav-item {{ setActive('kardex') }}">
                     <a class="d-flex align-items-center" href="{{ route('kardex') }}">
                         <i data-feather='folder'></i>
@@ -179,7 +192,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->roles->rol == 'Administrador')
+            @if (isJL($user))
                 <li class=" navigation-header">
                     <span data-i18n="Apps &amp; Pages">Operaciones</span>
                     <i data-feather="more-horizontal"></i>

@@ -6,6 +6,7 @@ create table empresa(
 id int auto_increment primary key not null,
 nombre varchar(40) not null,
 ruc char(11) not null,
+margen float(4,2) not null,
 telefono char(15) not null,
 direccion varchar(80) not null
 );
@@ -175,6 +176,35 @@ fecha datetime DEFAULT current_timestamp(),
 estado int(1) not null,
 estadoMovimiento int(1) not null default 1);
 
+create table usuario_venta(
+id_operacion bigint auto_increment primary key not null,
+usuario_id int not null,
+venta_id bigint not null,
+fecha datetime not null,
+foreign key(usuario_id) references usuario(id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+foreign key(venta_id) references venta(id_venta)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
 
+create table usuario_compra(
+id_operacion bigint auto_increment primary key not null,
+usuario_id int not null,
+compra_id bigint not null,
+fecha datetime not null,
+foreign key(usuario_id) references usuario(id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+foreign key(compra_id) references compra(id_compra)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-
+create table usuario_caja(
+id_operacion bigint auto_increment primary key not null,
+usuario_id int not null,
+caja_id bigint not null,
+fecha datetime not null,
+foreign key(usuario_id) references usuario(id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+foreign key(caja_id) references caja(id_caja)
+ON DELETE CASCADE ON UPDATE CASCADE
+);

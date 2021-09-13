@@ -43,7 +43,7 @@ class AdmProductos extends Component
         'vence' => 'required|in:Si,No',
         'medida_id' => 'required|numeric',
         'categoria_id' => 'required',
-        'subcategoria_id' => 'nullable',
+        'subcategoria_id' => 'required',
         'estado' => 'required|in:Habilitado,Deshabilitado'
     ];
 
@@ -57,7 +57,7 @@ class AdmProductos extends Component
     {
         $productos = Producto::orderBy('id_producto','DESC')
             ->join('categoria as c', 'c.id_categoria', '=', 'producto.categoria_id')
-            ->leftJoin('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
+            ->join('subcategoria as s', 's.id_subcategoria', '=', 'producto.subcategoria_id')
             ->select( 'c.*', 's.*','producto.*','c.estado AS state','s.estado AS xstate',)
             ->where('producto.categoria_id', 'Like', '%' . $this->categoria . '%')
             ->where('producto.subcategoria_id', 'Like', '%' . $this->subcategoria . '%')
