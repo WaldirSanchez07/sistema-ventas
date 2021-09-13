@@ -140,6 +140,14 @@ class Cajas extends Component
 
         Caja::create($datos);
 
+        $id = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+
+        DB::table('usuario_caja')->insert([
+            'usuario_id' => auth()->user()->id,
+            'caja_id' => $id->id_caja,
+            'fecha' => date('Y-m-d H:i:s'),
+        ]);
+
         if ($opc == 3) {
             $this->dispatchBrowserEvent('alertSuccess', ['title' => "Caja Cerrada", 'text' => "Se cerró correctamente!"]);
         }

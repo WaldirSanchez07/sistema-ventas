@@ -10,7 +10,7 @@ insert into rol(rol)
 values('Jefe de Línea'),('Encargado de almacén'),('Vendedor');
 
 INSERT INTO usuario (id, nombre, email, password, profile_photo_path, created_at, updated_at, rol_id, estado) VALUES
-(1, 'Waldir Sanchez', 'waldir@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 3, 'Habilitado'),
+(1, 'Waldir Sanchez', 'waldir@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 2, 'Habilitado'),
 (2, 'Jhon Cruzado', 'jhon@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
 (3, 'Isac Miñano', 'isac@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-06-27 21:21:17', '2021-07-04 04:02:01', 1, 'Habilitado'),
 (4, 'Betsi Mendoza', 'betsi@olano.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2021-09-09 21:45:26', '2021-09-09 21:45:26', 3, 'Habilitado'),
@@ -327,8 +327,3 @@ INSERT INTO `kardex` (`id_kardex`, `fecha`, `producto_id`, `operacion`, `descrip
 (87, '2021-08-31', 1017, 'Venta', NULL, 1048, 7.40, 8.00, 7.40, 7.00, 111.00),
 (88, '2021-09-08', 1000, 'Venta', NULL, 1049, 17.00, 2.00, 17.00, 26.00, 476.00);
 
-
-INSERT INTO caja (id_caja, descripcion, tipoMovimiento, monto, saldo, fecha, estado, estadoMovimiento) VALUES
-(1, 'Apertura de Caja', 1, 5000.00, 5000.00, '2021-09-11 00:03:22', 1, 1),
-(2, 'Deposito Juan', 1, 500.00, 5500.00, '2021-09-11 00:12:17', 1, 1),
-(3, 'Pagar Internet', 0, -100.00, 5400.00, '2021-09-11 00:12:30', 1, 1);

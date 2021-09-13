@@ -33,7 +33,7 @@ class NuevaCompra extends Component
     public function buscarProducto()
     {
         $movimientos = Caja::all();
-         $cantdatos = $movimientos->count();
+        $cantdatos = $movimientos->count();
         if ($cantdatos == null) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
             return;
@@ -63,7 +63,6 @@ class NuevaCompra extends Component
             $this->_subtotal = 0;
             $this->oldSubtotal = 0;
         }
-
     }
 
     public function updatedDescuento()
@@ -86,7 +85,7 @@ class NuevaCompra extends Component
     public function addDetalle()
     {
         $movimientos = Caja::all();
-         $cantdatos = $movimientos->count();
+        $cantdatos = $movimientos->count();
         if ($cantdatos == null) {
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Debe aperturar caja!"]);
             return;
@@ -103,7 +102,7 @@ class NuevaCompra extends Component
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "No ha ingresado la cantidad!!"]);
             return;
         }
-        
+
         $ok = true;
         foreach ($this->table as $i => $value) {
             if ($value['sku'] == $this->sku) {
@@ -150,9 +149,9 @@ class NuevaCompra extends Component
     {
         if ($this->subtotal > 0 && $this->pagado >= $this->subtotal) {
             $cant = floatval($this->pagado) - floatval($this->total);
-            if ($cant < 0){
+            if ($cant < 0) {
                 $this->vuelto = 0;
-            }else{
+            } else {
                 $this->vuelto = $cant ?? 0;
             }
         } else {
@@ -193,6 +192,11 @@ class NuevaCompra extends Component
             $this->dispatchBrowserEvent('alertWarning', ['title' => "Advertencia", 'text' => "Debe pagar el monto total!"]);
             return;
         }
+        $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
+        if ($lastregister->saldo < $this->total) {
+            $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja. Por favor ingresar dinero!!"]);
+            return;
+        }
 
         DB::beginTransaction();
         try {
@@ -214,22 +218,15 @@ class NuevaCompra extends Component
                 ]);
             }
 
-            DB::commit();
-            
             /* Registrando en caja la compra*/
-            $lastregister = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
-            if ($lastregister->saldo < $this->total) {
-                $this->dispatchBrowserEvent('alertWarning', ['title' => "Atención", 'text' => "Saldo insuficiente en caja. Por favor ingresar dinero!!"]);
-                return;
-            }
 
             $descripcion = "Compra";
-            $tipoMovimiento = 0 ;
-            $monto=$this->total*-1;
-            $saldo=0;
+            $tipoMovimiento = 0;
+            $monto = $this->total * -1;
+            $saldo = 0;
             $estado = 1;
 
-            $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
+            $datos = array("descripcion" => $descripcion, "tipoMovimiento" => $tipoMovimiento, "monto" => $monto, "saldo" => $saldo, "estado" => $estado);
             Caja::create($datos);
             DB::select('call Actualizar()');
 
@@ -238,6 +235,8 @@ class NuevaCompra extends Component
                 'compra_id' => $id,
                 'fecha' => date('Y-m-d H:i:s'),
             ]);
+
+            DB::commit();
 
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva compra", 'text' => "Compra registrada!"]);

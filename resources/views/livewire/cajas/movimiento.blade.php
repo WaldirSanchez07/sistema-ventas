@@ -98,10 +98,10 @@
                                         </span>
                                     @endif
                                 </td>
-
+                                
                                 @if($m->descripcion == "Venta")
                                     @foreach($venta as $v)
-                                        @if($v->fecha == $m->fecha)
+                                        @if(date('d-m-Y H:i', strtotime($v->fecha)) == date('d-m-Y H:i', strtotime($m->fecha)))
                                             <td>
                                                 <button type="button"
                                                 class="btn btn-icon btn-icon rounded-circle btn-flat-success title-detalle " wire:click="verDetalle({{ $v->id_venta }})" wire:loading.attr="disabled">
@@ -117,7 +117,7 @@
                                     @endforeach
                                 @elseif($m->descripcion == "Compra")
                                     @foreach($compra as $c)
-                                        @if($c->fecha == $m->fecha)
+                                        @if(date('d-m-Y H:i', strtotime($c->fecha)) == date('d-m-Y H:i', strtotime($m->fecha)))
                                             <td>
                                                 <button type="button"
                                                 class="btn btn-icon btn-icon rounded-circle btn-flat-success title-detalle " wire:click="verDetalle2({{ $c->id_compra }})" wire:loading.attr="disabled">
@@ -201,7 +201,7 @@
     @if ($_ingreso)
         @include('livewire.cajas.ingreso')
     @endif
-    @if (isAdmin(Auth::user()->roles->rol) || isJL(Auth::user()->roles->rol) || isV(Auth::user()->roles->rol))
+    @if (isJL(Auth::user()->roles->rol) || isV(Auth::user()->roles->rol))
         @if ($_aperturacaja)
             @if($cantidadApertura == 0)
                 @include('livewire.cajas.aperturacaja')

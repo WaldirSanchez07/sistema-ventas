@@ -69,7 +69,7 @@
                     </a>
                 </li>
             @endif
-            @if (isEA($user) || isJL($user))
+            @if (isEA($user))
                 <li class="nav-item {{ setActive('proveedores') }}">
                     <a class="d-flex align-items-center" href="{{ route('proveedores') }}">
                         <i data-feather='truck'></i>
@@ -77,7 +77,6 @@
                     </a>
                 </li>
             @endif
-            {{-- @if (Auth::user()->roles->rol == 'Vendedor') --}}
             @if (isJL($user) || isV($user))
                 <li class="nav-item {{ setActive('productos') }}">
                     <a class="d-flex align-items-center" href="{{ route('productos') }}">
@@ -184,7 +183,7 @@
                     </ul>
                 </li>
             @endif
-            @if (isJL($user) || isEA($user))
+            @if (isEA($user))
                 <li class="nav-item {{ setActive('kardex') }}">
                     <a class="d-flex align-items-center" href="{{ route('kardex') }}">
                         <i data-feather='folder'></i>
