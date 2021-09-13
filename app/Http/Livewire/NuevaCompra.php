@@ -230,8 +230,6 @@ class NuevaCompra extends Component
 
             Caja::create($datos);
 
-            DB::commit();
-            
             DB::select('call Actualizar()');
 
             DB::table('usuario_compra')->insert([
@@ -239,6 +237,8 @@ class NuevaCompra extends Component
                 'compra_id' => $id,
                 'fecha' => date('Y-m-d H:i:s'),
             ]);
+
+            DB::commit();
 
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva compra", 'text' => "Compra registrada!"]);

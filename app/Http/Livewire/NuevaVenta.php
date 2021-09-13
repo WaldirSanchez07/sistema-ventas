@@ -231,8 +231,6 @@ class NuevaVenta extends Component
                 ]);
             }
 
-            DB::commit();
-
             /* Registrando en caja la venta*/
             $descripcion = "Venta";
             $tipoMovimiento = 1;
@@ -249,7 +247,11 @@ class NuevaVenta extends Component
                 'venta_id' => $id,
                 'fecha' => date('Y-m-d H:i:s'),
             ]);
+
             DB::select('call Actualizar()');
+
+            DB::commit();
+            
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!", 'id' => $id]);
         } catch (\Exception $e) {
