@@ -92,9 +92,13 @@ CREATE PROCEDURE actualizar()
 BEGIN
 	DECLARE new_saldo FLOAT(10,2);
     DECLARE id BIGINT;
-    SET new_saldo = (SELECT  sum(c.monto) FROM caja c WHERE c.id_caja);
-    SET id = (SELECT id_caja FROM caja ORDER BY id_caja DESC LIMIT 1);
-	UPDATE caja SET saldo = new_saldo WHERE id_caja = id;
+    drop table if exists tab_caja;
+    CREATE TEMPORARY TABLE tab_caja(
+		id BIGINT AUTO_INCREMENT PRIMARY KEY,
+		monto float(10,2)
+	);
+    INSERT INTO tab_caja(id,monto) SELECT id_caja, monto FROM caja;
+    UPDATE caja  set saldo = (SELECT  sum(t.monto) FROM tab_caja t WHERE t.id <= caja.id_caja);
 END$$
 DELIMITER ;
 

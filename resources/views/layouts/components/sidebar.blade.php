@@ -77,7 +77,7 @@
                     </a>
                 </li>
             @endif
-            @if (isJL($user) || isV($user))
+            @if (isJL($user) || isV($user) || isEA($user))
                 <li class="nav-item {{ setActive('productos') }}">
                     <a class="d-flex align-items-center" href="{{ route('productos') }}">
                         <i data-feather="package"></i>
@@ -108,7 +108,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (isJL($user))
+                        @if (isJL($user) || isEA($user))
                             <li class="{{ setActive('rep-movimientos') }}">
                                 <a class="d-flex align-items-center" href="{{ route('rep-movimientos') }}" target="_blank">
                                     <i data-feather="circle"></i>

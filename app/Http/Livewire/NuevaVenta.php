@@ -239,8 +239,16 @@ class NuevaVenta extends Component
             $saldo=0;
             $estado = 1;
 
-            $datos = array("descripcion"=>$descripcion, "tipoMovimiento"=>$tipoMovimiento,"monto"=>$monto , "saldo"=>$saldo , "estado"=>$estado);
-            Caja::create($datos);
+            Caja::create([
+                'descripcion' => $descripcion,
+                'tipoMovimiento' => $tipoMovimiento,
+                'monto' => $monto,
+                'saldo' => $saldo,
+                'fecha' => date('Y-m-d H:i:s'),
+                'estado' => $estado
+            ]);
+
+            DB::statement('call Actualizar()');
 
             DB::table('usuario_venta')->insert([
                 'usuario_id' => auth()->user()->id,
@@ -248,15 +256,14 @@ class NuevaVenta extends Component
                 'fecha' => date('Y-m-d H:i:s'),
             ]);
 
-            DB::select('call Actualizar()');
-
             DB::commit();
 
             $this->limpiarCampos();
             return $this->dispatchBrowserEvent('alertSuccess', ['title' => "Nueva venta", 'text' => "Venta registrada!", 'id' => $id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            //throw $e;
+            return $this->dispatchBrowserEvent('alertWarning', ['title' => "Nueva venta", 'text' => "Ocurrio un error!"]);
         }
     }
 

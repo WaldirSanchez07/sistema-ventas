@@ -88,7 +88,7 @@
                                     S/. {{ number_format($m->saldo, 2) }}
                                 </td>
                                 <td class="text-center">
-                                    @if($m->estadoMovimiento === 1)
+                                    @if($m->estadoMovimiento == '1')
                                         <span class="badge rounded-pill badge-light-success">
                                             Procesado
                                         </span>

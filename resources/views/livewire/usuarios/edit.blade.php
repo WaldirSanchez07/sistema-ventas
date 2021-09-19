@@ -24,7 +24,7 @@
             </div>
             <div class="mb-1">
                 <label class="form-label">Contraseña</label>
-                <input wire:model.defer="password" type="password" disabled
+                <input wire:model.defer="password" type="password"
                     class="form-control @error('password') is-invalid @enderror" required />
                 @error('password')
                     <small class="invalid-feedback">{{ $message }}</small>
@@ -32,7 +32,7 @@
             </div>
             <div class="mb-1">
                 <label class="form-label">Confirmar contraseña</label>
-                <input wire:model.defer="confirm_password" type="password" disabled
+                <input wire:model.defer="confirm_password" type="password"
                     class="form-control @error('confirm_password') is-invalid @enderror" required />
                 @error('confirm_password')
                     <small class="invalid-feedback">{{ $message }}</small>
