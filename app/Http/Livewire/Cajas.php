@@ -93,7 +93,7 @@ class Cajas extends Component
             $this->tipoMovimiento = 1;
             $this->estado = 1;
             $saldoTotal = Caja::sum('monto');
-            $saldo = $saldoTotal + $this->monto;
+            $this->saldo = $saldoTotal + $this->monto;
             $this->descripcion = "Apertura de Caja";
             $validatedData = $this->validate();
         }
@@ -127,8 +127,8 @@ class Cajas extends Component
         Caja::create([
             'descripcion' => $this->descripcion,
             'tipoMovimiento' => $this->tipoMovimiento,
-            'monto' => $this->monto,
-            'saldo' => $this->saldo,
+            'monto' => $this->monto ?? 0,
+            'saldo' => $this->saldo ?? 0,
             'fecha' => date('Y-m-d H:i:s'),
             'estado' => $this->estado
         ]);
