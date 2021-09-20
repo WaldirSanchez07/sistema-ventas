@@ -21,7 +21,7 @@ class Cajas extends Component
     use WithFileUploads;
     protected $paginationTheme = 'simple-bootstrap';
     protected $listeners = ['update', 'delete'];
-    public $id_caja, $descripcion, $monto, $saldo, $tipoMovimiento,$estado,$fecha,$hora,$saldoactual;
+    public $id_caja, $descripcion, $monto, $saldo, $tipoMovimiento,$estado;
 
     public $_ingreso = false;
     public $_retiro = false;
@@ -81,45 +81,41 @@ class Cajas extends Component
     {
         //Cierre
         if ($opc == 3) {
-            $tipoMovimiento = 0;
-            $estado = 0;
+            $this->tipoMovimiento = 0;
+            $this->estado = 0;
             $saldoTotal = Caja::sum('monto');
-            $monto = $saldoTotal*-1;
-            $saldoactual = 0;
-            $descripcion = "Cierre de Caja";
+            $this->monto = $saldoTotal*-1;
+            $this->saldo = 0;
+            $this->descripcion = "Cierre de Caja";
         }
         //Apertura
         if ($opc == 2) {
-            $tipoMovimiento = 1;
-            $estado = 1;
+            $this->tipoMovimiento = 1;
+            $this->estado = 1;
             $saldoTotal = Caja::sum('monto');
-            $saldoactual = $saldoTotal + $this->monto;
+            $this->saldo = $saldoTotal + $this->monto;
             $this->descripcion = "Apertura de Caja";
             $validatedData = $this->validate();
-            /* } else{
-                $this->dispatchBrowserEvent('alertWarning', ['title' => "Error", 'text' => "Solo puede aperturar una vez al día la caja"]);
-                return;
-            } */
         }
         //Ingreso
         if ($opc == 1) {
-            $tipoMovimiento = 1;
-            $estado = 1;
+            $this->tipoMovimiento = 1;
+            $this->estado = 1;
             $saldoTotal = Caja::sum('monto');
-            $saldoactual = $saldoTotal + $this->monto;
+            $this->saldo = $saldoTotal + $this->monto;
             $validatedData = $this->validate();
         }
         //Egreso
         if ($opc == 0){
             $validatedData = $this->validate();
-            $tipoMovimiento = 0;
-            $estado = 1;
+            $this->tipoMovimiento = 0;
+            $this->estado = 1;
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
             $saldoTotal = Caja::sum('monto');
-            $saldoactual = $saldoTotal + ($this->monto * -1);
+            $this->saldo = $saldoTotal + ($this->monto * -1);
             if($this->monto<=$saldoTotal)
             {
-                $saldoactual = $saldoTotal + ($this->monto * -1);
+                $this->saldo = $saldoTotal + ($this->monto * -1);
             }
             else
             {
@@ -128,17 +124,14 @@ class Cajas extends Component
             }
         }
 
-        if ($opc == 3) {
-            $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado, "monto"=>$monto, "descripcion" =>$descripcion);
-            $datos = $validatedData2;
-        }else{
-            $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
-            $datos = array_Merge($validatedData, $validatedData2);
-        }
-        //$validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
-        /* $datos = array_Merge($validatedData, $validatedData2); */
-
-        Caja::create($datos);
+        Caja::create([
+            'descripcion' => $this->descripcion,
+            'tipoMovimiento' => $this->tipoMovimiento,
+            'monto' => $this->monto ?? 0,
+            'saldo' => $this->saldo ?? 0,
+            'fecha' => date('Y-m-d H:i:s'),
+            'estado' => $this->estado
+        ]);
 
         $id = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
 
@@ -177,7 +170,6 @@ class Cajas extends Component
             $this->monto = $monto;
         }
         $this->saldo = $model->saldo;
-        $this->fecha = $model->fecha;
         $this->estado = $model->estado;
 
         $this->_edit = true; //show form to edit
@@ -190,24 +182,23 @@ class Cajas extends Component
         $validatedData = $this->validate();
 
         if ($model->tipoMovimiento == 1) {
-            $tipoMovimiento = 1;
-            $estado = 1;
-            //$saldoTotal = Caja::sum('monto');
+            $this->tipoMovimiento = 1;
+            $this->estado = 1;
             $saldoTotal = $model->saldo;
-            $saldoactual = ($saldoTotal - $model->monto) + $this->monto;
-            //Falta hacer
+            $this->saldo = ($saldoTotal - $model->monto) + $this->monto;
+
         }else{
             //revisar
-            $tipoMovimiento = 0;
-            $estado = 1;
-            /* $validatedData = $this->validate(); */
+            $this->tipoMovimiento = 0;
+            $this->estado = 1;
+
             $validatedData = array_replace($validatedData, ['monto' => $this->monto*-1]);
-            //$saldoTotal = Caja::sum('monto');
+
             $ultimosaldo = Caja::whereRaw('id_caja = (select max(`id_caja`) from caja)')->first();
             $saldoTotal = ($model->monto*-1)+$ultimosaldo->saldo;
             if($this->monto<=$saldoTotal)
             {
-                $saldoactual = ($saldoTotal - $model->monto) - $this->monto;
+                $this->saldo = ($saldoTotal - $model->monto) - $this->monto;
             }
             else
             {
@@ -216,10 +207,10 @@ class Cajas extends Component
             }
         }
 
-        $validatedData2 = array("saldo"=>$saldoactual, "tipoMovimiento"=>$tipoMovimiento, "estado"=>$estado);
+        $validatedData2 = array("saldo"=>$this->saldo, "tipoMovimiento"=>$this->tipoMovimiento, "estado"=>$this->estado);
 
         $datos = array_Merge($validatedData, $validatedData2);
-        /* dd($datos); */
+
         Caja::findOrFail($id)->update($datos);
 
         
@@ -250,7 +241,6 @@ class Cajas extends Component
 
     public function verDetalle($id)
     {
-        /* dd($id); */
         $this->idVenta = $id;
         $this->_detalle = true;
     }
@@ -262,21 +252,20 @@ class Cajas extends Component
             ->join('unidad_medida as m', 'm.id', '=', 'p.medida_id')
             ->where('venta.id_venta', '=', $id)->get();
         $empresa = Empresa::first();
-        //return view('livewire.ventas.pdf', compact('ventas'));
+
         $pdf = PDF::loadView('livewire.ventas.pdf', compact('ventas','empresa'));
         return $pdf->stream('factura-venta.pdf');
     }
 
     public function verDetalle2($id)
     {
-        /* dd($id); */
         $this->idCompra = $id;
         $this->_detalle2 = true;
     }
 
     public function limpiarCampos()
     {
-        $this->reset(['descripcion', 'monto']);
+        $this->reset(['descripcion', 'monto', 'saldo', 'estado', 'tipoMovimiento']);
 
         $this->_ingreso = false;
         $this->_retiro = false;

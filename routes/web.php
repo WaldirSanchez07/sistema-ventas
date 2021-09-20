@@ -15,6 +15,7 @@ use App\Http\Livewire\Productos;
 use App\Http\Livewire\Proveedores;
 use App\Http\Livewire\SubCategorias;
 use App\Http\Livewire\Cajas;
+use App\Http\Livewire\Proforma;
 use App\Http\Livewire\ReporteMovimientos;
 use App\Http\Livewire\Usuarios;
 use App\Http\Livewire\VentasRealizadas;
@@ -44,7 +45,7 @@ Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/categorias', 
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/sub-categorias', SubCategorias::class)->name('sub-categorias');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/adm-productos', AdmProductos::class)->name('adm-productos');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/proveedores', Proveedores::class)->name('proveedores');
-Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,V'])->get('/productos', Productos::class)->name('productos');
+Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,V,EA'])->get('/productos', Productos::class)->name('productos');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:V'])->get('/nueva-venta', NuevaVenta::class)->name('nueva-venta');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:JL,V'])->get('/ventas', VentasRealizadas::class)->name('ventas');
 Route::middleware(['auth:sanctum', 'verified', 'auth2:EA'])->get('/nueva-compra', NuevaCompra::class)->name('nueva-compra');

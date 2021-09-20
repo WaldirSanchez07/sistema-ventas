@@ -69,9 +69,13 @@ class Usuarios extends Component
         if (!$this->password && !$this->confirm_password) {
             unset($this->rules['password']);
             unset($this->rules['confirm_password']);
+            $validatedData = $this->validate();
+        }else{
+            $validatedData = $this->validate();
+            if ($this->password === $this->confirm_password) {
+                $validatedData = array_replace($validatedData, ['password' => Hash::make($this->password)]);
+            }
         }
-
-        $validatedData = $this->validate();
 
         User::findOrFail($id)->update($validatedData);
 
